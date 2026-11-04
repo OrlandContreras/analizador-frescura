@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "operacion-frescura",
+  "version": "1.0.0",
+  "description": "Operación del Analizador de frescura en AWS: resume el uso por tienda a partir del historial en DynamoDB y diagnostica la salud de una instancia desplegada (API, validaciones y registros).",
+  "author": {
+    "name": "SoftwareOne - Workshop Kiro Grupo Éxito"
+  },
+  "keywords": [
+    "historial",
+    "uso del analizador",
+    "resumen de uso",
+    "uso por tienda",
+    "análisis por tienda",
+    "diagnóstico",
+    "diagnostica",
+    "salud de la instancia",
+    "registros",
+    "error 502",
+    "operación del analizador"
+  ],
+  "license": "MIT"
+}
