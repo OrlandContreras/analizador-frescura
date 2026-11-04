@@ -1,7 +1,7 @@
 [project]
 name = "analizador-frescura"
 version = "0.1.0"
-description = "Analizador de frescura de frutas y verduras — workshop de Kiro con Grupo Éxito"
+description = "Analizador de frescura de frutas y verduras — workshop de Kiro"
 requires-python = ">=3.12"
 
 [tool.pytest.ini_options]
