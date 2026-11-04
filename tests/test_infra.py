@@ -71,3 +71,8 @@ def test_el_bucket_de_la_web_no_es_publico(plantilla):
             }
         },
     )
+
+
+def test_publica_la_vista_del_personal_y_la_del_cliente(plantilla):
+    salidas = plantilla.find_outputs("*")
+    assert {"UrlWeb", "UrlCliente"} <= salidas.keys()
