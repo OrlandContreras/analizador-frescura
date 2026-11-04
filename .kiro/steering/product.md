@@ -8,7 +8,7 @@ Un servicio que, con la foto de una fruta o verdura, indica su etapa de madurez,
 
 ## Para quién
 - **Piloto:** auxiliares y jefes de la sección de frutas y verduras de las tiendas de la cadena. Objetivo: reducir la pérdida de producto (ver `negocio/necesidad.md`).
-- **Fase siguiente:** clientes en la app, que consultan cuándo estará en su punto lo que compraron.
+- **Cliente comprador:** consulta en `web/cliente.html` cuándo estará en su punto lo que compró. Solo ve información pública del producto: nunca la acción en tienda, los descuentos ni la confianza (sección 6 de la política). Se construye a la par de la vista del personal y en el piloto pasa a la app.
 
 ## Reglas del negocio que el agente debe respetar
 - Las acciones en tienda siguen la política POL-FRV-001: #[[file:negocio/politica-acciones-tienda.md]]
