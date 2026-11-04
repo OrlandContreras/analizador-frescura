@@ -32,6 +32,8 @@ scripts/             Analizar una foto desde tu computador con Bedrock
 
 ## Prerrequisitos para el workshop
 
+> **¿Vas a trabajar en el entorno que entrega AWS** (Kiro IDE en el navegador o en una máquina virtual)? Usa la guía [GUIA-ENTORNO-AWS.md](GUIA-ENTORNO-AWS.md): ahí no instalas nada y tiene todos los laboratorios paso a paso. Lo que sigue es para trabajar en tu propio computador.
+
 Antes del taller, sigue la guía [Lab 0 · Preparación del equipo](laboratorios/00-preparacion/README.md). Instala y comprueba todo esto:
 
 | Herramienta | Versión | Para qué |
