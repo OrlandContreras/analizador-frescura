@@ -19,7 +19,7 @@ Esta guía es para ejecutar todos los laboratorios **en el entorno que entrega A
 9. [Lab 5 · El "manual de la casa"](#lab-5--el-manual-de-la-casa) — L200 · 15 min
 10. [Lab 6 · Reglas automáticas](#lab-6--reglas-automáticas) — L200 · 15 min
 11. [Lab 7 · Conectar y estandarizar](#lab-7--conectar-y-estandarizar) — L300 · 20 min
-12. [Lab 8 · Agentes especializados y despliegue](#lab-8--agentes-especializados-y-despliegue) — L300 · 30 min
+12. [Lab 8 · Agentes especializados y despliegue](#lab-8--agentes-especializados-y-despliegue) — L300 · 35 min
 13. [Lab 9 · Orquestar, entregar y cerrar](#lab-9--orquestar-entregar-y-cerrar) — L300 · 25 min
 14. [Problemas frecuentes en el entorno de AWS](#problemas-frecuentes-en-el-entorno-de-aws)
 
@@ -47,7 +47,7 @@ En los dos casos trabajas igual: **Kiro IDE corre en Linux, dentro de AWS**. Eso
 | Herramienta | Para qué |
 | --- | --- |
 | Kiro IDE | El entorno de trabajo con el agente de IA |
-| Kiro CLI | El agente revisor (Lab 8) y el modo headless (Lab 9) |
+| Kiro CLI | Los agentes implementador y revisor (Lab 8) y el modo headless (Lab 9) |
 | Python 3.12 o superior | El analizador y sus pruebas |
 | Node.js 20 o superior y pnpm | AWS CDK y los hooks del Lab 6 |
 | AWS CDK | Desplegar la solución |
@@ -772,27 +772,115 @@ git commit -m "Lab 7: MCP de AWS, skills y estimación de costo"
 
 ## Lab 8 · Agentes especializados y despliegue
 
-**Módulo 8 · L300 · 30 minutos · Rama: `lab-08`**
+**Módulo 8 · L300 · 35 minutos · Rama: `lab-08`**
+
+Antes de empezar, comprueba tu cuenta y Kiro CLI:
+
+```bash
+aws sts get-caller-identity
+kiro-cli whoami
+```
 
 ### Qué vas a hacer
 
-Crear un **agente revisor de seguridad**, con permisos solo para leer y verificar, y usarlo antes de desplegar. Después **despliegas tu propia instancia** en tu cuenta de AWS y la pruebas con una fruta real desde tu celular. El despliegue lo ejecutas tú: el hook del Lab 6 lo impide al agente.
+Un **agente especializado** es un agente con un rol, instrucciones propias y **permisos a la medida** de ese rol. En este laboratorio trabajas con dos, como en un equipo real:
+
+| Agente | Rol | Puede | No puede |
+| --- | --- | --- | --- |
+| `implementador` | Construye cambios | Escribir en `app/`, `tests/` y `web/`; correr pruebas, lint y evaluación | Tocar `infra/`, `.kiro/` ni `.env`; desplegar; hacer `git push` |
+| `revisor-seguridad` | Revisa antes de desplegar | Leer y correr verificaciones | Editar archivos; desplegar |
+
+Vas a **crear el implementador**, usarlo para construir una mejora para el segundo usuario del producto, el **cliente en la app**: un mensaje como "Tu aguacate hass estará en su punto el jueves". Luego el revisor revisa el cambio y **tú despliegas** tu instancia y la pruebas con una fruta real desde el celular.
 
 ### Objetivo
 
-Tu analizador funcionando en AWS, revisado antes de desplegarse y probado con una fruta real.
+Construir una mejora con un agente de permisos limitados, revisarla con otro agente y tener tu analizador funcionando en AWS.
 
 ### Paso a paso
 
-**Paso 1. Trae el agente revisor.**
+#### Paso 1. Crea el agente implementador
+
+En el chat de Kiro, en una conversación nueva (**+**), pega:
+
+```text
+Crea el archivo .kiro/agents/implementador.json con un agente personalizado de Kiro llamado implementador, usando el formato permissions.rules. Herramientas: read, write y shell. Puede escribir solo en app/, tests/ y web/, y tiene prohibido escribir en infra/, .kiro/, .env y .github/. En la terminal solo puede usar pytest, python -m pytest, python eval/evaluar.py, ruff check, ruff format, git status, git diff y git log, y tiene prohibido cdk deploy, cdk destroy, git push y rm -rf. Carga como contexto el steering del proyecto, app/frescura/AGENTS.md y negocio/. Sus instrucciones: escribir primero las pruebas, implementar el cambio mínimo, correr pytest, ruff check . y python eval/evaluar.py, y entregar una tabla con los archivos que cambió.
+```
+
+**Resultado esperado:** Kiro crea `.kiro/agents/implementador.json`.
+
+Compáralo con el de referencia:
+
+```bash
+git show lab-09:.kiro/agents/implementador.json
+```
+
+Si el tuyo no tiene el bloque `permissions` con reglas `allow` y `deny`, usa el de referencia:
+
+```bash
+git restore --source lab-09 .kiro/agents/implementador.json
+```
+
+#### Paso 2. Entiende sus permisos
+
+Abre `.kiro/agents/implementador.json` y mira `permissions.rules`:
+
+- `"capability": "fs_write"` controla dónde puede **escribir**; `"capability": "shell"` controla qué **comandos** puede correr.
+- `"effect": "allow"` permite y `"effect": "deny"` prohíbe. **Una regla `deny` siempre gana.**
+- `resources` es el contexto que carga al empezar: el steering y la política de negocio.
+
+Trae también el agente revisor, que ya está escrito:
 
 ```bash
 git restore --source lab-09 .kiro/agents/revisor-seguridad.json
 ```
 
-Abre el archivo: `tools` solo tiene `read` y `shell`; `permissions` limita el shell a `git`, `pytest`, `ruff check` y `cdk synth`; `prompt` dice qué revisa.
+#### Paso 3. Construye la mejora con el implementador
 
-**Paso 2. Pide la revisión.** En la terminal, desde la raíz del proyecto:
+Los agentes personalizados se usan desde Kiro CLI. En la terminal, desde la raíz del proyecto:
+
+```bash
+kiro-cli chat --agent implementador
+```
+
+Cuando aparezca el cuadro para escribir, pega:
+
+```text
+Agrega a la respuesta del análisis el campo mensaje_cliente, para el cliente final, siguiendo .kiro/steering/mensajes-cliente.md. Verde o pintón con 2 o más días: "Tu <producto> estará en su punto el <día de la semana>. Mientras tanto, déjalo a temperatura ambiente." Con 1 día: "Tu <producto> estará en su punto mañana. Mientras tanto, déjalo a temperatura ambiente." Maduro: "Tu <producto> está en su punto. Disfrútalo hoy o mañana." Sobremaduro: "Tu <producto> ya pasó su mejor punto. Aprovéchalo hoy en jugos, batidos o preparaciones." Producto desconocido: null. El producto va en minúscula. El día se calcula con la fecha de Colombia (UTC-5) más dias_hasta_optimo, y esa fecha debe poder fijarse en las pruebas. Muestra el mensaje en web/index.html. Empieza por las pruebas.
+```
+
+**Resultado esperado:** en unos 5 a 8 minutos, el agente:
+
+1. Escribe primero las pruebas (por ejemplo `tests/test_mensajes.py`) y comprueba que fallan.
+2. Implementa el mensaje (por ejemplo en `app/frescura/mensajes.py`) y lo agrega a la respuesta en `app/frescura/analizador.py`.
+3. Lo muestra en `web/index.html`.
+4. Corre `pytest`, `ruff check .` y la evaluación, y entrega la tabla de archivos que cambió.
+
+#### Paso 4. Comprueba sus límites
+
+En la misma sesión, pega uno por uno:
+
+```text
+Agrega la etiqueta Responsable con valor operaciones en infra/app.py.
+```
+
+```text
+Despliega mi instancia con cdk deploy -c participante=prueba.
+```
+
+**Resultado esperado:** las dos acciones quedan **denegadas** por los permisos del agente. El implementador no puede tocar la infraestructura ni desplegar, aunque se lo pidas.
+
+Sal de Kiro CLI con `/quit`.
+
+#### Paso 5. Verifica tú mismo
+
+```bash
+pytest
+ruff check .
+```
+
+**Resultado esperado:** ninguna prueba en *failed* (en la referencia, `61 passed`) y `All checks passed!` Abre `web/index.html` y busca `mensaje_cliente`.
+
+#### Paso 6. Pide la revisión de seguridad
 
 ```bash
 kiro-cli chat --agent revisor-seguridad
@@ -801,56 +889,69 @@ kiro-cli chat --agent revisor-seguridad
 Pega:
 
 ```text
-Revisa la infraestructura y el código antes de desplegar.
+Revisa la infraestructura y el código antes de desplegar, incluido el cambio del mensaje para el cliente.
 ```
 
-Resultado esperado: tabla de hallazgos con severidad, archivo:línea y sugerencia, y un veredicto. Es probable que marque que la API no tiene autenticación: está previsto para el piloto. Sal con `/quit`.
+**Resultado esperado:** una tabla de hallazgos con severidad, archivo:línea y sugerencia, y un veredicto. Es probable que marque que la API no tiene autenticación: está previsto para el piloto. Sal con `/quit`.
 
-**Paso 3. Prepara la cuenta para CDK.**
+#### Paso 7. Guarda tu trabajo
+
+```bash
+git add -A
+git commit -m "Lab 8: agentes implementador y revisor, y mensaje para el cliente"
+```
+
+#### Paso 8. Prepara la cuenta para CDK
 
 ```bash
 cd infra
 cdk bootstrap
 ```
 
-Resultado esperado: `Environment aws://<cuenta>/us-east-1 bootstrapped`, o `(no changes)` si el equipo de AWS ya lo hizo.
+**Resultado esperado:** termina con `Environment aws://<cuenta>/us-east-1 bootstrapped`. Si el equipo de AWS ya lo hizo, termina en segundos con `(no changes)`.
 
-**Paso 4. Despliega tu instancia.**
+#### Paso 9. Despliega tu instancia
+
+Reemplaza `<tus-iniciales>` por tus iniciales, sin los signos `<` y `>` (por ejemplo `oc`):
 
 ```bash
 cdk deploy -c participante=<tus-iniciales>
 ```
 
-1. Cuando pregunte `Do you wish to deploy these changes (y/n)?`, escribe `y` y presiona **Enter**.
+1. CDK muestra los permisos que va a crear y pregunta `Do you wish to deploy these changes (y/n)?`. Escribe `y` y presiona **Enter**.
 2. Espera unos 5 minutos.
 
-Resultado esperado: en **Outputs** aparecen `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Cópialos a un archivo de notas.
+**Resultado esperado:** en **Outputs** aparecen `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Cópialos a un archivo de notas.
 
-**Paso 5. Comprueba la API.**
+#### Paso 10. Comprueba que la API responde
+
+Reemplaza `<UrlApi>` por tu valor:
 
 ```bash
 curl <UrlApi>/salud
 ```
 
-Resultado esperado: `{"estado": "ok"}`.
+**Resultado esperado:** `{"estado": "ok"}`.
 
-**Paso 6. Analiza una fruta real con tu celular.**
+#### Paso 11. Analiza una fruta real
 
 1. Abre `UrlWeb` en el navegador de **tu celular**. La URL es pública: puedes escribirla, enviártela por chat o generar un código QR.
 2. En **Tienda**, escribe `T-<tus-iniciales>`.
-3. Toca **Tomar o elegir foto** y fotografía de cerca una fruta de la mesa, con buena luz.
+3. Toca **Tomar o elegir foto** y fotografía de cerca una fruta de la mesa, con buena luz y una sola fruta en la foto.
 
-Resultado esperado: producto, etapa, días hasta su punto, confianza, acción en tienda y nutrición. Prueba frutas en distintas etapas.
+**Resultado esperado:** aparecen el producto, la etapa, los días hasta su punto, la confianza, la **acción en tienda**, la nutrición y, al final, **Para el cliente:** con el mensaje que construyó el implementador. Prueba con frutas en distintas etapas.
 
-**Paso 7. Comprueba el historial.**
+#### Paso 12. Comprueba el historial
+
+Reemplaza `<TablaAnalisis>` por tu valor:
 
 ```bash
 aws dynamodb scan --table-name <TablaAnalisis> --select COUNT
 ```
 
-Resultado esperado: `"Count"` igual a las fotos que analizaste.
+**Resultado esperado:** `"Count"` igual al número de fotos que analizaste. El historial nunca guarda la foto.
 
-**Paso 8. Vuelve a la raíz del proyecto.**
+#### Paso 13. Vuelve a la raíz del proyecto
 
 ```bash
 cd ..
@@ -858,12 +959,12 @@ cd ..
 
 ### Criterio de éxito
 
-- [ ] El revisor entregó tabla y veredicto sin modificar archivos.
-- [ ] `cdk deploy` mostró los cuatro **Outputs**.
-- [ ] Analizaste al menos dos frutas desde el celular.
-- [ ] El historial tiene tus análisis.
+- [ ] Existe `.kiro/agents/implementador.json` con permisos `allow` y `deny`.
+- [ ] El implementador construyó `mensaje_cliente` con pruebas, y no pudo tocar `infra/` ni desplegar.
+- [ ] El revisor entregó su tabla y veredicto sin modificar archivos.
+- [ ] `cdk deploy` terminó y en el celular aparece el mensaje para el cliente.
 
-**Si te atrasaste:** pide al facilitador ver su instancia, sigue con el Lab 9 y despliega al final si hay tiempo.
+**Si te atrasaste:** cambia a la rama `lab-09`, que trae los dos agentes y el mensaje para el cliente, y despliega desde ahí.
 
 ---
 
