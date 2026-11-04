@@ -1,0 +1,74 @@
+{
+  "muestras": [
+    {
+      "archivo": "aguacate-verde.jpg",
+      "titulo": "Aguacate hass verde",
+      "producto": "aguacate_hass",
+      "etapa_esperada": "verde",
+      "origen": "Fruits-360 (original-size), carpeta Training/Avocado Green 1"
+    },
+    {
+      "archivo": "aguacate-maduro.jpg",
+      "titulo": "Aguacate hass maduro",
+      "producto": "aguacate_hass",
+      "etapa_esperada": "maduro",
+      "origen": "Fruits-360 (original-size), carpeta Training/Avocado Black 1"
+    },
+    {
+      "archivo": "banano-maduro.jpg",
+      "titulo": "Banano maduro",
+      "producto": "banano",
+      "etapa_esperada": "maduro",
+      "origen": "Fruits-360 (original-size), carpeta Training/Banana 2"
+    },
+    {
+      "archivo": "banano-sobremaduro.jpg",
+      "titulo": "Banano sobremaduro",
+      "producto": "banano",
+      "etapa_esperada": "sobremaduro",
+      "origen": "Fruits-360 (original-size), carpeta Training/Banana 4"
+    },
+    {
+      "archivo": "tomate-pinton.jpg",
+      "titulo": "Tomate pintón",
+      "producto": "tomate_chonto",
+      "etapa_esperada": "pinton",
+      "origen": "Fruits-360 (original-size), carpeta Training/Tomato 10"
+    },
+    {
+      "archivo": "tomate-maduro.jpg",
+      "titulo": "Tomate maduro",
+      "producto": "tomate_chonto",
+      "etapa_esperada": "maduro",
+      "origen": "Fruits-360 (original-size), carpeta Training/Tomato 1"
+    },
+    {
+      "archivo": "tomate-sobremaduro.jpg",
+      "titulo": "Tomate sobremaduro",
+      "producto": "tomate_chonto",
+      "etapa_esperada": "sobremaduro",
+      "origen": "Fruits-360 (original-size), carpeta Training/Tomato 9"
+    },
+    {
+      "archivo": "papaya-pinton.jpg",
+      "titulo": "Papaya pintona",
+      "producto": "papaya",
+      "etapa_esperada": "pinton",
+      "origen": "Fruits-360 (original-size), carpeta Training/Papaya 2"
+    },
+    {
+      "archivo": "mango-verde.jpg",
+      "titulo": "Mango verde",
+      "producto": "mango",
+      "etapa_esperada": "verde",
+      "origen": "Fruits-360 (100x100), carpeta Training/Mango 1"
+    },
+    {
+      "archivo": "mango-maduro.jpg",
+      "titulo": "Mango maduro",
+      "producto": "mango",
+      "etapa_esperada": "maduro",
+      "origen": "Fruits-360 (100x100), carpeta Training/Mango Red 1"
+    }
+  ]
+}
