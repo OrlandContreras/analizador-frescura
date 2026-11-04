@@ -4,6 +4,7 @@ Rutas:
 - GET  /salud      Comprueba que la API responde.
 - GET  /productos  Lista los productos que reconoce el analizador.
 - POST /analisis   Analiza una foto. Cuerpo JSON: {"imagen_base64": "...", "gramos": 150, "tienda": "T-001"}
+                   Con "vista": "cliente" responde solo la información pública (vista del cliente).
 """
 
 from __future__ import annotations
@@ -15,6 +16,7 @@ import logging
 
 from .analizador import analizar_foto
 from .catalogo import cargar_catalogo
+from .vista_cliente import para_cliente
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -100,6 +102,11 @@ def _analizar(event: dict) -> dict:
     tienda = cuerpo.get("tienda")
     if tienda is not None and (not isinstance(tienda, str) or len(tienda) > 40):
         return error(400, "TIENDA_INVALIDA", "tienda debe ser un texto de hasta 40 caracteres")
+    vista = cuerpo.get("vista", "tienda")
+    if vista not in ("tienda", "cliente"):
+        return error(400, "VISTA_INVALIDA", 'vista debe ser "tienda" o "cliente"')
+    if vista == "cliente":
+        tienda = None  # los análisis del cliente no se registran con una tienda
 
     deps = obtener_dependencias()
     try:
@@ -108,10 +115,16 @@ def _analizar(event: dict) -> dict:
         logger.exception("Falló el análisis de la imagen")
         return error(502, "VISION_NO_DISPONIBLE", "No se pudo analizar la imagen. Intenta de nuevo")
 
-    resultado["id"] = deps["historial"].guardar(resultado, tienda)
+    resultado["id"] = deps["historial"].guardar(resultado, tienda, canal=vista)
     logger.info(
         json.dumps(
-            {"evento": "analisis", "producto": resultado["producto"], "etapa": resultado["etapa"], "tienda": tienda}
+            {
+                "evento": "analisis",
+                "canal": vista,
+                "producto": resultado["producto"],
+                "etapa": resultado["etapa"],
+                "tienda": tienda,
+            }
         )
     )
-    return respuesta(200, resultado)
+    return respuesta(200, para_cliente(resultado) if vista == "cliente" else resultado)
