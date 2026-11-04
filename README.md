@@ -30,12 +30,25 @@ negocio/             Necesidad, política de acciones en tienda y glosario
 scripts/             Analizar una foto desde tu computador con Bedrock
 ```
 
-## Requisitos
+## Prerrequisitos para el workshop
 
-- Python 3.12 o superior
-- Node.js 20 o superior y el CLI de AWS CDK: `npm install -g aws-cdk`
-- AWS CLI configurado con la cuenta del taller, en la región **us-east-1**
-- Acceso al modelo **Amazon Nova 2 Lite** en Amazon Bedrock (lo habilita el equipo del taller)
+Antes del taller, sigue la guía [Lab 0 · Preparación del equipo](laboratorios/00-preparacion/README.md). Instala y comprueba todo esto:
+
+| Herramienta | Versión | Para qué |
+| --- | --- | --- |
+| Kiro IDE | Última | Entorno de trabajo con el agente de IA |
+| Kiro CLI | Última | Agente revisor y modo headless (Labs 8 y 9) |
+| Python | 3.12 o superior | El analizador y sus pruebas |
+| Node.js | 20 o superior | AWS CDK y los hooks del Lab 6 |
+| pnpm | 12 o superior | Instalar AWS CDK con controles de seguridad (no se usa npm) |
+| AWS CDK | 2.x, instalado con `pnpm add -g aws-cdk` | Desplegar la solución |
+| AWS CLI | 2.x | Conectar con tu cuenta de AWS |
+| Git | Cualquiera reciente | Cambiar de laboratorio con las ramas |
+| uv | Última | Servidores MCP del Lab 7 |
+
+El día del taller, el equipo de AWS entrega a cada participante una cuenta en la región **us-east-1** con acceso al modelo **Amazon Nova 2 Lite** en Amazon Bedrock.
+
+Si `pnpm add -g aws-cdk` falla, la tabla **Problemas con pnpm** del [Lab 0](laboratorios/00-preparacion/README.md#problemas-con-pnpm) explica cómo resolver cada error.
 
 ## Preparar el proyecto
 
