@@ -22,6 +22,10 @@ Tener una spec completa de la **acción recomendada en tienda**, con requisitos 
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 En la terminal de Kiro, con el entorno activo:
 
 ```bash

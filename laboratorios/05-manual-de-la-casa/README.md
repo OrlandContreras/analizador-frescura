@@ -23,6 +23,10 @@ Que el agente respete, sin que se lo pidas, el tono con el cliente, la regla de 
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 - **Sigues con tu trabajo:** quédate en tu rama.
 - **Te atrasaste:**
 
@@ -58,7 +62,7 @@ Redacta el mensaje que ve un cliente en la app cuando su aguacate hass está pin
 Trae dos archivos de steering ya escritos por el equipo, desde la rama del laboratorio siguiente:
 
 ```bash
-git restore --source lab-06 -- .kiro/steering/mensajes-cliente.md .kiro/steering/aws-infra.md .kiro/steering/troubleshooting.md app/frescura/AGENTS.md
+git restore --source lab-06 .kiro/steering/mensajes-cliente.md .kiro/steering/aws-infra.md .kiro/steering/troubleshooting.md app/frescura/AGENTS.md
 ```
 
 > Si clonaste el proyecto de GitHub y el comando dice que no encuentra `lab-06`, usa `origin/lab-06`.
