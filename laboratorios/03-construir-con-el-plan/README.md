@@ -14,6 +14,10 @@ Que el analizador responda la acción recomendada en tienda, con pruebas que la 
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 Elige una opción:
 
 - **Sigues con tu spec del Lab 2:** quédate en tu rama actual.

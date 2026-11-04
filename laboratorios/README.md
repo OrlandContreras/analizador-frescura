@@ -28,7 +28,7 @@ Cada rama `lab-NN` tiene el proyecto **tal como debe estar al empezar** ese labo
 
 ### Cambiar de rama (alcanzar al grupo)
 
-En la terminal de Kiro, desde la carpeta del proyecto:
+En la terminal de Kiro, desde la carpeta del proyecto y con el entorno activo (los comandos son iguales en Windows y en macOS o Linux):
 
 ```bash
 git stash --include-untracked
@@ -45,7 +45,8 @@ Para ver en qué rama estás: `git branch --show-current`.
 ## Convenciones de las guías
 
 - Los textos en un recuadro gris se **copian y pegan tal cual**, en el chat de Kiro o en la terminal, según diga el paso.
-- Donde veas `<tus-iniciales>`, escribe tus iniciales en minúscula, sin espacios ni tildes (por ejemplo `oc`). Así tu despliegue no choca con el de otra persona.
+- **Windows y macOS o Linux:** cuando un comando cambia según el sistema, la guía muestra las dos versiones. En Windows, la terminal de Kiro es **PowerShell**. Cuando aparece un solo comando, es igual en los dos sistemas.
+- Donde veas `<tus-iniciales>`, escribe tus iniciales en minúscula, sin espacios ni tildes (por ejemplo `oc`), **sin los signos `<` y `>`**. Así tu despliegue no choca con el de otra persona. En PowerShell, si dejas los signos aparece el error "The '<' operator is reserved for future use".
 - Los nombres de botones y menús aparecen en **negrita**, como se ven en Kiro (en inglés).
 - Las respuestas de Kiro cambian de una persona a otra. Lo importante es que cumplas el **Resultado esperado** de cada paso y el **Criterio de éxito** del laboratorio.
 - **Regla de datos:** todos los datos de tienda del proyecto son ficticios. No pegues datos reales de clientes, precios ni inventario en Kiro.
