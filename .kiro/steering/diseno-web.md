@@ -3,13 +3,13 @@ inclusion: fileMatch
 fileMatchPattern: "web/**"
 ---
 
-# Guía visual de la página web
+# Guía visual de las páginas web
 
-La página la usa el personal de tienda desde el celular, con una mano y a veces con poca luz. El diseño es de alto contraste, directo y amable.
+Hay dos vistas con el mismo diseño: `web/index.html`, para el personal de tienda, y `web/cliente.html`, para el cliente comprador. Las dos se usan desde el celular, con una mano y a veces con poca luz. El diseño es de alto contraste, directo y amable.
 
 ## Colores
 
-Usa siempre las variables de `:root` en `web/index.html`. No escribas colores sueltos en el HTML ni en el JavaScript.
+Los estilos de las dos vistas están en `web/estilos.css` y las funciones comunes en `web/comun.js`. Usa siempre las variables de `:root` de `web/estilos.css`. No escribas colores sueltos en el HTML ni en el JavaScript.
 
 | Variable | Valor | Uso |
 | --- | --- | --- |
