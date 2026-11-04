@@ -15,7 +15,7 @@ Llegar al taller con Kiro abierto, el proyecto funcionando y acceso a tu cuenta 
 | Herramienta | Para qué la usas |
 | --- | --- |
 | **Kiro IDE** | El entorno de trabajo con el agente de IA. Aquí pasa casi todo el taller |
-| **Kiro CLI** | Kiro en la terminal. Lo usas en los Labs 8 y 9 |
+| **Kiro CLI** | Kiro en la terminal. Con él usas los agentes del Lab 8 y el modo headless del Lab 9 |
 | **Python 3.12 o superior** | El lenguaje del analizador |
 | **Node.js 20 o superior** | Lo necesita AWS CDK y los hooks del Lab 6 |
 | **pnpm** | Instala las herramientas de JavaScript (AWS CDK) con controles de seguridad: no ejecuta scripts de instalación que nadie aprobó y evita versiones publicadas hace menos de 24 horas |
