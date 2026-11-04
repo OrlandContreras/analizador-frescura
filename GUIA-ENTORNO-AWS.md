@@ -1,6 +1,6 @@
 # Guía del taller en el entorno de AWS
 
-**Workshop de Kiro · Grupo Éxito · Analizador de frescura de frutas y verduras**
+**Workshop de Kiro · Analizador de frescura de frutas y verduras**
 
 Esta guía es para ejecutar todos los laboratorios **en el entorno que entrega AWS el día del taller**: una máquina virtual Linux con Kiro IDE ya instalado, a la que entras desde el navegador o por escritorio remoto. No necesitas instalar nada en tu computador.
 
@@ -581,10 +581,10 @@ Redacta el mensaje que ve un cliente en la app cuando su aguacate hass está pin
 
 #### Paso 3. Agrega las reglas de la casa
 
-Trae dos archivos de steering ya escritos por el equipo, desde la rama del laboratorio siguiente:
+Trae los archivos de steering ya escritos por el equipo, desde la rama del laboratorio siguiente:
 
 ```bash
-git restore --source lab-06 .kiro/steering/mensajes-cliente.md .kiro/steering/aws-infra.md .kiro/steering/troubleshooting.md app/frescura/AGENTS.md
+git restore --source lab-06 .kiro/steering/mensajes-cliente.md .kiro/steering/aws-infra.md .kiro/steering/diseno-web.md .kiro/steering/troubleshooting.md app/frescura/AGENTS.md
 ```
 
 
@@ -592,6 +592,7 @@ Abre cada archivo y fíjate en su encabezado (entre las líneas `---`):
 
 - `mensajes-cliente.md` → `inclusion: auto`: tuteo y nada de "cura", "previene" ni "adelgaza".
 - `aws-infra.md` → `inclusion: fileMatch` con `infra/**/*.py`: mínimos privilegios, etiquetas y que el agente nunca despliega.
+- `diseno-web.md` → `inclusion: fileMatch` con `web/**`: la guía visual de la página (colores, tipografía, botones). Kiro la aplica cuando cambia la web.
 - `troubleshooting.md` → `inclusion: manual`.
 - `app/frescura/AGENTS.md` no tiene encabezado: Kiro lo lee cuando trabaja en esa carpeta.
 
@@ -697,7 +698,7 @@ git commit -m "Lab 5: steering del proyecto y memoria"
 
 ### Criterio de éxito
 
-- [ ] `.kiro/steering/` tiene `product.md`, `tech.md`, `structure.md`, `mensajes-cliente.md`, `aws-infra.md` y `troubleshooting.md`.
+- [ ] `.kiro/steering/` tiene `product.md`, `tech.md`, `structure.md`, `mensajes-cliente.md`, `aws-infra.md`, `diseno-web.md` y `troubleshooting.md`.
 - [ ] El segundo mensaje al cliente usa tuteo y no promete efectos de salud, sin que lo pidieras.
 - [ ] Kiro aplicó `aws-infra.md` al hablar de `infra/`.
 - [ ] La memoria está en **Use and learn**, y en la vista **Memories** aparece la regla de los umbrales, ubicada en `analizador-frescura`.
