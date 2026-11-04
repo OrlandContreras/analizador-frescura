@@ -14,6 +14,13 @@ En la sección de frutas y verduras se pierde producto porque se madura en la g�
 - los **días** que faltan para su punto óptimo;
 - su **información nutricional** por porción.
 
+El producto tiene **dos usuarios**, y en cada laboratorio construyes algo para los dos:
+
+| Vista | Archivo | Quién la usa | Qué ve |
+| --- | --- | --- | --- |
+| Personal de tienda | `web/index.html` | Auxiliares y jefes de la sección | Todo el análisis y, desde el Lab 3, la acción en tienda |
+| Cliente comprador | `web/cliente.html` | Quien compró la fruta | Solo información pública: cuándo estará en su punto y su nutrición |
+
 Un modelo de IA de Amazon Bedrock **describe** la foto (qué producto es y qué tan maduro se ve, de 0 a 100). Las **reglas del negocio**, escritas en el código, **deciden** la etapa. Así cada resultado se puede explicar y auditar.
 
 ## Objetivo
@@ -44,7 +51,7 @@ En la terminal:
 pytest
 ```
 
-**Resultado esperado:** `32 passed, 1 skipped`.
+**Resultado esperado:** `33 passed, 1 skipped`.
 
 ### Paso 2. Recorre el panel de Kiro
 
@@ -86,7 +93,17 @@ Explica en 5 viñetas qué hace este proyecto, cómo viaja una foto desde el cel
 
 **Resultado esperado:** etapa **maduro** y **0 días**. Kiro señala `app/frescura/reglas.py`, funciones `etapa_madurez` y `dias_hasta_optimo`, y los umbrales del banano en `app/frescura/datos/catalogo.json` (maduro desde 50, sobremaduro desde 80).
 
-### Paso 6. Pide un cambio y deshazlo con un checkpoint
+### Paso 6. Conoce la vista del cliente
+
+Pega en el chat:
+
+```text
+Compara web/index.html y web/cliente.html en una tabla: qué ve el personal, qué ve el cliente y qué archivos comparten las dos páginas.
+```
+
+**Resultado esperado:** el personal ve la tienda, la porción, la etapa, los días, la confianza y la nutrición; el cliente ve frases sencillas como "Está pintón" y "Estará en su punto en 2 días", y la nutrición. Las dos páginas comparten `web/estilos.css`, `web/comun.js` y las fotos de muestra de `web/muestras/`.
+
+### Paso 7. Pide un cambio y deshazlo con un checkpoint
 
 1. Pega:
 
@@ -104,15 +121,16 @@ git status --short
 
 **Resultado esperado:** el comentario desapareció del archivo y `git status --short` no muestra ninguna línea: el proyecto quedó como estaba.
 
-### Paso 7. Mira el analizador funcionando
+### Paso 8. Mira el analizador funcionando
 
-El facilitador muestra en pantalla su instancia ya desplegada: toca una de las fotos de muestra de la página y aparece el resultado. En el Lab 8 harás lo mismo con tu propia instancia.
+El facilitador muestra en pantalla su instancia ya desplegada: toca una de las fotos de muestra en la vista del personal y luego en la del cliente, y compara los resultados. En el Lab 8 harás lo mismo con tu propia instancia.
 
 ## Criterio de éxito
 
-- [ ] `pytest` muestra `32 passed, 1 skipped`.
+- [ ] `pytest` muestra `33 passed, 1 skipped`.
 - [ ] Ubicaste las cuatro secciones del panel de Kiro.
 - [ ] Kiro respondió con la etapa y los días correctos, citando archivos.
+- [ ] Sabes qué ve el personal y qué ve el cliente.
 - [ ] Deshiciste un cambio con **Restore** y `git status --short` quedó vacío.
 
 ## Si algo no sale

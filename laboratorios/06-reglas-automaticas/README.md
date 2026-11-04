@@ -168,10 +168,10 @@ python -m json.tool .kiro/hooks/revisar-mensajes-cliente.json
 **6.7. Pruébalo.** En el chat:
 
 ```text
-En web/index.html, cambia el subtítulo por este texto: El aguacate previene enfermedades del corazón. Toma una foto de tu fruta.
+En web/cliente.html, cambia el subtítulo por este texto: El aguacate previene enfermedades del corazón. Funciona con banano, aguacate hass, tomate chonto, mango y papaya.
 ```
 
-**Resultado esperado:** el agente guarda `web/index.html`, tu hook se dispara y el agente reescribe la frase **sin "previene"**, explicando el cambio en una línea. Abre `web/index.html` y busca el subtítulo.
+**Resultado esperado:** el agente guarda `web/cliente.html`, la página que ve el cliente, tu hook se dispara y el agente reescribe la frase **sin "previene"**, explicando el cambio en una línea. Abre `web/cliente.html` y busca el subtítulo.
 
 **6.8. Ajústalo.** Agrega una palabra prohibida más:
 
@@ -180,13 +180,13 @@ En web/index.html, cambia el subtítulo por este texto: El aguacate previene enf
 3. Prueba otra vez:
 
 ```text
-En web/index.html, cambia el subtítulo por este texto: Un mango milagroso para tu día. Toma una foto de tu fruta.
+En web/cliente.html, cambia el subtítulo por este texto: Un mango milagroso para tu día. Funciona con banano, aguacate hass, tomate chonto, mango y papaya.
 ```
 
 **Resultado esperado:** el hook corrige "milagroso". Para dejar la página como estaba:
 
 ```bash
-git restore web/index.html
+git restore web/cliente.html
 ```
 
 ### Paso 7 (opcional). Crea un hook describiéndolo en lenguaje natural
@@ -223,7 +223,7 @@ git commit -m "Lab 6: hooks de calidad, seguridad, despliegue y mensajes"
 | No aparecen los hooks en **AGENT HOOKS** | Recarga Kiro: paleta de comandos (**Ctrl+Shift+P** o **Cmd+Shift+P**) → **Developer: Reload Window** |
 | Tu hook no aparece pero los otros sí | El JSON tiene un error. Corre el comando del paso 6.5 y corrige la línea que indica |
 | No ves la carpeta `.kiro` en el Explorer | Revisa que abriste la carpeta `analizador-frescura` (**File → Open Folder**). Si sigue sin verse, créala desde la terminal con el paso 1 |
-| Tu hook no se dispara al cambiar `web/index.html` | Revisa que `trigger` sea exactamente `PostFileSave` y que el `matcher` sea `(web\|negocio).*(html\|md)$` |
+| Tu hook no se dispara al cambiar `web/cliente.html` | Revisa que `trigger` sea exactamente `PostFileSave` y que el `matcher` sea `(web\|negocio).*(html\|md)$` |
 | El hook de pruebas dice que no encuentra `.venv` | Creaste el entorno con otro nombre. Sigue el paso 7 del [Lab 0](../00-preparacion/README.md) |
 | `.env` no quedó bloqueado | Revisa que `node --version` funciona en la terminal de Kiro |
 | Te quedaste sin tiempo | Cambia a la rama `lab-07`, que trae los cuatro hooks |

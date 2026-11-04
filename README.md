@@ -2,12 +2,12 @@
 
 > **Proyecto de práctica del workshop de Kiro.** Los datos de tienda, las cifras de negocio y las políticas son ficticios. Los valores nutricionales son de referencia (USDA FoodData Central) y deben validarse con la tabla del ICBF antes de un piloto.
 
-Con una foto tomada desde el celular, el analizador identifica el producto, estima su etapa de madurez y los días que faltan para su punto óptimo, y entrega su información nutricional por porción. En el taller se le agrega la **acción recomendada en tienda** según la política `negocio/politica-acciones-tienda.md`.
+Con una foto tomada desde el celular, el analizador identifica el producto, estima su etapa de madurez y los días que faltan para su punto óptimo, y entrega su información nutricional por porción. Tiene dos vistas que se construyen a la par: la del **personal de tienda** (`web/index.html`), que en el taller recibe la **acción recomendada en tienda** según la política `negocio/politica-acciones-tienda.md`, y la del **cliente comprador** (`web/cliente.html`), que solo ve información pública: cuándo estará en su punto lo que compró y su nutrición.
 
 ## Arquitectura
 
 ```
-Celular ──► CloudFront + S3 (web/index.html)
+Celular ──► CloudFront + S3 (web/index.html: personal · web/cliente.html: cliente)
    │
    └──► API Gateway (HTTP API) ──► Lambda (Python 3.12, app/frescura)
                                       ├─► Amazon Bedrock (visión: producto e índice de madurez)
@@ -23,7 +23,7 @@ El modelo **describe** lo que ve; las **reglas del negocio deciden** la etapa y 
 app/frescura/        Código de la función: visión, reglas, nutrición, historial y handler
 app/frescura/datos/  Catálogo de 5 productos con sus umbrales y tabla de nutrición
 infra/               Infraestructura con AWS CDK (Python): un stack por participante
-web/                 Página web móvil para tomar la foto
+web/                 Vistas del personal (index.html) y del cliente (cliente.html), estilos y fotos de muestra
 tests/               Pruebas con pytest (sin llamar a AWS)
 eval/                Evaluación del acierto con fotos etiquetadas
 negocio/             Necesidad, política de acciones en tienda y glosario
@@ -74,7 +74,7 @@ pytest
 
 Con el entorno activo (`(.venv)` al inicio de la línea), el resto de los comandos de este README son iguales en Windows y en macOS o Linux.
 
-Resultado esperado en `main`: `32 passed, 1 skipped`. La prueba omitida es intencional: se activa en el Lab 4.
+Resultado esperado en `main`: `33 passed, 1 skipped`. La prueba omitida es intencional: se activa en el Lab 4.
 
 ## Medir el acierto
 
@@ -94,7 +94,7 @@ cdk bootstrap        # solo la primera vez en la cuenta y región, si el equipo 
 cdk deploy -c participante=oc
 ```
 
-Al terminar, CDK muestra `UrlWeb` (ábrela en el celular) y `UrlApi`.
+Al terminar, CDK muestra `UrlWeb` (vista del personal), `UrlCliente` (vista del cliente) y `UrlApi`. Ábrelas en el celular.
 
 Para usar otro modelo de Bedrock: `cdk deploy -c participante=oc -c modeloVision=<id del perfil de inferencia>`.
 
