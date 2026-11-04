@@ -28,7 +28,7 @@
   .etapa { display: inline-block; padding: 4px 12px; border-radius: 999px; color: #fff; font-weight: 700; text-transform: capitalize; }
   .etapa.verde { background: var(--verde); } .etapa.pinton { background: var(--pinton); }
   .etapa.maduro { background: var(--maduro); } .etapa.sobremaduro { background: var(--sobremaduro); }
-  dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; margin: 12px 0 0; }
+  dl { display: grid; grid-template-columns: minmax(9em, 1fr) minmax(0, 1.4fr); gap: 6px 12px; margin: 12px 0 0; }
   dt { color: var(--suave); } dd { margin: 0; font-weight: 600; text-align: right; }
   .aviso { color: var(--aviso); font-size: .9rem; }
   .pie { color: var(--suave); font-size: .8rem; text-align: center; margin-top: 18px; }
@@ -106,7 +106,7 @@ function mostrar(datos) {
       ["Días hasta su punto", datos.dias_hasta_optimo === 0 ? "Ya está en su punto" : datos.dias_hasta_optimo + " días"],
       ["Confianza", Math.round(datos.lectura.confianza * 100) + "%"],
     ];
-    if (datos.accion) filas.push(["Acción en tienda", datos.accion.tipo || datos.accion]);
+    if (datos.accion) filas.push(["Acción en tienda", datos.accion.mensaje || datos.accion.tipo || String(datos.accion)]);
     if (datos.nutricion) {
       const n = datos.nutricion;
       filas.push(["Porción", n.gramos + " g"], ["Energía", n.energia_kcal + " kcal"], ["Fibra", n.fibra_g + " g"],
