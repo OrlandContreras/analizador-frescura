@@ -7,7 +7,7 @@ from conftest import IMAGEN_JPEG, evento, imagen_b64
 from frescura.handler import lambda_handler
 from frescura.vision import VisionEjemplo
 
-CAMPOS_CLIENTE = {"producto", "nombre", "etapa", "dias_hasta_optimo", "nutricion", "reconocido"}
+CAMPOS_CLIENTE = {"producto", "nombre", "etapa", "dias_hasta_optimo", "mensaje_cliente", "nutricion", "reconocido"}
 
 
 def analizar(cuerpo_extra: dict) -> tuple[int, dict]:
@@ -58,3 +58,8 @@ def test_vista_invalida(dependencias):
     estado, datos = analizar({"vista": "gerencia"})
     assert estado == 400
     assert datos["error"]["code"] == "VISTA_INVALIDA"
+
+
+def test_el_cliente_recibe_su_mensaje(dependencias):
+    _, datos = analizar({"vista": "cliente"})
+    assert datos["mensaje_cliente"].startswith("Tu banano")

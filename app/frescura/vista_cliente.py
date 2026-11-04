@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from .acciones import UMBRAL_CONFIANZA
 
-CAMPOS_PUBLICOS = ("producto", "nombre", "etapa", "dias_hasta_optimo", "nutricion")
+CAMPOS_PUBLICOS = ("producto", "nombre", "etapa", "dias_hasta_optimo", "mensaje_cliente", "nutricion")
 
 
 def para_cliente(resultado: dict) -> dict:
