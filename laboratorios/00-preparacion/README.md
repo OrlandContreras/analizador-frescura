@@ -209,7 +209,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-**Resultado esperado:** al final dice `32 passed, 1 skipped`. La prueba omitida (*skipped*) es intencional: la activarás en el Lab 4.
+**Resultado esperado:** al final dice `33 passed, 1 skipped`. La prueba omitida (*skipped*) es intencional: la activarás en el Lab 4.
 
 ### Paso 9. Conecta tu cuenta de AWS
 
@@ -242,7 +242,7 @@ kiro-cli doctor
 
 - [ ] Todas las herramientas muestran su versión.
 - [ ] Git tiene tu nombre y correo.
-- [ ] `pytest` muestra `32 passed, 1 skipped`.
+- [ ] `pytest` muestra `33 passed, 1 skipped`.
 - [ ] `aws sts get-caller-identity` muestra tu cuenta (el día del taller).
 - [ ] `kiro-cli doctor` dice `Everything looks good!`
 

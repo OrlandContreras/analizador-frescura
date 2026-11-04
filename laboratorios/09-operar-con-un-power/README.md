@@ -18,7 +18,7 @@ En este laboratorio usas un Power **que ya viene creado**: `operacion-frescura`,
 
 | Skill | Qué hace |
 | --- | --- |
-| `resumen-uso` | Lee el historial de DynamoDB (solo lectura) y resume el uso por tienda, producto y etapa |
+| `resumen-uso` | Lee el historial de DynamoDB (solo lectura) y resume el uso por canal (personal y clientes), tienda, producto y etapa |
 | `diagnosticar-instancia` | Revisa que la API responda, que la validación de imágenes funcione y si hubo fallos en los registros |
 
 ## Objetivo
@@ -118,9 +118,9 @@ En la misma conversación:
 ¿Cómo va el uso del analizador por tienda? Guarda el resumen en docs/uso-piloto.md.
 ```
 
-**Resultado esperado:** Kiro usa la skill `resumen-uso`, ejecuta `resumen_uso.py` y crea `docs/uso-piloto.md` con el total de análisis, una tabla por tienda y el porcentaje que va a **revisión humana** (confianza menor a 0,70, según la política POL-FRV-001).
+**Resultado esperado:** Kiro usa la skill `resumen-uso`, ejecuta `resumen_uso.py` y crea `docs/uso-piloto.md` con el total de análisis, cuántos vienen del personal y cuántos de clientes, una tabla por tienda y el porcentaje del personal que va a **revisión humana** (confianza menor a 0,70, según la política POL-FRV-001).
 
-> **¿No desplegaste o tu historial está vacío?** Escribe: "Usa los datos de ejemplo del Power". Kiro corre el mismo script con `historial-ejemplo.json`, y el resumen avisa que **no son datos reales**. Con esos datos, el 38% va a revisión humana, y Kiro debe recomendarlo como el primer punto a mejorar del piloto.
+> **¿No desplegaste o tu historial está vacío?** Escribe: "Usa los datos de ejemplo del Power". Kiro corre el mismo script con `historial-ejemplo.json`, y el resumen avisa que **no son datos reales**. Con esos datos hay 40 análisis del personal y 12 de clientes, y el 38% de los del personal va a revisión humana, y Kiro debe recomendarlo como el primer punto a mejorar del piloto.
 
 ### Paso 5. Comprueba que se activa solo cuando hace falta
 

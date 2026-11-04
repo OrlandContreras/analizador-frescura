@@ -96,14 +96,14 @@ kiro-cli chat --agent implementador
 Cuando aparezca el cuadro para escribir, pega:
 
 ```text
-Agrega a la respuesta del análisis el campo mensaje_cliente, para el cliente final, siguiendo .kiro/steering/mensajes-cliente.md. Verde o pintón con 2 o más días: "Tu <producto> estará en su punto el <día de la semana>. Mientras tanto, déjalo a temperatura ambiente." Con 1 día: "Tu <producto> estará en su punto mañana. Mientras tanto, déjalo a temperatura ambiente." Maduro: "Tu <producto> está en su punto. Disfrútalo hoy o mañana." Sobremaduro: "Tu <producto> ya pasó su mejor punto. Aprovéchalo hoy en jugos, batidos o preparaciones." Producto desconocido: null. El producto va en minúscula. El día se calcula con la fecha de Colombia (UTC-5) más dias_hasta_optimo, y esa fecha debe poder fijarse en las pruebas. Muestra el mensaje en web/index.html. Empieza por las pruebas.
+Agrega a la respuesta del análisis el campo mensaje_cliente, para el cliente final, siguiendo .kiro/steering/mensajes-cliente.md. Verde o pintón con 2 o más días: "Tu <producto> estará en su punto el <día de la semana>. Mientras tanto, déjalo a temperatura ambiente." Con 1 día: "Tu <producto> estará en su punto mañana. Mientras tanto, déjalo a temperatura ambiente." Maduro: "Tu <producto> está en su punto. Disfrútalo hoy o mañana." Sobremaduro: "Tu <producto> ya pasó su mejor punto. Aprovéchalo hoy en jugos, batidos o preparaciones." Producto desconocido: null. El producto va en minúscula. El día se calcula con la fecha de Colombia (UTC-5) más dias_hasta_optimo, y esa fecha debe poder fijarse en las pruebas. Inclúyelo en la vista del cliente (app/frescura/vista_cliente.py) y muéstralo en web/cliente.html en un recuadro destacado. Empieza por las pruebas.
 ```
 
 **Resultado esperado:** en unos 5 a 8 minutos, el agente:
 
 1. Escribe primero las pruebas (por ejemplo `tests/test_mensajes.py`) y comprueba que fallan.
 2. Implementa el mensaje (por ejemplo en `app/frescura/mensajes.py`) y lo agrega a la respuesta en `app/frescura/analizador.py`.
-3. Lo muestra en `web/index.html`.
+3. Lo agrega a la vista del cliente y lo muestra en `web/cliente.html`.
 4. Corre `pytest`, `ruff check .` y la evaluación, y entrega la tabla de archivos que cambió.
 
 > **La memoria también está en la CLI.** Kiro IDE y Kiro CLI comparten las memorias del mismo computador. Al terminar, escribe `/memories` en la sesión: verás la regla de los umbrales que le enseñaste en el Lab 5. Si `/memories` pide configurar el acceso, elige **read & write** (aplica desde la siguiente sesión). Si el comando no existe, tu Kiro CLI es anterior a la 2.29.0: este paso es opcional, sigue.
@@ -131,7 +131,7 @@ pytest
 ruff check .
 ```
 
-**Resultado esperado:** ninguna prueba en *failed* (en la referencia, `61 passed`) y `All checks passed!` Abre `web/index.html` y busca `mensaje_cliente`.
+**Resultado esperado:** ninguna prueba en *failed* (en la referencia, `70 passed`) y `All checks passed!` Abre `web/cliente.html` y busca `mensaje_cliente`.
 
 ### Paso 6. Pide la revisión de seguridad
 
@@ -174,7 +174,7 @@ cdk deploy -c participante=<tus-iniciales>
 1. CDK muestra los permisos que va a crear y pregunta `Do you wish to deploy these changes (y/n)?`. Escribe `y` y presiona **Enter**.
 2. Espera unos 5 minutos.
 
-**Resultado esperado:** en **Outputs** aparecen `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Cópialos en un bloc de notas.
+**Resultado esperado:** en **Outputs** aparecen `UrlApi`, `UrlWeb` (vista del personal), `UrlCliente` (vista del cliente), `TablaAnalisis` y `GrupoRegistros`. Cópialos en un bloc de notas.
 
 ### Paso 10. Comprueba que la API responde
 
@@ -200,7 +200,11 @@ curl <UrlApi>/salud
 2. En **Tienda**, escribe `T-<tus-iniciales>`.
 3. En **¿No tienes fruta a mano?**, toca una de las fotos de muestra.
 
-**Resultado esperado:** aparecen el producto, la etapa, los días hasta su punto, la confianza, la **acción en tienda**, la nutrición, **Para el cliente:** con el mensaje que construyó el implementador y, al final, la **etapa esperada** de esa foto. Prueba con varias muestras y compara la etapa que dio el analizador con la esperada: cuando no coinciden, es justo lo que mediría la evaluación del Lab 4 con fotos reales.
+**Resultado esperado:** aparecen el producto, la etapa, los días hasta su punto, la confianza, la **acción en tienda**, la nutrición y, al final, la **etapa esperada** de esa foto.
+
+4. Ahora abre `UrlCliente`, la vista del cliente, y toca **la misma** foto de muestra.
+
+**Resultado esperado:** el cliente ve el nombre del producto, una frase como "Está pintón", el **mensaje que construyó el implementador** en un recuadro amarillo ("Tu aguacate hass estará en su punto el jueves…") y la nutrición. **No ve** la acción en tienda ni la confianza. Prueba con varias muestras y compara la etapa que dio el analizador con la esperada: cuando no coinciden, es justo lo que mediría la evaluación del Lab 4 con fotos reales.
 
 > Las fotos de muestra vienen de la colección abierta Fruits-360 (licencia CC BY-SA 4.0; créditos en `web/muestras/CREDITOS.md`). Si tienes una fruta a mano, también puedes tocar **Tomar o elegir foto** y fotografiarla.
 
@@ -225,7 +229,7 @@ cd ..
 - [ ] Existe `.kiro/agents/implementador.json` con permisos `allow` y `deny`.
 - [ ] El implementador construyó `mensaje_cliente` con pruebas, y no pudo tocar `infra/` ni desplegar.
 - [ ] El revisor entregó su tabla y veredicto sin modificar archivos.
-- [ ] `cdk deploy` terminó y, al analizar una foto de muestra, aparece el mensaje para el cliente.
+- [ ] `cdk deploy` terminó, la vista del personal muestra la acción en tienda y la del cliente muestra su mensaje sin información interna.
 
 ## Si algo no sale
 

@@ -106,7 +106,7 @@ cd infra
 cdk deploy -c participante=prueba
 ```
 
-Resultado esperado: `61 passed`, tu identidad de AWS y, al final del despliegue, las salidas `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Abre `UrlWeb` en tu celular y analiza una de las fotos de muestra. Después borra todo con `cdk destroy -c participante=prueba`.
+Resultado esperado: `70 passed`, tu identidad de AWS y, al final del despliegue, las salidas `UrlApi`, `UrlWeb`, `UrlCliente`, `TablaAnalisis` y `GrupoRegistros`. Abre `UrlWeb` y `UrlCliente` en tu celular y analiza una de las fotos de muestra en cada una. Después borra todo con `cdk destroy -c participante=prueba`.
 
 ---
 
@@ -193,7 +193,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-**Resultado esperado:** al inicio de la línea aparece `(.venv)` y `pytest` termina con `32 passed, 1 skipped`.
+**Resultado esperado:** al inicio de la línea aparece `(.venv)` y `pytest` termina con `33 passed, 1 skipped`.
 
 > **Cada vez que abras una terminal nueva, activa el entorno:** `source .venv/bin/activate`
 
@@ -216,7 +216,7 @@ kiro-cli doctor
 ### Criterio de éxito
 
 - [ ] Kiro abierto con el proyecto.
-- [ ] `pytest`: `32 passed, 1 skipped`.
+- [ ] `pytest`: `33 passed, 1 skipped`.
 - [ ] Tu cuenta de AWS y Kiro CLI responden.
 
 ---
@@ -231,6 +231,8 @@ Conocer el proyecto y trabajar por primera vez con el agente de Kiro: le pedirá
 
 **El caso:** en la sección de frutas y verduras se pierde producto porque se madura en la góndola sin que nadie actúe a tiempo. El analizador recibe la foto de un banano, aguacate hass, tomate chonto, mango o papaya, y responde su **etapa de madurez** (verde, pintón, maduro o sobremaduro), los **días** que faltan para su punto y su **nutrición** por porción. Un modelo de Amazon Bedrock **describe** la foto; las **reglas del negocio**, en el código, **deciden** la etapa.
 
+El producto tiene **dos vistas**, y en cada laboratorio construyes algo para las dos: `web/index.html`, para el **personal de tienda** (todo el análisis y, desde el Lab 3, la acción en tienda), y `web/cliente.html`, para el **cliente comprador** (solo información pública: cuándo estará en su punto y su nutrición).
+
 ### Objetivo
 
 Saber abrir el chat de Kiro, pedirle trabajo, ubicar las secciones de su panel y deshacer un cambio con un *checkpoint*.
@@ -244,7 +246,7 @@ git switch lab-01
 pytest
 ```
 
-Resultado esperado: `32 passed, 1 skipped`.
+Resultado esperado: `33 passed, 1 skipped`.
 
 **Paso 2. Recorre el panel de Kiro.** En la barra de la izquierda, haz clic en el ícono del fantasma de Kiro. Ubica estas secciones:
 
@@ -273,7 +275,15 @@ Resultado esperado: la foto llega por API Gateway a una función Lambda; Bedrock
 
 Resultado esperado: **maduro** y **0 días**, en `app/frescura/reglas.py` (`etapa_madurez` y `dias_hasta_optimo`), con los umbrales del banano en `app/frescura/datos/catalogo.json`.
 
-**Paso 6. Haz un cambio y deshazlo.**
+**Paso 6. Conoce la vista del cliente.** Pega en el chat:
+
+```text
+Compara web/index.html y web/cliente.html en una tabla: qué ve el personal, qué ve el cliente y qué archivos comparten las dos páginas.
+```
+
+Resultado esperado: el personal ve tienda, porción, etapa, días, confianza y nutrición; el cliente ve frases como "Está pintón" y "Estará en su punto en 2 días", y la nutrición. Comparten `web/estilos.css`, `web/comun.js` y las fotos de `web/muestras/`.
+
+**Paso 7. Haz un cambio y deshazlo.**
 
 1. Pega:
 
@@ -291,12 +301,13 @@ git status --short
 
 Resultado esperado: el comentario desapareció y `git status --short` no muestra nada.
 
-**Paso 7. Mira el analizador funcionando.** El facilitador muestra su instancia desplegada analizando una de las fotos de muestra de la página. En el Lab 8 harás lo mismo con la tuya.
+**Paso 8. Mira el analizador funcionando.** El facilitador analiza una foto de muestra en la vista del personal y luego en la del cliente, y compara los resultados. En el Lab 8 harás lo mismo con la tuya.
 
 ### Criterio de éxito
 
 - [ ] Ubicaste las cuatro secciones del panel.
 - [ ] Kiro dio la etapa y los días correctos, citando archivos.
+- [ ] Sabes qué ve el personal y qué ve el cliente.
 - [ ] Deshiciste un cambio con **Restore**.
 
 ---
@@ -307,7 +318,7 @@ Resultado esperado: el comentario desapareció y `git status --short` no muestra
 
 ### Qué vas a hacer
 
-El personal de la tienda necesita saber **qué hacer** con cada producto. La compañía tiene una política para eso: `negocio/politica-acciones-tienda.md` (POL-FRV-001). Con Kiro la conviertes en una **spec**, un plan de tres documentos que el agente sigue después para construir:
+El personal de la tienda necesita saber **qué hacer** con cada producto. La compañía tiene una política para eso: `negocio/politica-acciones-tienda.md` (POL-FRV-001). Su sección 6 dice además **qué puede ver el cliente** comprador. Con Kiro la conviertes en una **spec** que cubre a los dos usuarios, un plan de tres documentos que el agente sigue después para construir:
 
 | Documento | Qué contiene |
 | --- | --- |
@@ -319,7 +330,7 @@ El personal de la tienda necesita saber **qué hacer** con cada producto. La com
 
 ### Objetivo
 
-Una spec completa de la **acción recomendada en tienda**, con requisitos verificables, diseño y como máximo 6 tareas.
+Una spec completa de la **acción recomendada en tienda** y de la **vista del cliente**, con requisitos verificables, diseño y como máximo 8 tareas.
 
 ### Paso a paso
 
@@ -329,7 +340,7 @@ Una spec completa de la **acción recomendada en tienda**, con requisitos verifi
 git switch lab-02
 ```
 
-Abre `negocio/politica-acciones-tienda.md` y lee **3. Reglas, en este orden**: 7 reglas; la primera que se cumple decide la acción.
+Abre `negocio/politica-acciones-tienda.md` y lee **3. Reglas, en este orden** (7 reglas; la primera que se cumple decide la acción) y **6. Lo que ve el cliente** (solo información del producto; nunca la acción en tienda ni la confianza).
 
 **Paso 2. Crea la spec.**
 
@@ -337,7 +348,7 @@ Abre `negocio/politica-acciones-tienda.md` y lee **3. Reglas, en este orden**: 7
 2. Arriba se abre un cuadro: *Enter your idea to generate requirement, design, and task specs*. Pega y presiona **Enter**:
 
 ```text
-Agregar al análisis la acción recomendada en tienda para el personal de frutas y verduras, según la política negocio/politica-acciones-tienda.md (mantener, priorizar, rebajar, transformar, donar, retirar o revisar), con revisión humana cuando la confianza sea menor a 0,70 y sin cambiar la infraestructura.
+Agregar al análisis la acción recomendada en tienda para el personal de frutas y verduras, según la política negocio/politica-acciones-tienda.md (mantener, priorizar, rebajar, transformar, donar, retirar o revisar), con revisión humana cuando la confianza sea menor a 0,70, y la vista del cliente de la sección 6 de la política, que nunca muestra información interna. Sin cambiar la infraestructura.
 ```
 
 3. En **Input required**, elige **Build a Feature** → **Submit answer**.
@@ -346,7 +357,7 @@ Agregar al análisis la acción recomendada en tienda para el personal de frutas
 
 Resultado esperado: tu spec aparece en **SPECS** y Kiro ofrece en el chat **Generar diseño técnico**, **Generar lista de tareas** y **Analizar requerimientos** (pueden aparecer en inglés).
 
-**Paso 3. Revisa los requisitos.** En **SPECS**, abre tu spec → **Requirements**. Comprueba que estén en EARS al menos: confianza menor a 0,70 → Revisar; moho → Retirar; maduro → Priorizar; sobremaduro con 60% o más de manchas → Donar.
+**Paso 3. Revisa los requisitos.** En **SPECS**, abre tu spec → **Requirements**. Comprueba que estén en EARS al menos: confianza menor a 0,70 → Revisar; moho → Retirar; maduro → Priorizar; sobremaduro con 60% o más de manchas → Donar; y la vista del cliente nunca incluye la acción ni la confianza (un requisito con `SHALL NOT`).
 
 **Paso 4. Analiza y decide.**
 
@@ -357,15 +368,15 @@ Resultado esperado: tu spec aparece en **SPECS** y Kiro ofrece en el chat **Gene
 Decisión de negocio: los límites son inclusivos. Confianza de exactamente 0,70 no va a revisión; manchas de exactamente 30% ya es transformar y de exactamente 60% ya es donar. Actualiza los requisitos con esta decisión.
 ```
 
-**Paso 5. Genera el diseño.** Haz clic en **Generar diseño técnico** (3 a 4 minutos). En **Design**, verifica: el archivo nuevo de reglas (por ejemplo `app/frescura/acciones.py`), el campo `accion` en la respuesta y cómo se prueba cada regla con sus límites.
+**Paso 5. Genera el diseño.** Haz clic en **Generar diseño técnico** (3 a 4 minutos). En **Design**, verifica: el archivo nuevo de reglas (por ejemplo `app/frescura/acciones.py`), el campo `accion` en la respuesta, cómo se prueba cada regla con sus límites y cómo se filtra la respuesta para el cliente (por ejemplo `app/frescura/vista_cliente.py`).
 
 **Paso 6. Genera las tareas, acotadas.** Escribe en el chat:
 
 ```text
-Genera la lista de tareas con máximo 6 tareas. Las pruebas son obligatorias, no opcionales: no marques ninguna tarea con asterisco.
+Genera la lista de tareas con máximo 8 tareas. Las pruebas son obligatorias, no opcionales: no marques ninguna tarea con asterisco.
 ```
 
-Resultado esperado: `tasks.md` con 6 tareas o menos, ninguna con `*`.
+Resultado esperado: `tasks.md` con 8 tareas o menos, ninguna con `*`.
 
 **Paso 7. Guarda tu trabajo.**
 
@@ -377,8 +388,8 @@ git commit -m "Lab 2: spec de la acción en tienda"
 ### Criterio de éxito
 
 - [ ] Existen `requirements.md`, `design.md` y `tasks.md` en `.kiro/specs/<tu-spec>/`.
-- [ ] Las 7 reglas están en EARS, con límites explícitos.
-- [ ] `tasks.md` tiene 6 tareas o menos y las pruebas son obligatorias.
+- [ ] Las 7 reglas están en EARS, con límites explícitos, y hay un requisito para la vista del cliente.
+- [ ] `tasks.md` tiene 8 tareas o menos y las pruebas son obligatorias.
 
 **Si te atrasaste:** cambia a la rama `lab-03`, que trae una spec de referencia.
 
@@ -390,11 +401,11 @@ git commit -m "Lab 2: spec de la acción en tienda"
 
 ### Qué vas a hacer
 
-Pedirle a Kiro que **ejecute las tareas** de la spec: escribe el código de la acción en tienda y sus pruebas, mientras tú observas y verificas. Tú defines **qué** y con qué reglas; el agente resuelve **cómo**.
+Pedirle a Kiro que **ejecute las tareas** de la spec: escribe el código de la acción en tienda, la **vista del cliente** en la API y sus pruebas, mientras tú observas y verificas. Tú defines **qué** y con qué reglas; el agente resuelve **cómo**.
 
 ### Objetivo
 
-Que el analizador responda la acción recomendada en tienda, con pruebas que la respalden.
+Que el analizador responda la acción en tienda al personal y solo información pública al cliente (`"vista": "cliente"`, que `web/cliente.html` ya envía), con pruebas que lo respalden.
 
 ### Paso a paso
 
@@ -403,12 +414,12 @@ Que el analizador responda la acción recomendada en tienda, con pruebas que la 
 **Paso 2. Pide la ejecución en el chat.**
 
 ```text
-Ejecuta todas las tareas de tasks.md de la spec de acción en tienda, incluidas las pruebas. Al terminar, corre pytest y ruff check . y dime el resultado.
+Ejecuta todas las tareas de tasks.md de la spec de acción en tienda y vista del cliente, incluidas las pruebas. Al terminar, corre pytest y ruff check . y dime el resultado.
 ```
 
 > **No uses** el comando de la paleta *Execute all incomplete required tasks in the spec*: en la versión probada da el error `makeAllRequired` y omite las tareas opcionales.
 
-Resultado esperado: Kiro trabaja en modo orquestador y explica qué corre en paralelo. Tarda unos 10 a 15 minutos.
+Resultado esperado: Kiro trabaja en modo orquestador y explica qué corre en paralelo. Tarda unos 12 a 18 minutos.
 
 **Paso 3. Observa el avance.** En `tasks.md`, cada tarea pasa a *Task in progress* y luego a *Task completed*. En el chat, despliega **N tool calls** para ver qué archivos toca.
 
@@ -419,12 +430,12 @@ pytest
 ruff check .
 ```
 
-Resultado esperado: más pruebas que las 32 originales, ninguna en *failed*, 1 *skipped* (en la referencia: `46 passed, 1 skipped`), y `All checks passed!`
+Resultado esperado: más pruebas que las 33 originales, ninguna en *failed*, 1 *skipped* (en la referencia: `53 passed, 1 skipped`), y `All checks passed!`
 
 **Paso 5. Comprueba la política con casos.**
 
 ```text
-Sin cambiar archivos, dime qué acción recomienda el código para estos casos y en qué línea se decide cada uno: (1) mango sobremaduro con 40% de manchas, (2) banano maduro con confianza 0,65, (3) papaya verde con moho, (4) aguacate hass sobremaduro con 60% de manchas.
+Sin cambiar archivos, dime qué acción recomienda el código para estos casos y en qué línea se decide cada uno: (1) mango sobremaduro con 40% de manchas, (2) banano maduro con confianza 0,65, (3) papaya verde con moho, (4) aguacate hass sobremaduro con 60% de manchas, y (5) qué campos recibe la vista del cliente en el caso 1 y por qué no incluye la acción.
 ```
 
 | Caso | Acción esperada |
@@ -433,6 +444,7 @@ Sin cambiar archivos, dime qué acción recomienda el código para estos casos y
 | 2 | Revisar |
 | 3 | Retirar |
 | 4 | Donar, con confirmación del jefe |
+| 5 | El cliente recibe `producto`, `nombre`, `etapa`, `dias_hasta_optimo`, `nutricion` y `reconocido`; nunca `accion` ni `lectura` (sección 6 de la política) |
 
 **Paso 6. Guarda tu trabajo.**
 
@@ -445,7 +457,7 @@ git commit -m "Lab 3: acción en tienda"
 
 - [ ] Todas las tareas completas.
 - [ ] `pytest` sin *failed* y con más pruebas que al inicio.
-- [ ] Los 4 casos dan la acción correcta.
+- [ ] Los 4 casos dan la acción correcta y la vista del cliente no incluye la acción.
 
 **Si te atrasaste:** cambia a la rama `lab-04`.
 
@@ -511,10 +523,10 @@ Resultado esperado: `pytest` sin *failed* y `Acierto de etapa: 88.3% (mínimo 85
 **Paso 6. Pruebas basadas en propiedades.**
 
 ```text
-Crea tests/test_propiedades.py con pruebas basadas en propiedades usando Hypothesis para todos los productos del catálogo: (1) la etapa nunca retrocede si el índice aumenta, (2) un índice igual a cada umbral pertenece a la etapa que ese umbral inicia, (3) si está maduro o sobremaduro faltan 0 días y si no, al menos 1, (4) el doble de gramos da el doble de energía, con tolerancia de 0,2. Córrelas con pytest.
+Crea tests/test_propiedades.py con pruebas basadas en propiedades usando Hypothesis para todos los productos del catálogo: (1) la etapa nunca retrocede si el índice aumenta, (2) un índice igual a cada umbral pertenece a la etapa que ese umbral inicia, (3) si está maduro o sobremaduro faltan 0 días y si no, al menos 1, (4) el doble de gramos da el doble de energía, con tolerancia de 0,2, (5) para cualquier lectura, la vista del cliente nunca incluye accion ni lectura, y reconocido es falso si el producto es desconocido o la confianza es menor a 0,70. Córrelas con pytest.
 ```
 
-Resultado esperado: 4 pruebas nuevas que pasan. La propiedad (2) habría detectado el error desde el principio.
+Resultado esperado: 5 pruebas nuevas que pasan. La propiedad (2) habría detectado el error desde el principio, y la (5) garantiza que el cliente nunca vea información interna.
 
 **Paso 7. Guarda tu trabajo.**
 
@@ -566,7 +578,7 @@ Que el agente respete, sin que se lo pidas, el tono con el cliente, la regla de 
 2. Pega:
 
 ```text
-Redacta el mensaje que ve un cliente en la app cuando su aguacate hass está pintón, e incluye por qué es bueno comerlo.
+Redacta el mensaje que ve un cliente en la vista del cliente (web/cliente.html) cuando su aguacate hass está pintón, e incluye por qué es bueno comerlo.
 ```
 
 3. Copia la respuesta en un bloc de notas: la compararás al final.
@@ -592,7 +604,7 @@ Abre cada archivo y fíjate en su encabezado (entre las líneas `---`):
 
 - `mensajes-cliente.md` → `inclusion: auto`: tuteo y nada de "cura", "previene" ni "adelgaza".
 - `aws-infra.md` → `inclusion: fileMatch` con `infra/**/*.py`: mínimos privilegios, etiquetas y que el agente nunca despliega.
-- `diseno-web.md` → `inclusion: fileMatch` con `web/**`: la guía visual de la página (colores, tipografía, botones). Kiro la aplica cuando cambia la web.
+- `diseno-web.md` → `inclusion: fileMatch` con `web/**`: la guía visual de las dos vistas, la del personal y la del cliente (colores, tipografía, botones). Kiro la aplica cuando cambia cualquiera de las dos.
 - `troubleshooting.md` → `inclusion: manual`.
 - `app/frescura/AGENTS.md` no tiene encabezado: Kiro lo lee cuando trabaja en esa carpeta.
 
@@ -862,10 +874,10 @@ python -m json.tool .kiro/hooks/revisar-mensajes-cliente.json
 **6.7. Pruébalo.** En el chat:
 
 ```text
-En web/index.html, cambia el subtítulo por este texto: El aguacate previene enfermedades del corazón. Toma una foto de tu fruta.
+En web/cliente.html, cambia el subtítulo por este texto: El aguacate previene enfermedades del corazón. Funciona con banano, aguacate hass, tomate chonto, mango y papaya.
 ```
 
-**Resultado esperado:** el agente guarda `web/index.html`, tu hook se dispara y el agente reescribe la frase **sin "previene"**, explicando el cambio en una línea. Abre `web/index.html` y busca el subtítulo.
+**Resultado esperado:** el agente guarda `web/cliente.html`, la página que ve el cliente, tu hook se dispara y el agente reescribe la frase **sin "previene"**, explicando el cambio en una línea. Abre `web/cliente.html` y busca el subtítulo.
 
 **6.8. Ajústalo.** Agrega una palabra prohibida más:
 
@@ -874,13 +886,13 @@ En web/index.html, cambia el subtítulo por este texto: El aguacate previene enf
 3. Prueba otra vez:
 
 ```text
-En web/index.html, cambia el subtítulo por este texto: Un mango milagroso para tu día. Toma una foto de tu fruta.
+En web/cliente.html, cambia el subtítulo por este texto: Un mango milagroso para tu día. Funciona con banano, aguacate hass, tomate chonto, mango y papaya.
 ```
 
 **Resultado esperado:** el hook corrige "milagroso". Para dejar la página como estaba:
 
 ```bash
-git restore web/index.html
+git restore web/cliente.html
 ```
 
 #### Paso 7 (opcional). Crea un hook describiéndolo en lenguaje natural
@@ -954,7 +966,7 @@ Resultado esperado: **6 MB**, citando la documentación de AWS; la imagen en bas
 Dame la ficha del mango.
 ```
 
-Resultado esperado: umbrales 25, 55 y 85; 10 puntos por día; **6 días** desde verde hasta su punto; destino "jugos o pulpa"; 60 kcal, 1,6 g de fibra, 168 mg de potasio y 36,4 mg de vitamina C por 100 g; un mensaje para el cliente sin promesas de salud.
+Resultado esperado: umbrales 25, 55 y 85; 10 puntos por día; **6 días** desde verde hasta su punto; destino "jugos o pulpa"; 60 kcal, 1,6 g de fibra, 168 mg de potasio y 36,4 mg de vitamina C por 100 g; y la tabla **Para la vista del cliente**: lo que ve el comprador en cada etapa, sin la acción en tienda y sin promesas de salud.
 
 **Paso 6. Estima el costo del piloto.**
 
@@ -1057,14 +1069,14 @@ kiro-cli chat --agent implementador
 Cuando aparezca el cuadro para escribir, pega:
 
 ```text
-Agrega a la respuesta del análisis el campo mensaje_cliente, para el cliente final, siguiendo .kiro/steering/mensajes-cliente.md. Verde o pintón con 2 o más días: "Tu <producto> estará en su punto el <día de la semana>. Mientras tanto, déjalo a temperatura ambiente." Con 1 día: "Tu <producto> estará en su punto mañana. Mientras tanto, déjalo a temperatura ambiente." Maduro: "Tu <producto> está en su punto. Disfrútalo hoy o mañana." Sobremaduro: "Tu <producto> ya pasó su mejor punto. Aprovéchalo hoy en jugos, batidos o preparaciones." Producto desconocido: null. El producto va en minúscula. El día se calcula con la fecha de Colombia (UTC-5) más dias_hasta_optimo, y esa fecha debe poder fijarse en las pruebas. Muestra el mensaje en web/index.html. Empieza por las pruebas.
+Agrega a la respuesta del análisis el campo mensaje_cliente, para el cliente final, siguiendo .kiro/steering/mensajes-cliente.md. Verde o pintón con 2 o más días: "Tu <producto> estará en su punto el <día de la semana>. Mientras tanto, déjalo a temperatura ambiente." Con 1 día: "Tu <producto> estará en su punto mañana. Mientras tanto, déjalo a temperatura ambiente." Maduro: "Tu <producto> está en su punto. Disfrútalo hoy o mañana." Sobremaduro: "Tu <producto> ya pasó su mejor punto. Aprovéchalo hoy en jugos, batidos o preparaciones." Producto desconocido: null. El producto va en minúscula. El día se calcula con la fecha de Colombia (UTC-5) más dias_hasta_optimo, y esa fecha debe poder fijarse en las pruebas. Inclúyelo en la vista del cliente (app/frescura/vista_cliente.py) y muéstralo en web/cliente.html en un recuadro destacado. Empieza por las pruebas.
 ```
 
 **Resultado esperado:** en unos 5 a 8 minutos, el agente:
 
 1. Escribe primero las pruebas (por ejemplo `tests/test_mensajes.py`) y comprueba que fallan.
 2. Implementa el mensaje (por ejemplo en `app/frescura/mensajes.py`) y lo agrega a la respuesta en `app/frescura/analizador.py`.
-3. Lo muestra en `web/index.html`.
+3. Lo agrega a la vista del cliente y lo muestra en `web/cliente.html`.
 4. Corre `pytest`, `ruff check .` y la evaluación, y entrega la tabla de archivos que cambió.
 
 > **La memoria también está en la CLI.** Kiro IDE y Kiro CLI comparten las memorias del mismo computador. Al terminar, escribe `/memories` en la sesión: verás la regla de los umbrales que le enseñaste en el Lab 5. Si `/memories` pide configurar el acceso, elige **read & write** (aplica desde la siguiente sesión). Si el comando no existe, tu Kiro CLI es anterior a la 2.29.0: este paso es opcional, sigue.
@@ -1092,7 +1104,7 @@ pytest
 ruff check .
 ```
 
-**Resultado esperado:** ninguna prueba en *failed* (en la referencia, `61 passed`) y `All checks passed!` Abre `web/index.html` y busca `mensaje_cliente`.
+**Resultado esperado:** ninguna prueba en *failed* (en la referencia, `70 passed`) y `All checks passed!` Abre `web/cliente.html` y busca `mensaje_cliente`.
 
 #### Paso 6. Pide la revisión de seguridad
 
@@ -1135,7 +1147,7 @@ cdk deploy -c participante=<tus-iniciales>
 1. CDK muestra los permisos que va a crear y pregunta `Do you wish to deploy these changes (y/n)?`. Escribe `y` y presiona **Enter**.
 2. Espera unos 5 minutos.
 
-**Resultado esperado:** en **Outputs** aparecen `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Cópialos a un archivo de notas.
+**Resultado esperado:** en **Outputs** aparecen `UrlApi`, `UrlWeb` (vista del personal), `UrlCliente` (vista del cliente), `TablaAnalisis` y `GrupoRegistros`. Cópialos a un archivo de notas.
 
 #### Paso 10. Comprueba que la API responde
 
@@ -1153,7 +1165,11 @@ curl <UrlApi>/salud
 2. En **Tienda**, escribe `T-<tus-iniciales>`.
 3. En **¿No tienes fruta a mano?**, toca una de las fotos de muestra.
 
-**Resultado esperado:** aparecen el producto, la etapa, los días hasta su punto, la confianza, la **acción en tienda**, la nutrición, **Para el cliente:** con el mensaje que construyó el implementador y, al final, la **etapa esperada** de esa foto. Prueba con varias muestras y compara la etapa que dio el analizador con la esperada: cuando no coinciden, es justo lo que mediría la evaluación del Lab 4 con fotos reales.
+**Resultado esperado:** aparecen el producto, la etapa, los días hasta su punto, la confianza, la **acción en tienda**, la nutrición y, al final, la **etapa esperada** de esa foto.
+
+4. Ahora abre `UrlCliente`, la vista del cliente, y toca **la misma** foto de muestra.
+
+**Resultado esperado:** el cliente ve el nombre del producto, una frase como "Está pintón", el **mensaje que construyó el implementador** en un recuadro amarillo ("Tu aguacate hass estará en su punto el jueves…") y la nutrición. **No ve** la acción en tienda ni la confianza. Prueba con varias muestras y compara la etapa que dio el analizador con la esperada: cuando no coinciden, es justo lo que mediría la evaluación del Lab 4 con fotos reales.
 
 > Las fotos de muestra vienen de la colección abierta Fruits-360 (licencia CC BY-SA 4.0; créditos en `web/muestras/CREDITOS.md`). Si tienes una fruta a mano, también puedes tocar **Tomar o elegir foto** y fotografiarla.
 
@@ -1178,7 +1194,7 @@ cd ..
 - [ ] Existe `.kiro/agents/implementador.json` con permisos `allow` y `deny`.
 - [ ] El implementador construyó `mensaje_cliente` con pruebas, y no pudo tocar `infra/` ni desplegar.
 - [ ] El revisor entregó su tabla y veredicto sin modificar archivos.
-- [ ] `cdk deploy` terminó y, al analizar una foto de muestra, aparece el mensaje para el cliente.
+- [ ] `cdk deploy` terminó, la vista del personal muestra la acción en tienda y la del cliente muestra su mensaje sin información interna.
 
 **Si te atrasaste:** cambia a la rama `lab-09`, que trae los dos agentes y el mensaje para el cliente, y despliega desde ahí.
 
@@ -1212,7 +1228,7 @@ En este laboratorio usas un Power **que ya viene creado**: `operacion-frescura`,
 
 | Skill | Qué hace |
 | --- | --- |
-| `resumen-uso` | Lee el historial de DynamoDB (solo lectura) y resume el uso por tienda, producto y etapa |
+| `resumen-uso` | Lee el historial de DynamoDB (solo lectura) y resume el uso por canal (personal y clientes), tienda, producto y etapa |
 | `diagnosticar-instancia` | Revisa que la API responda, que la validación de imágenes funcione y si hubo fallos en los registros |
 
 ### Objetivo
@@ -1288,9 +1304,9 @@ En la misma conversación:
 ¿Cómo va el uso del analizador por tienda? Guarda el resumen en docs/uso-piloto.md.
 ```
 
-**Resultado esperado:** Kiro usa la skill `resumen-uso`, ejecuta `resumen_uso.py` y crea `docs/uso-piloto.md` con el total de análisis, una tabla por tienda y el porcentaje que va a **revisión humana** (confianza menor a 0,70, según la política POL-FRV-001).
+**Resultado esperado:** Kiro usa la skill `resumen-uso`, ejecuta `resumen_uso.py` y crea `docs/uso-piloto.md` con el total de análisis, cuántos vienen del personal y cuántos de clientes, una tabla por tienda y el porcentaje del personal que va a **revisión humana** (confianza menor a 0,70, según la política POL-FRV-001).
 
-> **¿No desplegaste o tu historial está vacío?** Escribe: "Usa los datos de ejemplo del Power". Kiro corre el mismo script con `historial-ejemplo.json`, y el resumen avisa que **no son datos reales**. Con esos datos, el 38% va a revisión humana, y Kiro debe recomendarlo como el primer punto a mejorar del piloto.
+> **¿No desplegaste o tu historial está vacío?** Escribe: "Usa los datos de ejemplo del Power". Kiro corre el mismo script con `historial-ejemplo.json`, y el resumen avisa que **no son datos reales**. Con esos datos hay 40 análisis del personal y 12 de clientes, y el 38% de los del personal va a revisión humana, y Kiro debe recomendarlo como el primer punto a mejorar del piloto.
 
 #### Paso 5. Comprueba que se activa solo cuando hace falta
 
@@ -1343,7 +1359,7 @@ En este laboratorio trabajas con dos workflows:
 
 | Workflow | Quién lo hace | Qué hace |
 | --- | --- | --- |
-| `investigar-piloto` | **Ya viene creado** | 1 paso: investiga, sin modificar el proyecto, los riesgos de llevar el analizador a más tiendas y escribe un informe |
+| `investigar-piloto` | **Ya viene creado** | 1 paso: investiga, sin modificar el proyecto, los riesgos de llevar el analizador a más tiendas y de abrir la vista del cliente al público, y escribe un informe |
 | `preparar-piloto` | **Lo creas tú** | 2 pasos encadenados: el agente `revisor-seguridad` del Lab 8 revisa la solución y otro agente usa esa revisión para completar la hoja de ruta del piloto |
 
 Mientras los workflows corren, revisas la integración continua del proyecto y, al final, borras tu instancia de AWS.
@@ -1381,7 +1397,7 @@ Abre `.kiro/workflows/investigar-piloto.workflow.json`:
       "type": "step",
       "id": "investigar",
       "agent": "wf-planner",
-      "prompt": "Investigación de solo lectura: ... a {{tiendas}} tiendas. ... Escribe el informe en .kiro/reports/piloto.md ...",
+      "prompt": "Investigación de solo lectura: ... a {{tiendas}} tiendas y abrir la vista del cliente al público. ... Escribe el informe en .kiro/reports/piloto.md ...",
       "artifacts": {
         "informe": ".kiro/reports/piloto.md"
       }
@@ -1438,7 +1454,7 @@ cd ..
 
 Cuando el workflow `investigar-piloto` termine, abre `.kiro/reports/piloto.md`.
 
-**Resultado esperado:** riesgos separados en técnicos, operativos y de costo, cada uno con su archivo de referencia y una mitigación. Por ejemplo: la API no tiene autenticación, las fotos de evaluación son de ejemplo y no de tiendas reales, y el límite de llamadas a Bedrock con 50 tiendas.
+**Resultado esperado:** riesgos separados en técnicos, operativos, de costo y de la vista del cliente, cada uno con su archivo de referencia y una mitigación. Por ejemplo: la API no tiene autenticación, las fotos de evaluación son de ejemplo y no de tiendas reales, el límite de llamadas a Bedrock con 50 tiendas y que la vista del cliente es pública, así que cualquiera podría usarla y generar costo.
 
 #### Paso 6. Crea tu propio workflow: "preparar-piloto"
 
