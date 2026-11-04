@@ -15,10 +15,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12
       - name: Instalar dependencias
         run: |
           pip install -r requirements-dev.txt
-          npm install -g aws-cdk
+          pnpm dlx aws-cdk@2 --version
       - name: Lint
         run: ruff check .
       - name: Pruebas
@@ -27,7 +30,7 @@ jobs:
         run: python eval/evaluar.py --minimo 85
       - name: Sintetizar la infraestructura
         working-directory: infra
-        run: cdk synth -c participante=ci -q
+        run: pnpm dlx aws-cdk@2 synth -c participante=ci -q
 
   revision-seguridad:
     needs: calidad
