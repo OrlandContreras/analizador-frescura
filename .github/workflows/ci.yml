@@ -1,0 +1,52 @@
+# Lab 9: integración continua del analizador de frescura.
+# En cada pull request: pruebas, lint, evaluación de acierto, síntesis de la infraestructura
+# y revisión de seguridad con el agente revisor-seguridad de Kiro en modo headless.
+name: CI analizador de frescura
+on: [pull_request]
+
+jobs:
+  calidad:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements-dev.txt
+          npm install -g aws-cdk
+      - name: Lint
+        run: ruff check .
+      - name: Pruebas
+        run: pytest
+      - name: Evaluación de acierto (mínimo 85%)
+        run: python eval/evaluar.py --minimo 85
+      - name: Sintetizar la infraestructura
+        working-directory: infra
+        run: cdk synth -c participante=ci -q
+
+  revision-seguridad:
+    needs: calidad
+    runs-on: ubuntu-latest
+    # Requiere el secreto KIRO_API_KEY en el repositorio. Sin él, el paso se omite con un aviso.
+    env:
+      KIRO_API_KEY: ${{ secrets.KIRO_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Revisión de seguridad
+        run: |
+          if [ -z "$KIRO_API_KEY" ]; then
+            echo "::notice::No hay secreto KIRO_API_KEY: se omite la revisión con Kiro."
+            exit 0
+          fi
+          curl -fsSL https://cli.kiro.dev/install | bash
+          export PATH="$HOME/.local/bin:$PATH"
+          kiro-cli chat --v3 --no-interactive --agent revisor-seguridad \
+            --trust-tools=read_file,grep_search \
+            "Revisa los cambios de este pull request contra main y entrega tu tabla de hallazgos y el veredicto"
