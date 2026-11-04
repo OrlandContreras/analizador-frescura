@@ -106,7 +106,7 @@ cd infra
 cdk deploy -c participante=prueba
 ```
 
-Resultado esperado: `61 passed`, tu identidad de AWS y, al final del despliegue, las salidas `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Abre `UrlWeb` en tu celular y analiza una fruta. Después borra todo con `cdk destroy -c participante=prueba`.
+Resultado esperado: `61 passed`, tu identidad de AWS y, al final del despliegue, las salidas `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Abre `UrlWeb` en tu celular y analiza una de las fotos de muestra. Después borra todo con `cdk destroy -c participante=prueba`.
 
 ---
 
@@ -291,7 +291,7 @@ git status --short
 
 Resultado esperado: el comentario desapareció y `git status --short` no muestra nada.
 
-**Paso 7. Mira el analizador funcionando.** El facilitador muestra su instancia desplegada analizando una fruta real. En el Lab 8 harás lo mismo con la tuya.
+**Paso 7. Mira el analizador funcionando.** El facilitador muestra su instancia desplegada analizando una de las fotos de muestra de la página. En el Lab 8 harás lo mismo con la tuya.
 
 ### Criterio de éxito
 
@@ -1002,7 +1002,7 @@ Un **agente especializado** es un agente con un rol, instrucciones propias y **p
 | `implementador` | Construye cambios | Escribir en `app/`, `tests/` y `web/`; correr pruebas, lint y evaluación | Tocar `infra/`, `.kiro/` ni `.env`; desplegar; hacer `git push` |
 | `revisor-seguridad` | Revisa antes de desplegar | Leer y correr verificaciones | Editar archivos; desplegar |
 
-Vas a **crear el implementador**, usarlo para construir una mejora para el segundo usuario del producto, el **cliente en la app**: un mensaje como "Tu aguacate hass estará en su punto el jueves". Luego el revisor revisa el cambio y **tú despliegas** tu instancia y la pruebas con una fruta real desde el celular.
+Vas a **crear el implementador**, usarlo para construir una mejora para el segundo usuario del producto, el **cliente en la app**: un mensaje como "Tu aguacate hass estará en su punto el jueves". Luego el revisor revisa el cambio y **tú despliegas** tu instancia y la pruebas con fotos desde el celular.
 
 ### Objetivo
 
@@ -1147,13 +1147,15 @@ curl <UrlApi>/salud
 
 **Resultado esperado:** `{"estado": "ok"}`.
 
-#### Paso 11. Analiza una fruta real
+#### Paso 11. Analiza fotos con tu instancia
 
-1. Abre `UrlWeb` en el navegador de **tu celular**. La URL es pública: puedes escribirla, enviártela por chat o generar un código QR.
+1. Abre `UrlWeb` en el navegador de **tu celular** o en el navegador de la máquina. La URL es pública: puedes escribirla, enviártela por chat o generar un código QR.
 2. En **Tienda**, escribe `T-<tus-iniciales>`.
-3. Toca **Tomar o elegir foto** y fotografía de cerca una fruta de la mesa, con buena luz y una sola fruta en la foto.
+3. En **¿No tienes fruta a mano?**, toca una de las fotos de muestra.
 
-**Resultado esperado:** aparecen el producto, la etapa, los días hasta su punto, la confianza, la **acción en tienda**, la nutrición y, al final, **Para el cliente:** con el mensaje que construyó el implementador. Prueba con frutas en distintas etapas.
+**Resultado esperado:** aparecen el producto, la etapa, los días hasta su punto, la confianza, la **acción en tienda**, la nutrición, **Para el cliente:** con el mensaje que construyó el implementador y, al final, la **etapa esperada** de esa foto. Prueba con varias muestras y compara la etapa que dio el analizador con la esperada: cuando no coinciden, es justo lo que mediría la evaluación del Lab 4 con fotos reales.
+
+> Las fotos de muestra vienen de la colección abierta Fruits-360 (licencia CC BY-SA 4.0; créditos en `web/muestras/CREDITOS.md`). Si tienes una fruta a mano, también puedes tocar **Tomar o elegir foto** y fotografiarla.
 
 #### Paso 12. Comprueba el historial
 
@@ -1176,7 +1178,7 @@ cd ..
 - [ ] Existe `.kiro/agents/implementador.json` con permisos `allow` y `deny`.
 - [ ] El implementador construyó `mensaje_cliente` con pruebas, y no pudo tocar `infra/` ni desplegar.
 - [ ] El revisor entregó su tabla y veredicto sin modificar archivos.
-- [ ] `cdk deploy` terminó y en el celular aparece el mensaje para el cliente.
+- [ ] `cdk deploy` terminó y, al analizar una foto de muestra, aparece el mensaje para el cliente.
 
 **Si te atrasaste:** cambia a la rama `lab-09`, que trae los dos agentes y el mensaje para el cliente, y despliega desde ahí.
 
