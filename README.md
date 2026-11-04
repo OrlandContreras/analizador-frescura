@@ -57,7 +57,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-Resultado esperado: `32 passed, 1 skipped`. La prueba omitida es intencional: se activa en el Lab 4.
+Resultado esperado en `main`: `32 passed, 1 skipped`. La prueba omitida es intencional: se activa en el Lab 4.
 
 ## Medir el acierto
 
@@ -98,10 +98,26 @@ cdk destroy -c participante=oc
 
 Los errores responden `{"error": {"code", "message"}}`. La foto debe ser JPEG o PNG de hasta 4 MB; la web la reduce a 1024 px antes de enviarla.
 
-## Ramas
+## Laboratorios y ramas
 
-| Rama | Para qué |
+Las guías del taller están en [`laboratorios/`](laboratorios/README.md), una carpeta por laboratorio con su `README.md`.
+
+Cada rama tiene el proyecto **al inicio** de un laboratorio. Si te atrasas, cambia a la rama del laboratorio siguiente:
+
+```bash
+git stash --include-untracked
+git switch lab-05
+pip install -r requirements-dev.txt
+```
+
+| Rama | Estado del proyecto |
 | --- | --- |
-| `main` | Punto de partida |
-| `lab3-solucion` | Rescate del Lab 3: acción en tienda y revisión humana ya implementadas |
-| `lab4-inicio` | Lab 4: la prueba del umbral está activa y falla hasta corregir el error |
+| `main`, `lab-01` y `lab-02` | Proyecto base |
+| `lab-03` | + spec de la acción en tienda (Lab 2) |
+| `lab-04` | + acción en tienda implementada (Lab 3) y la prueba del error activa |
+| `lab-05` | + error corregido y pruebas de propiedades (Lab 4) |
+| `lab-06` | + steering (Lab 5) |
+| `lab-07` | + hooks (Lab 6) |
+| `lab-08` | + MCP de AWS y skills (Lab 7) |
+| `lab-09` | + agente revisor de seguridad (Lab 8) |
+| `final` | + workflow, integración continua y hoja de ruta (Lab 9) |

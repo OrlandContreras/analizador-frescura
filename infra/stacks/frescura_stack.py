@@ -39,22 +39,24 @@ class FrescuraStack(Stack):
             removal_policy=RemovalPolicy.DESTROY,
         )
 
+        registros = logs.LogGroup(
+            self,
+            "Registros",
+            retention=logs.RetentionDays.ONE_WEEK,
+            removal_policy=RemovalPolicy.DESTROY,
+        )
+
         funcion = lambda_.Function(
             self,
             "Analizador",
             runtime=lambda_.Runtime.PYTHON_3_12,
             architecture=lambda_.Architecture.ARM_64,
             handler="frescura.handler.lambda_handler",
-            code=lambda_.Code.from_asset(str(RAIZ / "app"), exclude=["**/__pycache__"]),
+            code=lambda_.Code.from_asset(str(RAIZ / "app"), exclude=["**/__pycache__", "**/AGENTS.md"]),
             timeout=Duration.seconds(30),
             memory_size=512,
             environment={"TABLA_ANALISIS": tabla.table_name, "MODELO_VISION": modelo_vision},
-            log_group=logs.LogGroup(
-                self,
-                "Registros",
-                retention=logs.RetentionDays.ONE_WEEK,
-                removal_policy=RemovalPolicy.DESTROY,
-            ),
+            log_group=registros,
         )
         tabla.grant(funcion, "dynamodb:PutItem")
 
@@ -122,3 +124,4 @@ class FrescuraStack(Stack):
         CfnOutput(self, "UrlApi", value=api.api_endpoint)
         CfnOutput(self, "UrlWeb", value=f"https://{distribucion.distribution_domain_name}")
         CfnOutput(self, "TablaAnalisis", value=tabla.table_name)
+        CfnOutput(self, "GrupoRegistros", value=registros.log_group_name)

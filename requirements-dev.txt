@@ -1,4 +1,5 @@
 -r infra/requirements.txt
 boto3>=1.35
+hypothesis>=6.100
 pytest>=8
 ruff>=0.6
