@@ -14,6 +14,10 @@ Tener tu analizador funcionando en AWS, revisado antes de desplegarse, y analiza
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 - **Sigues con tu trabajo:** quédate en tu rama.
 - **Te atrasaste:**
 
@@ -30,14 +34,18 @@ aws sts get-caller-identity
 kiro-cli whoami
 ```
 
-Los dos deben mostrar tu cuenta. Si no, repite los pasos 8 y 9 del [Lab 0](../00-preparacion/README.md). Revisa también que la región sea `us-east-1` (`export AWS_REGION=us-east-1` en macOS o Linux; `$env:AWS_REGION="us-east-1"` en Windows).
+Los dos deben mostrar tu cuenta. Si no, repite los pasos 8 y 9 del [Lab 0](../00-preparacion/README.md). Fija la región del taller (igual en los dos sistemas):
+
+```bash
+aws configure set region us-east-1
+```
 
 ## Paso a paso
 
 ### Paso 1. Trae el agente revisor
 
 ```bash
-git restore --source lab-09 -- .kiro/agents/revisor-seguridad.json
+git restore --source lab-09 .kiro/agents/revisor-seguridad.json
 ```
 
 > Si clonaste el proyecto de GitHub y no encuentra `lab-09`, usa `origin/lab-09`.
@@ -149,6 +157,8 @@ cd ..
 | Síntoma | Qué hacer |
 | --- | --- |
 | `cdk deploy` dice "Falta tu identificador" | Agrega `-c participante=<tus-iniciales>` (de 2 a 10 letras o números, empezando con letra) |
+| `cdk deploy` dice `python: command not found` o "python no se reconoce" | El entorno de Python no está activo en esa terminal. Actívalo (ver **Antes de empezar**) y repite el comando dentro de `infra` |
+| PowerShell dice "The '<' operator is reserved for future use" | Escribiste los signos `<` y `>`. Usa solo tus iniciales: `cdk deploy -c participante=oc` |
 | `cdk deploy` dice que la cuenta no tiene bootstrap | Corre `cdk bootstrap` dentro de `infra` |
 | La web dice "No se pudo analizar la imagen" (error 502) | Mira los registros: `aws logs tail <GrupoRegistros> --since 10m`. Si dice `AccessDeniedException`, el modelo de Bedrock no está habilitado en tu cuenta: avisa al equipo de AWS |
 | La web dice "Too Many Requests" | Superaste el límite de uso del taller (5 por segundo). Espera unos segundos |
