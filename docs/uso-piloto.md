@@ -2,11 +2,18 @@
 
 Origen: datos de ejemplo (historial-ejemplo.json), no son datos reales
 
-- Análisis: **40** en **4** tiendas
+- Análisis: **52** (40 del personal en **4** tiendas y 12 de clientes)
 - Periodo: 2026-11-04T13:00 a 2026-11-04T17:33 (UTC)
-- Confianza menor a 0.70 (revisión humana): **15** (38%)
+- Análisis del personal con confianza menor a 0.70 (revisión humana): **15** (38%)
 
-## Por tienda
+## Por canal
+
+| Canal | Análisis |
+| --- | --- |
+| Personal de tienda | 40 |
+| Cliente | 12 |
+
+## Por tienda (personal)
 
 | Tienda | Análisis | Producto más analizado | Confianza promedio | A revisión humana |
 | --- | --- | --- | --- | --- |
@@ -19,17 +26,17 @@ Origen: datos de ejemplo (historial-ejemplo.json), no son datos reales
 
 | Producto | Análisis |
 | --- | --- |
-| tomate_chonto | 11 |
-| papaya | 9 |
-| banano | 8 |
-| aguacate_hass | 6 |
-| mango | 6 |
+| tomate_chonto | 13 |
+| papaya | 12 |
+| banano | 11 |
+| mango | 9 |
+| aguacate_hass | 7 |
 
 ## Por etapa
 
 | Etapa | Análisis |
 | --- | --- |
-| sobremaduro | 12 |
-| maduro | 11 |
-| verde | 10 |
-| pinton | 7 |
+| verde | 15 |
+| sobremaduro | 14 |
+| maduro | 12 |
+| pinton | 11 |
