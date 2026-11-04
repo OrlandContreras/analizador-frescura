@@ -136,5 +136,5 @@ pip install -r requirements-dev.txt
 | `lab-06` | + steering (Lab 5) |
 | `lab-07` | + hooks (Lab 6) |
 | `lab-08` | + MCP de AWS y skills (Lab 7) |
-| `lab-09` | + agentes implementador y revisor de seguridad, y mensaje para el cliente (Lab 8) |
-| `final` | + workflow, integración continua y hoja de ruta (Lab 9) |
+| `lab-09` | + agentes implementador y revisor de seguridad, mensaje para el cliente (Lab 8), workflow `investigar-piloto` y plantilla de la hoja de ruta |
+| `final` | + workflow `preparar-piloto`, integración continua (Lab 9) |
