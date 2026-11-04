@@ -34,7 +34,7 @@
 
 ## Etapa 3 — Clientes en la app
 
-- "¿Cuándo estará listo mi aguacate?" e información nutricional por porción en la app de Éxito y Carulla.
+- "¿Cuándo estará listo mi aguacate?" e información nutricional por porción en la app de la cadena.
 - Revisión legal de los mensajes nutricionales según la normativa colombiana de etiquetado.
 
 ## Próximo paso concreto

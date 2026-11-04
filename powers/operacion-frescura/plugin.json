@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Operación del Analizador de frescura en AWS: resume el uso por tienda a partir del historial en DynamoDB y diagnostica la salud de una instancia desplegada (API, validaciones y registros).",
   "author": {
-    "name": "SoftwareOne - Workshop Kiro Grupo Éxito"
+    "name": "SoftwareOne - Workshop de Kiro"
   },
   "keywords": [
     "historial",
