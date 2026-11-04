@@ -47,9 +47,9 @@ git restore --source lab-08 .kiro/settings/mcp.json .kiro/settings/mcp.windows.j
 Abre `.kiro/settings/mcp.json`. Tiene dos servidores:
 
 - `aws-docs`: documentación oficial de AWS. No necesita credenciales.
-- `aws-pricing`: precios de AWS. Usa tu perfil de AWS (`AWS_PROFILE`).
+- `aws-pricing`: precios de AWS. Usa las mismas credenciales de AWS que tu terminal, las que muestra `aws sts get-caller-identity`.
 
-Si tu perfil de AWS no se llama `default`, cambia `"AWS_PROFILE": "default"` por el nombre de tu perfil y guarda.
+Si en tu computador usas un perfil de AWS con nombre (por ejemplo `taller`), agrega `"AWS_PROFILE": "taller"` dentro de `env` del servidor `aws-pricing` y guarda. En el entorno de AWS del taller no hace falta.
 
 **Solo en Windows:** reemplaza la configuración por la versión para Windows, que ejecuta los servidores con `uv tool run` como indica la documentación de AWS:
 
