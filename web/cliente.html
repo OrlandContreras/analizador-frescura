@@ -67,7 +67,11 @@ function mostrarCliente(datos) {
   } else {
     titulo.textContent = datos.nombre;
     caja.append(titulo, parrafo("titular", FRASE_ETAPA[datos.etapa] || datos.etapa));
-    caja.append(parrafo("cuando", cuandoEstaraListo(datos.etapa, datos.dias_hasta_optimo)));
+    if (datos.mensaje_cliente) {
+      caja.append(parrafo("destacado", datos.mensaje_cliente));
+    } else {
+      caja.append(parrafo("cuando", cuandoEstaraListo(datos.etapa, datos.dias_hasta_optimo)));
+    }
     if (datos.nutricion) {
       const n = datos.nutricion;
       caja.append(parrafo("nutri", "Por porción de " + n.gramos + " g: " + n.energia_kcal + " kcal, fibra " + n.fibra_g +
