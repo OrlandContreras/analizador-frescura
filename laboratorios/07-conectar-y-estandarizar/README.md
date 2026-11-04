@@ -79,7 +79,7 @@ Abre `.kiro/skills/ficha-producto/SKILL.md` y lee qué fuentes debe usar. Luego,
 Dame la ficha del mango.
 ```
 
-**Resultado esperado:** Kiro activa la skill `ficha-producto` y arma la ficha con los datos del proyecto: umbrales 25, 55 y 85; 10 puntos por día; **6 días** desde verde hasta su punto; destino "jugos o pulpa"; 60 kcal, 1,6 g de fibra, 168 mg de potasio y 36,4 mg de vitamina C por 100 g; y un mensaje para el cliente sin promesas de salud.
+**Resultado esperado:** Kiro activa la skill `ficha-producto` y arma la ficha con los datos del proyecto: umbrales 25, 55 y 85; 10 puntos por día; **6 días** desde verde hasta su punto; destino "jugos o pulpa"; 60 kcal, 1,6 g de fibra, 168 mg de potasio y 36,4 mg de vitamina C por 100 g; y la tabla **Para la vista del cliente**: lo que ve el comprador en cada etapa, sin la acción en tienda y sin promesas de salud.
 
 ### Paso 6. Estima el costo del piloto
 
