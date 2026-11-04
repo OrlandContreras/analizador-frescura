@@ -90,10 +90,10 @@ El cambio real es de un solo carácter: `>` por `>=` en `app/frescura/reglas.py`
 En el chat:
 
 ```text
-Crea tests/test_propiedades.py con pruebas basadas en propiedades usando Hypothesis para todos los productos del catálogo: (1) la etapa nunca retrocede si el índice aumenta, (2) un índice igual a cada umbral pertenece a la etapa que ese umbral inicia, (3) si está maduro o sobremaduro faltan 0 días y si no, al menos 1, (4) el doble de gramos da el doble de energía, con tolerancia de 0,2. Córrelas con pytest.
+Crea tests/test_propiedades.py con pruebas basadas en propiedades usando Hypothesis para todos los productos del catálogo: (1) la etapa nunca retrocede si el índice aumenta, (2) un índice igual a cada umbral pertenece a la etapa que ese umbral inicia, (3) si está maduro o sobremaduro faltan 0 días y si no, al menos 1, (4) el doble de gramos da el doble de energía, con tolerancia de 0,2, (5) para cualquier lectura, la vista del cliente nunca incluye accion ni lectura, y reconocido es falso si el producto es desconocido o la confianza es menor a 0,70. Córrelas con pytest.
 ```
 
-**Resultado esperado:** 4 pruebas nuevas que pasan. La propiedad (2) es la que habría detectado el error desde el principio.
+**Resultado esperado:** 5 pruebas nuevas que pasan. La propiedad (2) es la que habría detectado el error desde el principio, y la (5) protege al cliente: ningún cambio futuro podrá mostrarle información interna sin que falle una prueba.
 
 ### Paso 6. Guarda tu trabajo
 
