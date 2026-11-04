@@ -2,6 +2,8 @@
 
 En este taller construyes y despliegas en AWS la primera versión del **Analizador de frescura de frutas y verduras**, trabajando con Kiro, el entorno de desarrollo con agentes de IA de AWS. Todos los participantes hacen todos los laboratorios, en orden.
 
+> **¿Trabajas en el entorno que entrega AWS** (Kiro IDE en el navegador o en una máquina virtual)? Sigue [GUIA-ENTORNO-AWS.md](../GUIA-ENTORNO-AWS.md) en lugar de estas guías.
+
 > **Antes del taller:** completa el [Lab 0 · Preparación del equipo](00-preparacion/README.md). Ahí están los prerrequisitos (Kiro IDE y CLI, Python, Node.js, pnpm, AWS CDK, AWS CLI, Git y uv), cómo instalarlos y cómo resolver los errores más comunes, incluidos los de pnpm.
 
 ## Laboratorios
