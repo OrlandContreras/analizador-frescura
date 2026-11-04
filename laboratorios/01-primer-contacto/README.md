@@ -22,9 +22,13 @@ Al terminar sabrás abrir el chat de Kiro, pedirle trabajo, ubicar las secciones
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 1. Terminaste el [Lab 0](../00-preparacion/README.md).
 2. Kiro tiene abierta la carpeta `analizador-frescura`.
-3. En la terminal de Kiro, con el entorno activo (`(.venv)` al inicio de la línea):
+3. En la terminal de Kiro, con el entorno activo:
 
 ```bash
 git switch lab-01
