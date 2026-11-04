@@ -17,7 +17,7 @@ def etapa_madurez(indice: float, umbrales: dict) -> str:
     Cada umbral marca el inicio de su etapa: un índice igual al umbral ya pertenece
     a esa etapa.
     """
-    if indice > umbrales["sobremaduro"]:
+    if indice >= umbrales["sobremaduro"]:
         return "sobremaduro"
     if indice >= umbrales["maduro"]:
         return "maduro"
