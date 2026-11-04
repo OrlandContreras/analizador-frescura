@@ -15,7 +15,7 @@
       "type": "step",
       "id": "hoja-de-ruta",
       "agent": "wf-coder",
-      "prompt": "Completa la sección \"Dónde estamos\" de negocio/hoja-de-ruta-piloto.md. Usa la URL de la instancia {{url_instancia}}, el acierto de eval/reporte.md y el costo de docs/costo-piloto.md si existen, los riesgos de .kiro/reports/piloto.md y este resultado de la revisión de seguridad: {{previous.output}} No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha. No modifiques ningún otro archivo.",
+      "prompt": "Completa la sección \"Dónde estamos\" de negocio/hoja-de-ruta-piloto.md. Usa la URL de la instancia {{url_instancia}}, el acierto de eval/reporte.md, el costo de docs/costo-piloto.md y el uso de docs/uso-piloto.md si existen, los riesgos de .kiro/reports/piloto.md y este resultado de la revisión de seguridad: {{previous.output}} No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha. No modifiques ningún otro archivo.",
       "artifacts": {
         "hoja_de_ruta": "negocio/hoja-de-ruta-piloto.md"
       }
