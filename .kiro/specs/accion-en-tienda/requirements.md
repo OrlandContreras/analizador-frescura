@@ -2,7 +2,7 @@
 
 ## Introduction
 
-El analizador de frescura ya identifica el producto, su etapa de madurez y su nutrición. Esta funcionalidad agrega la **acción recomendada en tienda** para el personal de frutas y verduras, según la política POL-FRV-001 (`negocio/politica-acciones-tienda.md`), incluida la **revisión humana** cuando el análisis no es concluyente.
+El analizador de frescura ya identifica el producto, su etapa de madurez y su nutrición. Esta funcionalidad agrega la **acción recomendada en tienda** para el personal de frutas y verduras, según la política POL-FRV-001 (`negocio/politica-acciones-tienda.md`), incluida la **revisión humana** cuando el análisis no es concluyente. También agrega la **vista del cliente**: la misma respuesta, sin la información interna de la tienda (sección 6 de la política).
 
 ## Glossary
 
@@ -10,6 +10,8 @@ El analizador de frescura ya identifica el producto, su etapa de madurez y su nu
 - **Lectura**: lo que devuelve el modelo de visión: producto, índice de madurez, manchas, defectos y confianza.
 - **Acción**: una de Mantener, Priorizar, Rebajar, Transformar, Donar, Retirar o Revisar.
 - **Confianza**: valor de 0 a 1 que indica qué tan seguro está el modelo de su lectura.
+- **Vista del cliente**: la respuesta para el cliente comprador (`web/cliente.html`), que solo tiene información pública del producto.
+- **Canal**: quién hizo el análisis: `tienda` (personal) o `cliente`.
 
 ## Requirements
 
@@ -62,3 +64,16 @@ El analizador de frescura ya identifica el producto, su etapa de madurez y su nu
 
 1. WHEN se analiza una foto, THE Analizador SHALL responder un campo `accion` con `tipo`, `mensaje` y `requiere_confirmacion`.
 2. THE Analizador SHALL mantener sin cambios los demás campos de la respuesta actual.
+
+### Requirement 6: Vista del cliente
+
+**User Story:** Como cliente que compró fruta, quiero saber cuándo estará en su punto, sin ver información interna de la tienda.
+
+#### Acceptance Criteria
+
+1. WHEN la solicitud indica `vista` igual a `cliente`, THE Analizador SHALL responder solo `producto`, `nombre`, `etapa`, `dias_hasta_optimo`, `nutricion` y `reconocido`.
+2. WHEN la solicitud indica la vista del cliente, THE Analizador SHALL NOT incluir `accion` ni `lectura` en la respuesta.
+3. WHEN el producto no se reconoce o la confianza es menor a 0,70 en la vista del cliente, THE Analizador SHALL responder `reconocido` igual a falso.
+4. WHEN la solicitud no indica `vista`, THE Analizador SHALL responder la vista del personal, con todos los campos.
+5. IF `vista` tiene un valor distinto de `tienda` o `cliente`, THEN THE Analizador SHALL responder el error 400 `VISTA_INVALIDA`.
+6. THE Analizador SHALL registrar en el historial el canal de cada análisis (`tienda` o `cliente`), y SHALL NOT registrar una tienda para los análisis del cliente.
