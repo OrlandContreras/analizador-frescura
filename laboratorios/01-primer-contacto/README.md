@@ -106,7 +106,7 @@ git status --short
 
 ### Paso 7. Mira el analizador funcionando
 
-El facilitador muestra en pantalla su instancia ya desplegada: toma con el celular la foto de una fruta de la mesa y aparece el resultado. En el Lab 8 harás lo mismo con tu propia instancia.
+El facilitador muestra en pantalla su instancia ya desplegada: toca una de las fotos de muestra de la página y aparece el resultado. En el Lab 8 harás lo mismo con tu propia instancia.
 
 ## Criterio de éxito
 
