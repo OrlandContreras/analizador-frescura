@@ -119,6 +119,13 @@ function mostrar(datos) {
       dl.append(dt, dd);
     }
     caja.append(titulo, dl);
+    if (datos.mensaje_cliente) {
+      const m = document.createElement("p");
+      m.style.margin = "12px 0 0";
+      m.style.fontWeight = "600";
+      m.textContent = "Para el cliente: " + datos.mensaje_cliente;
+      caja.append(m);
+    }
     if (datos.nutricion) {
       const p = document.createElement("p");
       p.className = "aviso";
