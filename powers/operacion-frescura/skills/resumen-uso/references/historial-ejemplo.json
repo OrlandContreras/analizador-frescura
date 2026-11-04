@@ -6,7 +6,8 @@
   "producto": "banano",
   "etapa": "verde",
   "indice_madurez": 0.8,
-  "confianza": 0.61
+  "confianza": 0.61,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-002",
@@ -15,7 +16,8 @@
   "producto": "papaya",
   "etapa": "pinton",
   "indice_madurez": 0.13,
-  "confianza": 0.79
+  "confianza": 0.79,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-003",
@@ -24,7 +26,8 @@
   "producto": "banano",
   "etapa": "sobremaduro",
   "indice_madurez": 0.15,
-  "confianza": 0.58
+  "confianza": 0.58,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-004",
@@ -33,7 +36,8 @@
   "producto": "papaya",
   "etapa": "verde",
   "indice_madurez": 0.59,
-  "confianza": 0.95
+  "confianza": 0.95,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-005",
@@ -42,7 +46,8 @@
   "producto": "banano",
   "etapa": "pinton",
   "indice_madurez": 0.35,
-  "confianza": 0.96
+  "confianza": 0.96,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-006",
@@ -51,7 +56,8 @@
   "producto": "tomate_chonto",
   "etapa": "pinton",
   "indice_madurez": 0.19,
-  "confianza": 0.6
+  "confianza": 0.6,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-007",
@@ -60,7 +66,8 @@
   "producto": "banano",
   "etapa": "verde",
   "indice_madurez": 0.58,
-  "confianza": 0.63
+  "confianza": 0.63,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-008",
@@ -69,7 +76,8 @@
   "producto": "papaya",
   "etapa": "sobremaduro",
   "indice_madurez": 0.76,
-  "confianza": 0.76
+  "confianza": 0.76,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-009",
@@ -78,7 +86,8 @@
   "producto": "tomate_chonto",
   "etapa": "maduro",
   "indice_madurez": 0.31,
-  "confianza": 0.94
+  "confianza": 0.94,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-010",
@@ -87,7 +96,8 @@
   "producto": "banano",
   "etapa": "maduro",
   "indice_madurez": 0.55,
-  "confianza": 0.88
+  "confianza": 0.88,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-011",
@@ -96,7 +106,8 @@
   "producto": "tomate_chonto",
   "etapa": "verde",
   "indice_madurez": 0.2,
-  "confianza": 0.86
+  "confianza": 0.86,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-012",
@@ -105,7 +116,8 @@
   "producto": "aguacate_hass",
   "etapa": "sobremaduro",
   "indice_madurez": 0.46,
-  "confianza": 0.87
+  "confianza": 0.87,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-013",
@@ -114,7 +126,8 @@
   "producto": "papaya",
   "etapa": "maduro",
   "indice_madurez": 0.39,
-  "confianza": 0.58
+  "confianza": 0.58,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-014",
@@ -123,7 +136,8 @@
   "producto": "mango",
   "etapa": "verde",
   "indice_madurez": 0.81,
-  "confianza": 0.76
+  "confianza": 0.76,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-015",
@@ -132,7 +146,8 @@
   "producto": "banano",
   "etapa": "verde",
   "indice_madurez": 0.72,
-  "confianza": 0.75
+  "confianza": 0.75,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-016",
@@ -141,7 +156,8 @@
   "producto": "mango",
   "etapa": "maduro",
   "indice_madurez": 0.71,
-  "confianza": 0.79
+  "confianza": 0.79,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-017",
@@ -150,7 +166,8 @@
   "producto": "mango",
   "etapa": "maduro",
   "indice_madurez": 0.24,
-  "confianza": 0.7
+  "confianza": 0.7,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-018",
@@ -159,7 +176,8 @@
   "producto": "tomate_chonto",
   "etapa": "pinton",
   "indice_madurez": 0.73,
-  "confianza": 0.57
+  "confianza": 0.57,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-019",
@@ -168,7 +186,8 @@
   "producto": "mango",
   "etapa": "verde",
   "indice_madurez": 0.24,
-  "confianza": 0.94
+  "confianza": 0.94,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-020",
@@ -177,7 +196,8 @@
   "producto": "aguacate_hass",
   "etapa": "sobremaduro",
   "indice_madurez": 0.83,
-  "confianza": 0.67
+  "confianza": 0.67,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-021",
@@ -186,7 +206,8 @@
   "producto": "tomate_chonto",
   "etapa": "sobremaduro",
   "indice_madurez": 0.91,
-  "confianza": 0.72
+  "confianza": 0.72,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-022",
@@ -195,7 +216,8 @@
   "producto": "aguacate_hass",
   "etapa": "pinton",
   "indice_madurez": 0.11,
-  "confianza": 0.62
+  "confianza": 0.62,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-023",
@@ -204,7 +226,8 @@
   "producto": "tomate_chonto",
   "etapa": "verde",
   "indice_madurez": 0.22,
-  "confianza": 0.63
+  "confianza": 0.63,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-024",
@@ -213,7 +236,8 @@
   "producto": "tomate_chonto",
   "etapa": "pinton",
   "indice_madurez": 0.69,
-  "confianza": 0.81
+  "confianza": 0.81,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-025",
@@ -222,7 +246,8 @@
   "producto": "banano",
   "etapa": "sobremaduro",
   "indice_madurez": 0.86,
-  "confianza": 0.81
+  "confianza": 0.81,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-026",
@@ -231,7 +256,8 @@
   "producto": "papaya",
   "etapa": "sobremaduro",
   "indice_madurez": 0.44,
-  "confianza": 0.92
+  "confianza": 0.92,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-027",
@@ -240,7 +266,8 @@
   "producto": "mango",
   "etapa": "verde",
   "indice_madurez": 0.26,
-  "confianza": 0.75
+  "confianza": 0.75,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-028",
@@ -249,7 +276,8 @@
   "producto": "banano",
   "etapa": "maduro",
   "indice_madurez": 0.61,
-  "confianza": 0.74
+  "confianza": 0.74,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-029",
@@ -258,7 +286,8 @@
   "producto": "papaya",
   "etapa": "verde",
   "indice_madurez": 0.91,
-  "confianza": 0.79
+  "confianza": 0.79,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-030",
@@ -267,7 +296,8 @@
   "producto": "aguacate_hass",
   "etapa": "sobremaduro",
   "indice_madurez": 0.23,
-  "confianza": 0.58
+  "confianza": 0.58,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-031",
@@ -276,7 +306,8 @@
   "producto": "tomate_chonto",
   "etapa": "sobremaduro",
   "indice_madurez": 0.2,
-  "confianza": 0.7
+  "confianza": 0.7,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-032",
@@ -285,7 +316,8 @@
   "producto": "mango",
   "etapa": "sobremaduro",
   "indice_madurez": 0.51,
-  "confianza": 0.97
+  "confianza": 0.97,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-033",
@@ -294,7 +326,8 @@
   "producto": "tomate_chonto",
   "etapa": "maduro",
   "indice_madurez": 0.51,
-  "confianza": 0.59
+  "confianza": 0.59,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-034",
@@ -303,7 +336,8 @@
   "producto": "aguacate_hass",
   "etapa": "maduro",
   "indice_madurez": 0.22,
-  "confianza": 0.77
+  "confianza": 0.77,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-035",
@@ -312,7 +346,8 @@
   "producto": "papaya",
   "etapa": "maduro",
   "indice_madurez": 0.93,
-  "confianza": 0.56
+  "confianza": 0.56,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-036",
@@ -321,7 +356,8 @@
   "producto": "tomate_chonto",
   "etapa": "maduro",
   "indice_madurez": 0.87,
-  "confianza": 0.84
+  "confianza": 0.84,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-037",
@@ -330,7 +366,8 @@
   "producto": "papaya",
   "etapa": "maduro",
   "indice_madurez": 0.64,
-  "confianza": 0.64
+  "confianza": 0.64,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-038",
@@ -339,7 +376,8 @@
   "producto": "aguacate_hass",
   "etapa": "pinton",
   "indice_madurez": 0.8,
-  "confianza": 0.88
+  "confianza": 0.88,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-039",
@@ -348,7 +386,8 @@
   "producto": "papaya",
   "etapa": "sobremaduro",
   "indice_madurez": 0.4,
-  "confianza": 0.65
+  "confianza": 0.65,
+  "canal": "tienda"
  },
  {
   "id": "ejemplo-040",
@@ -357,6 +396,127 @@
   "producto": "tomate_chonto",
   "etapa": "sobremaduro",
   "indice_madurez": 0.32,
-  "confianza": 0.56
+  "confianza": 0.56,
+  "canal": "tienda"
+ },
+ {
+  "id": "ejemplo-c01",
+  "fecha": "2026-11-04T14:00:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "mango",
+  "etapa": "sobremaduro",
+  "indice_madurez": 0.48,
+  "confianza": 0.92
+ },
+ {
+  "id": "ejemplo-c02",
+  "fecha": "2026-11-04T14:13:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "aguacate_hass",
+  "etapa": "pinton",
+  "indice_madurez": 0.78,
+  "confianza": 0.78
+ },
+ {
+  "id": "ejemplo-c03",
+  "fecha": "2026-11-04T14:26:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "papaya",
+  "etapa": "pinton",
+  "indice_madurez": 0.18,
+  "confianza": 0.71
+ },
+ {
+  "id": "ejemplo-c04",
+  "fecha": "2026-11-04T14:39:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "banano",
+  "etapa": "verde",
+  "indice_madurez": 0.61,
+  "confianza": 0.75
+ },
+ {
+  "id": "ejemplo-c05",
+  "fecha": "2026-11-04T15:52:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "mango",
+  "etapa": "pinton",
+  "indice_madurez": 0.63,
+  "confianza": 0.91
+ },
+ {
+  "id": "ejemplo-c06",
+  "fecha": "2026-11-04T15:05:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "banano",
+  "etapa": "verde",
+  "indice_madurez": 0.13,
+  "confianza": 0.93
+ },
+ {
+  "id": "ejemplo-c07",
+  "fecha": "2026-11-04T15:18:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "papaya",
+  "etapa": "verde",
+  "indice_madurez": 0.76,
+  "confianza": 0.72
+ },
+ {
+  "id": "ejemplo-c08",
+  "fecha": "2026-11-04T15:31:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "papaya",
+  "etapa": "pinton",
+  "indice_madurez": 0.54,
+  "confianza": 0.84
+ },
+ {
+  "id": "ejemplo-c09",
+  "fecha": "2026-11-04T16:44:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "mango",
+  "etapa": "verde",
+  "indice_madurez": 0.66,
+  "confianza": 0.77
+ },
+ {
+  "id": "ejemplo-c10",
+  "fecha": "2026-11-04T16:57:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "tomate_chonto",
+  "etapa": "sobremaduro",
+  "indice_madurez": 0.95,
+  "confianza": 0.97
+ },
+ {
+  "id": "ejemplo-c11",
+  "fecha": "2026-11-04T16:10:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "banano",
+  "etapa": "maduro",
+  "indice_madurez": 0.37,
+  "confianza": 0.68
+ },
+ {
+  "id": "ejemplo-c12",
+  "fecha": "2026-11-04T16:23:00+00:00",
+  "canal": "cliente",
+  "tienda": "sin-tienda",
+  "producto": "tomate_chonto",
+  "etapa": "verde",
+  "indice_madurez": 0.16,
+  "confianza": 0.88
  }
 ]

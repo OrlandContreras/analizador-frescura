@@ -9,7 +9,7 @@
       "type": "step",
       "id": "investigar",
       "agent": "wf-planner",
-      "prompt": "Investigación de solo lectura: no modifiques ningún archivo del proyecto; solo escribe el informe. Investiga qué riesgos técnicos, operativos y de costo tiene llevar el analizador de frescura a {{tiendas}} tiendas. Usa el código de app/ e infra/, eval/reporte.md y docs/costo-piloto.md si existen, y los documentos de negocio/. Cita los archivos, separa los riesgos en técnicos, operativos y de costo, y propone una mitigación para cada uno. Escribe el informe en .kiro/reports/piloto.md y termina tu respuesta con un resumen de 5 líneas.",
+      "prompt": "Investigación de solo lectura: no modifiques ningún archivo del proyecto; solo escribe el informe. Investiga qué riesgos técnicos, operativos y de costo tiene llevar el analizador de frescura a {{tiendas}} tiendas y abrir la vista del cliente (web/cliente.html) al público. Usa el código de app/, web/ e infra/, eval/reporte.md y docs/costo-piloto.md si existen, y los documentos de negocio/. Cita los archivos, separa los riesgos en técnicos, operativos, de costo y de la vista del cliente, y propone una mitigación para cada uno. Escribe el informe en .kiro/reports/piloto.md y termina tu respuesta con un resumen de 5 líneas.",
       "artifacts": {
         "informe": ".kiro/reports/piloto.md"
       }

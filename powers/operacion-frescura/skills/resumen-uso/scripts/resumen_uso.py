@@ -1,4 +1,4 @@
-"""Resume el historial del Analizador de frescura por tienda y producto (solo lectura).
+"""Resume el historial del Analizador de frescura por canal, tienda y producto (solo lectura).
 
 Uso:
     python resumen_uso.py --participante oc [--salida docs/uso-piloto.md]
@@ -39,12 +39,16 @@ def leer_dynamodb(participante: str, region: str) -> list[dict]:
 def resumir(registros: list[dict], origen: str) -> str:
     if not registros:
         return f"# Uso del analizador\n\nOrigen: {origen}\n\nEl historial está vacío: todavía no hay análisis.\n"
-    por_tienda: dict[str, list[dict]] = defaultdict(list)
     for r in registros:
+        r.setdefault("canal", "tienda")  # los registros anteriores al canal son del personal
+    por_canal = Counter(r["canal"] for r in registros)
+    de_tienda = [r for r in registros if r["canal"] == "tienda"]
+    por_tienda: dict[str, list[dict]] = defaultdict(list)
+    for r in de_tienda:
         por_tienda[r.get("tienda") or "sin-tienda"].append(r)
     productos = Counter(r.get("producto") or "desconocido" for r in registros)
     etapas = Counter(r.get("etapa") or "sin-etapa" for r in registros)
-    bajas = sum(1 for r in registros if float(r.get("confianza", 0)) < UMBRAL_CONFIANZA)
+    bajas = sum(1 for r in de_tienda if float(r.get("confianza", 0)) < UMBRAL_CONFIANZA)
     fechas = sorted(str(r["fecha"]) for r in registros if r.get("fecha"))
 
     lineas = [
@@ -52,14 +56,21 @@ def resumir(registros: list[dict], origen: str) -> str:
         "",
         f"Origen: {origen}",
         "",
-        f"- Análisis: **{len(registros)}** en **{len(por_tienda)}** tiendas",
+        f"- Análisis: **{len(registros)}** ({por_canal['tienda']} del personal en **{len(por_tienda)}** tiendas"
+        f" y {por_canal['cliente']} de clientes)",
     ]
     if fechas:
         lineas.append(f"- Periodo: {fechas[0][:16]} a {fechas[-1][:16]} (UTC)")
+    if de_tienda:
+        lineas.append(
+            f"- Análisis del personal con confianza menor a {UMBRAL_CONFIANZA:.2f} (revisión humana): "
+            f"**{bajas}** ({bajas / len(de_tienda):.0%})"
+        )
+    lineas += ["", "## Por canal", "", "| Canal | Análisis |", "| --- | --- |"]
+    lineas += [f"| {'Personal de tienda' if c == 'tienda' else 'Cliente'} | {n} |" for c, n in por_canal.most_common()]
     lineas += [
-        f"- Confianza menor a {UMBRAL_CONFIANZA:.2f} (revisión humana): **{bajas}** ({bajas / len(registros):.0%})",
         "",
-        "## Por tienda",
+        "## Por tienda (personal)",
         "",
         "| Tienda | Análisis | Producto más analizado | Confianza promedio | A revisión humana |",
         "| --- | --- | --- | --- | --- |",

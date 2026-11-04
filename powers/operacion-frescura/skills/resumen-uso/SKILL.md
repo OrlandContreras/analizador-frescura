@@ -1,6 +1,6 @@
 ---
 name: resumen-uso
-description: Resume el uso del Analizador de frescura por tienda y por producto a partir del historial guardado en DynamoDB. Úsala cuando pregunten cuánto se ha usado el analizador, cómo va el uso por tienda o qué productos se analizan más.
+description: Resume el uso del Analizador de frescura por canal (personal y clientes), por tienda y por producto a partir del historial guardado en DynamoDB. Úsala cuando pregunten cuánto se ha usado el analizador, cómo va el uso por tienda o qué productos se analizan más.
 ---
 
 # Resumen de uso del analizador
@@ -29,9 +29,9 @@ description: Resume el uso del Analizador de frescura por tienda y por producto 
    ```
 
 3. Lee `docs/uso-piloto.md` y responde con:
-   - el total de análisis y el número de tiendas;
+   - el total de análisis, cuántos son del personal y cuántos de clientes, y el número de tiendas;
    - la tienda con más uso y el producto más analizado;
-   - el porcentaje de análisis con confianza menor a 0,70, que según la política POL-FRV-001 van a **revisión humana**. Si pasa del 20%, recomiéndalo como el primer punto a mejorar del piloto.
+   - el porcentaje de análisis **del personal** con confianza menor a 0,70, que según la política POL-FRV-001 van a **revisión humana**. Si pasa del 20%, recomiéndalo como el primer punto a mejorar del piloto.
 
 ## Reglas
 
