@@ -32,6 +32,7 @@ def test_analiza_una_foto_y_guarda_el_historial(dependencias):
     assert datos["etapa"] == "maduro"
     assert datos["nutricion"]["gramos"] == 120
     assert datos["accion"]["tipo"] == "priorizar"
+    assert datos["mensaje_cliente"] == "Tu banano está en su punto. Disfrútalo hoy o mañana."
     assert datos["id"] == "local-1"
     assert dependencias["historial"].registros[0]["tienda"] == "T-001"
 
@@ -56,6 +57,7 @@ def test_producto_desconocido_no_tiene_etapa(dependencias):
     assert datos["producto"] == "desconocido"
     assert datos["etapa"] is None
     assert datos["accion"]["tipo"] == "revisar"
+    assert datos["mensaje_cliente"] is None
 
 
 def test_errores_de_validacion(dependencias):
