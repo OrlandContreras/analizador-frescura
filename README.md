@@ -52,6 +52,15 @@ Si `pnpm add -g aws-cdk` falla, la tabla **Problemas con pnpm** del [Lab 0](labo
 
 ## Preparar el proyecto
 
+Windows (PowerShell, la terminal por defecto de Kiro en Windows):
+
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements-dev.txt
+pytest
+```
+
 macOS o Linux:
 
 ```bash
@@ -61,14 +70,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-Windows (PowerShell):
-
-```powershell
-py -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements-dev.txt
-pytest
-```
+Con el entorno activo (`(.venv)` al inicio de la línea), el resto de los comandos de este README son iguales en Windows y en macOS o Linux.
 
 Resultado esperado en `main`: `32 passed, 1 skipped`. La prueba omitida es intencional: se activa en el Lab 4.
 
@@ -82,7 +84,7 @@ Usa lecturas de ejemplo (sin costo) y escribe `eval/reporte.md`. Con las fotos e
 
 ## Desplegar tu instancia
 
-Cada participante despliega su propia copia. Reemplaza `oc` por tus iniciales (de 2 a 10 letras o números, empezando con letra):
+Cada participante despliega su propia copia. Reemplaza `oc` por tus iniciales (de 2 a 10 letras o números, empezando con letra). La región del taller se fija una vez con `aws configure set region us-east-1`:
 
 ```bash
 cd infra

@@ -16,6 +16,10 @@ Subir el acierto de etapa del 83,3% al 88,3%, sin romper nada de lo que funciona
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 Elige una opción:
 
 - **Sigues con tu trabajo del Lab 3:** quédate en tu rama y activa la prueba del error. Abre `tests/test_reglas.py`, borra la línea `@pytest.mark.skip(reason="Se activa en el Lab 4")` y guarda.
@@ -34,8 +38,6 @@ pip install -r requirements-dev.txt
 ```bash
 python eval/evaluar.py
 ```
-
-En Windows, si `python` no existe, usa `py eval/evaluar.py`.
 
 **Resultado esperado:**
 

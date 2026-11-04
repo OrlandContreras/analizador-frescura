@@ -1,0 +1,7 @@
+# Finales de línea LF en todos los sistemas, para que cambiar de rama en Windows no marque archivos como modificados
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.docx binary
+*.zip binary

@@ -17,6 +17,10 @@ Consultar documentación y precios de AWS desde Kiro, y usar dos skills reutiliz
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 - **Sigues con tu trabajo:** quédate en tu rama.
 - **Te atrasaste:**
 
@@ -33,7 +37,7 @@ Comprueba que `uv --version` y `aws sts get-caller-identity` funcionan en la ter
 ### Paso 1. Trae la configuración de MCP y las skills
 
 ```bash
-git restore --source lab-08 -- .kiro/settings/mcp.json .kiro/skills
+git restore --source lab-08 .kiro/settings/mcp.json .kiro/settings/mcp.windows.json .kiro/skills
 ```
 
 > Si clonaste el proyecto de GitHub y no encuentra `lab-08`, usa `origin/lab-08`.
@@ -47,11 +51,10 @@ Abre `.kiro/settings/mcp.json`. Tiene dos servidores:
 
 Si tu perfil de AWS no se llama `default`, cambia `"AWS_PROFILE": "default"` por el nombre de tu perfil y guarda.
 
-En **Windows**, cambia en cada servidor `"command": "uvx"` y sus `args` por esta forma (el ejemplo es para `aws-docs`; para precios cambia el nombre del paquete):
+**Solo en Windows:** reemplaza la configuración por la versión para Windows, que ejecuta los servidores con `uv tool run` como indica la documentación de AWS:
 
-```json
-"command": "uv",
-"args": ["tool", "run", "--from", "awslabs.aws-documentation-mcp-server@latest", "awslabs.aws-documentation-mcp-server.exe"]
+```powershell
+Copy-Item .kiro/settings/mcp.windows.json .kiro/settings/mcp.json -Force
 ```
 
 ### Paso 3. Comprueba que se conectaron
