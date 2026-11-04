@@ -5,7 +5,7 @@
       "name": "Revisar mensajes para el cliente",
       "description": "Lab 6: cuando se guarda un texto de la web o de negocio, el agente revisa que no prometa efectos de salud.",
       "trigger": "PostFileSave",
-      "matcher": "(web|negocio)[\\\\/].*\\.(html|md)$",
+      "matcher": "(web|negocio).*(html|md)$",
       "action": {
         "type": "agent",
         "prompt": "Revisa el archivo que se acaba de guardar. Si algún texto dirigido al cliente promete efectos de salud (cura, previene, sana, adelgaza, quema grasa, desintoxica, garantiza), reescribe solo esa frase siguiendo .kiro/steering/mensajes-cliente.md y explica el cambio en una línea. Si no hay nada que corregir, responde solo: Sin cambios."
