@@ -16,5 +16,18 @@
   - En `tests/test_handler.py`, comprobar que el análisis incluye `accion` y que un producto desconocido devuelve `revisar`
   - _Requirements: 5.1, 1.2_
 
-- [ ] 5. Verificar
+- [ ] 5. Crear la vista del cliente
+  - Crear `app/frescura/vista_cliente.py` con `para_cliente(resultado)`
+  - _Requirements: 6.1, 6.2, 6.3_
+
+- [ ] 6. Aceptar la vista en la API y registrar el canal
+  - En `app/frescura/handler.py`, validar `vista` y responder `para_cliente` cuando es `cliente`
+  - En `app/frescura/historial.py`, agregar el parámetro `canal` y guardarlo; para el cliente, sin tienda
+  - _Requirements: 6.4, 6.5, 6.6_
+
+- [ ] 7. Probar la vista del cliente
+  - Crear `tests/test_vista_cliente.py`: sin `accion` ni `lectura`, `reconocido` falso con confianza 0,69 y producto desconocido, error 400 con una vista inválida y canal registrado
+  - _Requirements: 6.1–6.6_
+
+- [ ] 8. Verificar
   - Correr `pytest` y `ruff check .`; todo debe pasar
