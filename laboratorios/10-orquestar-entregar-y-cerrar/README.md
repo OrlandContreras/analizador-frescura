@@ -10,7 +10,7 @@ En este laboratorio trabajas con dos workflows:
 
 | Workflow | Quién lo hace | Qué hace |
 | --- | --- | --- |
-| `investigar-piloto` | **Ya viene creado** | 1 paso: investiga, sin modificar el proyecto, los riesgos de llevar el analizador a más tiendas y escribe un informe |
+| `investigar-piloto` | **Ya viene creado** | 1 paso: investiga, sin modificar el proyecto, los riesgos de llevar el analizador a más tiendas y de abrir la vista del cliente al público, y escribe un informe |
 | `preparar-piloto` | **Lo creas tú** | 2 pasos encadenados: el agente `revisor-seguridad` del Lab 8 revisa la solución y otro agente usa esa revisión para completar la hoja de ruta del piloto |
 
 Mientras los workflows corren, revisas la integración continua del proyecto y, al final, borras tu instancia de AWS.
@@ -76,7 +76,7 @@ Abre `.kiro/workflows/investigar-piloto.workflow.json`:
       "type": "step",
       "id": "investigar",
       "agent": "wf-planner",
-      "prompt": "Investigación de solo lectura: ... a {{tiendas}} tiendas. ... Escribe el informe en .kiro/reports/piloto.md ...",
+      "prompt": "Investigación de solo lectura: ... a {{tiendas}} tiendas y abrir la vista del cliente al público. ... Escribe el informe en .kiro/reports/piloto.md ...",
       "artifacts": {
         "informe": ".kiro/reports/piloto.md"
       }
@@ -134,7 +134,7 @@ cd ..
 
 Cuando el workflow `investigar-piloto` termine, abre `.kiro/reports/piloto.md`.
 
-**Resultado esperado:** riesgos separados en técnicos, operativos y de costo, cada uno con su archivo de referencia y una mitigación. Por ejemplo: la API no tiene autenticación, las fotos de evaluación son de ejemplo y no de tiendas reales, y el límite de llamadas a Bedrock con 50 tiendas.
+**Resultado esperado:** riesgos separados en técnicos, operativos, de costo y de la vista del cliente, cada uno con su archivo de referencia y una mitigación. Por ejemplo: la API no tiene autenticación, las fotos de evaluación son de ejemplo y no de tiendas reales, el límite de llamadas a Bedrock con 50 tiendas y que la vista del cliente es pública, así que cualquiera podría usarla y generar costo.
 
 ### Paso 6. Crea tu propio workflow: "preparar-piloto"
 

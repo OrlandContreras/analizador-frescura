@@ -25,6 +25,23 @@ En este taller construyes y despliegas en AWS la primera versión del **Analizad
 
 La rama `final` tiene el proyecto completo, como queda al terminar el Lab 10.
 
+## Dos vistas que crecen juntas
+
+El analizador tiene dos usuarios: el **personal de tienda** (`web/index.html`) y el **cliente comprador** (`web/cliente.html`). En cada laboratorio, el tema de Kiro se aplica a las dos:
+
+| Lab | Para el personal de tienda | Para el cliente comprador |
+| --- | --- | --- |
+| 1 | Conoce el análisis completo | Conoce su vista: solo información pública |
+| 2 | Requisitos de la acción en tienda | Requisito: nunca ve información interna |
+| 3 | La API responde la acción en tienda | La API responde solo lo público con `"vista": "cliente"` |
+| 4 | Corrección del umbral y propiedades de las reglas | Propiedad: la vista del cliente nunca filtra datos internos |
+| 5 | Steering de AWS y del proyecto | Tono y guía visual de sus textos y su página |
+| 6 | Hooks de pruebas, secretos y despliegue | Tu hook revisa los textos de `cliente.html` |
+| 7 | Costo del piloto con precios de AWS | La ficha de producto incluye lo que ve el cliente |
+| 8 | Despliegue y prueba de la vista del personal | El implementador construye su mensaje ("Tu aguacate estará en su punto el jueves") |
+| 9 | Diagnóstico y uso por tienda con un Power | Uso del canal de clientes |
+| 10 | Hoja de ruta del piloto | Riesgos de abrir la vista del cliente al público |
+
 ## Cómo funcionan las ramas
 
 Cada rama `lab-NN` tiene el proyecto **tal como debe estar al empezar** ese laboratorio. Si terminas un laboratorio, sigues trabajando en tu propia copia. Si te atrasaste o algo se rompió, cambias a la rama del laboratorio siguiente y continúas con el grupo.

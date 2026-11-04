@@ -46,7 +46,7 @@ pip install -r requirements-dev.txt
 2. Pega:
 
 ```text
-Redacta el mensaje que ve un cliente en la app cuando su aguacate hass está pintón, e incluye por qué es bueno comerlo.
+Redacta el mensaje que ve un cliente en la vista del cliente (web/cliente.html) cuando su aguacate hass está pintón, e incluye por qué es bueno comerlo.
 ```
 
 3. Copia la respuesta en un bloc de notas: la compararás al final.
@@ -73,7 +73,7 @@ Abre cada archivo y fíjate en su encabezado (entre las líneas `---`):
 
 - `mensajes-cliente.md` → `inclusion: auto`: tuteo y nada de "cura", "previene" ni "adelgaza".
 - `aws-infra.md` → `inclusion: fileMatch` con `infra/**/*.py`: mínimos privilegios, etiquetas y que el agente nunca despliega.
-- `diseno-web.md` → `inclusion: fileMatch` con `web/**`: la guía visual de la página (colores, tipografía, botones). Kiro la aplica cuando cambia la web.
+- `diseno-web.md` → `inclusion: fileMatch` con `web/**`: la guía visual de las dos vistas, la del personal y la del cliente (colores, tipografía, botones). Kiro la aplica cuando cambia cualquiera de las dos.
 - `troubleshooting.md` → `inclusion: manual`.
 - `app/frescura/AGENTS.md` no tiene encabezado: Kiro lo lee cuando trabaja en esa carpeta.
 
