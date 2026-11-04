@@ -1,6 +1,6 @@
 ---
 name: ficha-producto
-description: Genera la ficha de un producto del analizador de frescura (umbrales de madurez, días hasta el punto, acción en tienda por etapa, nutrición por porción y mensaje para el cliente). Úsalo cuando pidan la ficha, el resumen o la hoja de un producto como banano, aguacate hass, tomate chonto, mango o papaya.
+description: Genera la ficha de un producto del analizador de frescura (umbrales de madurez, días hasta el punto, acción en tienda por etapa, nutrición por porción y lo que ve el cliente). Úsalo cuando pidan la ficha, el resumen o la hoja de un producto como banano, aguacate hass, tomate chonto, mango o papaya.
 ---
 # Ficha de producto
 
@@ -33,8 +33,15 @@ Si se transforma: <destino del catálogo>.
 | --- | --- | --- | --- |
 Fuente: <fuente>. Valores aproximados de referencia.
 
-## Mensaje de ejemplo para el cliente
-<una o dos frases, siguiendo mensajes-cliente.md>
+## Para la vista del cliente (`web/cliente.html`)
+| Etapa | Lo que ve el cliente |
+| --- | --- |
+| Verde | Todavía está verde. Estará en su punto en <días> días. |
+| Pintón | Está pintón. Estará en su punto en <días> días. |
+| Maduro | Está en su punto. Disfrútalo hoy o mañana. |
+| Sobremaduro | Ya pasó su mejor punto. Aprovéchalo hoy en jugos, batidos o preparaciones. |
+
+Mensaje de ejemplo: <una o dos frases, siguiendo mensajes-cliente.md>. Recuerda: el cliente nunca ve la acción en tienda.
 ```
 
 Calcula los días como `ceil(maduro / velocidad)` y muestra el cálculo.
