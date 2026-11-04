@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Cuándo estará en su punto?</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header class="marca">
+  <div>
+    <h1>¿Cuándo estará en su punto?</h1>
+    <p class="lema">Toma una foto de la fruta que compraste</p>
+  </div>
+</header>
+<main>
+  <p class="sub">Funciona con banano, aguacate hass, tomate chonto, mango y papaya.</p>
+
+  <section class="tarjeta">
+    <label class="boton" for="foto" id="tomar">Tomar o elegir foto</label>
+    <input id="foto" type="file" accept="image/*" capture="environment">
+    <img id="vista" alt="Foto que se va a analizar">
+  </section>
+
+  <section class="tarjeta" id="caja-muestras" hidden>
+    <label>¿No tienes fruta a mano?</label>
+    <p class="nota">Toca una foto de muestra para analizarla.</p>
+    <div class="muestras" id="muestras"></div>
+    <p class="creditos">Fotos: Fruits-360, de Mihai Oltean, licencia CC BY-SA 4.0. <a href="muestras/CREDITOS.md">Créditos</a></p>
+  </section>
+
+  <section class="tarjeta" id="resultado" hidden aria-live="polite"></section>
+  <p id="error" role="alert"></p>
+
+  <p class="pie">Prototipo del workshop de Kiro. <span id="participante"></span></p>
+</main>
+<script src="comun.js"></script>
+<script>
+// Vista del cliente comprador: solo información pública del producto.
+// Nunca muestra la acción en tienda, los descuentos ni la confianza del modelo.
+const FRASE_ETAPA = {
+  verde: "Todavía está verde", pinton: "Está pintón", maduro: "Está en su punto", sobremaduro: "Ya pasó su mejor punto",
+};
+
+function cuandoEstaraListo(etapa, dias) {
+  if (etapa === "sobremaduro") return "Aprovéchalo hoy en jugos, batidos o preparaciones.";
+  if (dias === 0) return "Disfrútalo hoy o mañana.";
+  if (dias === 1) return "Estará en su punto mañana.";
+  return "Estará en su punto en " + dias + " días.";
+}
+
+function parrafo(clase, texto) {
+  const p = document.createElement("p");
+  p.className = clase;
+  p.textContent = texto;
+  return p;
+}
+
+function mostrarCliente(datos) {
+  const caja = document.getElementById("resultado");
+  caja.replaceChildren();
+  const titulo = document.createElement("h2");
+  titulo.style.margin = "0 0 4px";
+  if (datos.producto === "desconocido" || datos.reconocido === false) {
+    titulo.textContent = "No pudimos reconocer bien tu producto";
+    caja.append(titulo, parrafo("aviso", "Toma otra foto de cerca, con buena luz y un solo producto."));
+  } else {
+    titulo.textContent = datos.nombre;
+    caja.append(titulo, parrafo("titular", FRASE_ETAPA[datos.etapa] || datos.etapa));
+    caja.append(parrafo("cuando", cuandoEstaraListo(datos.etapa, datos.dias_hasta_optimo)));
+    if (datos.nutricion) {
+      const n = datos.nutricion;
+      caja.append(parrafo("nutri", "Por porción de " + n.gramos + " g: " + n.energia_kcal + " kcal, fibra " + n.fibra_g +
+        " g, potasio " + n.potasio_mg + " mg y vitamina C " + n.vitamina_c_mg + " mg."));
+      caja.append(parrafo("aviso", n.aviso + " Fuente: " + n.fuente + "."));
+    }
+  }
+  caja.hidden = false;
+}
+
+async function analizarCliente(archivo, muestra) {
+  const error = document.getElementById("error");
+  const boton = document.getElementById("tomar");
+  error.textContent = "";
+  boton.textContent = "Analizando…";
+  boton.setAttribute("aria-busy", "true");
+  try {
+    if (!config) await cargarConfig();
+    const dataUrl = await reducirImagen(archivo);
+    const vista = document.getElementById("vista");
+    vista.src = dataUrl; vista.style.display = "block";
+    const r = await fetch(config.api + "/analisis", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ imagen_base64: dataUrl, gramos: 100, vista: "cliente" }),
+    });
+    const datos = await r.json();
+    if (!r.ok) throw new Error(datos.error ? datos.error.message : "Error " + r.status);
+    mostrarCliente(datos);
+    if (muestra) {
+      document.getElementById("resultado").append(parrafo("aviso", "Foto de muestra: " + muestra.titulo + "."));
+    }
+  } catch (err) {
+    error.textContent = err.message;
+  } finally {
+    boton.textContent = "Tomar o elegir foto";
+    boton.removeAttribute("aria-busy");
+  }
+}
+
+document.getElementById("foto").addEventListener("change", async (e) => {
+  const archivo = e.target.files[0];
+  if (!archivo) return;
+  await analizarCliente(archivo, null);
+  e.target.value = "";
+});
+
+cargarMuestras(analizarCliente).catch(() => {});
+cargarConfig().catch(() => {
+  document.getElementById("error").textContent = "No se encontró la configuración de la API (config.json).";
+});
+</script>
+</body>
+</html>
