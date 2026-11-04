@@ -1,6 +1,6 @@
 # Analizador de frescura de frutas y verduras
 
-> **Proyecto de práctica del workshop de Kiro con Grupo Éxito.** Los datos de tienda, las cifras de negocio y las políticas son ficticios. Los valores nutricionales son de referencia (USDA FoodData Central) y deben validarse con la tabla del ICBF antes de un piloto.
+> **Proyecto de práctica del workshop de Kiro.** Los datos de tienda, las cifras de negocio y las políticas son ficticios. Los valores nutricionales son de referencia (USDA FoodData Central) y deben validarse con la tabla del ICBF antes de un piloto.
 
 Con una foto tomada desde el celular, el analizador identifica el producto, estima su etapa de madurez y los días que faltan para su punto óptimo, y entrega su información nutricional por porción. En el taller se le agrega la **acción recomendada en tienda** según la política `negocio/politica-acciones-tienda.md`.
 
