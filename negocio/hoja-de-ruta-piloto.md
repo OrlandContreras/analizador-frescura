@@ -1,6 +1,6 @@
 # Hoja de ruta: del workshop al piloto y a producción
 
-> **Plantilla del Lab 9.** Complétala con los resultados de tu taller: el acierto de `eval/reporte.md`, el costo de `docs/costo-piloto.md` y los riesgos de `.kiro/reports/piloto.md`.
+> **Plantilla del Lab 10.** Complétala con los resultados de tu taller: el acierto de `eval/reporte.md`, el costo de `docs/costo-piloto.md`, el uso de `docs/uso-piloto.md` y los riesgos de `.kiro/reports/piloto.md`.
 
 ## Dónde estamos (fin del workshop)
 
@@ -10,6 +10,7 @@
 | Acción en tienda según POL-FRV-001 | Sí / No | `tests/test_acciones.py` |
 | Acierto de etapa (fotos de ejemplo) | ___ % | `eval/reporte.md` |
 | Costo mensual estimado para 5 tiendas | USD ___ | `docs/costo-piloto.md` |
+| Uso de la instancia | ___ análisis; ___ % a revisión humana | `docs/uso-piloto.md` (Power `operacion-frescura`) |
 | Revisión de seguridad antes de desplegar | Veredicto: | Agente `revisor-seguridad` |
 
 ## Etapa 1 — Piloto (3 a 5 tiendas, 3 meses)
