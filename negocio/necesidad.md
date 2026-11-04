@@ -1,6 +1,6 @@
 # Necesidad de negocio: menos pérdida en frutas y verduras
 
-> **Documento ficticio para el workshop de Kiro.** Las cifras son de ejemplo y no corresponden a datos de Grupo Éxito.
+> **Documento ficticio para el workshop de Kiro.** Las cifras son de ejemplo y no corresponden a datos de ninguna empresa real.
 
 ## Situación actual
 
@@ -25,7 +25,7 @@ Cada análisis debe quedar registrado (sin guardar la foto) para medir el uso y 
 | --- | --- | --- |
 | Auxiliar de frutas y verduras | Piloto | Fotografía los productos en la ronda de la mañana y aplica la acción recomendada |
 | Jefe de sección | Piloto | Revisa los casos marcados "revisar" y confirma las donaciones |
-| Cliente en la app de Éxito o Carulla | Fase siguiente | Consulta cuándo estará en su punto lo que compró y qué aporta por porción |
+| Cliente en la app de la cadena | Fase siguiente | Consulta cuándo estará en su punto lo que compró y qué aporta por porción |
 
 ## Alcance del MVP del workshop
 
