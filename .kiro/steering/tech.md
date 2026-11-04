@@ -17,5 +17,8 @@ inclusion: always
 - Evaluación: `python eval/evaluar.py`
 - Sintetizar la infraestructura: `cd infra && cdk synth -c participante=<iniciales>`
 
+## Cambios de umbrales
+Cuando se cambie un umbral en `app/frescura/datos/catalogo.json`, además de `pytest` hay que correr `python eval/evaluar.py` y confirmar que el acierto de etapa sigue en 85% o más: un umbral mal calibrado puede pasar las pruebas y aun así bajar el acierto. (Esta regla nació como una memoria de Kiro en el Lab 5.)
+
 ## Errores de la API
 Siempre `{"error": {"code": "CODIGO_EN_MAYUSCULAS", "message": "texto en español"}}`, con 400 para validación, 404 ruta inexistente, 413 imagen grande, 415 formato y 502 si falla la visión.
