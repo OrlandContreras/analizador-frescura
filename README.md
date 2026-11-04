@@ -39,7 +39,7 @@ Antes del taller, sigue la guía [Lab 0 · Preparación del equipo](laboratorios
 | Herramienta | Versión | Para qué |
 | --- | --- | --- |
 | Kiro IDE | Última | Entorno de trabajo con el agente de IA |
-| Kiro CLI | Última | Agente revisor y modo headless (Labs 8 y 9) |
+| Kiro CLI | Última | Agentes implementador y revisor, y modo headless (Labs 8 y 9) |
 | Python | 3.12 o superior | El analizador y sus pruebas |
 | Node.js | 20 o superior | AWS CDK y los hooks del Lab 6 |
 | pnpm | 12 o superior | Instalar AWS CDK con controles de seguridad (no se usa npm) |
@@ -136,5 +136,5 @@ pip install -r requirements-dev.txt
 | `lab-06` | + steering (Lab 5) |
 | `lab-07` | + hooks (Lab 6) |
 | `lab-08` | + MCP de AWS y skills (Lab 7) |
-| `lab-09` | + agente revisor de seguridad (Lab 8) |
+| `lab-09` | + agentes implementador y revisor de seguridad, y mensaje para el cliente (Lab 8) |
 | `final` | + workflow, integración continua y hoja de ruta (Lab 9) |

@@ -19,7 +19,7 @@ En este taller construyes y despliegas en AWS la primera versión del **Analizad
 | 5 | [El "manual de la casa"](05-manual-de-la-casa/README.md) | L200 | 15 min | `lab-05` |
 | 6 | [Reglas automáticas](06-reglas-automaticas/README.md) | L200 | 15 min | `lab-06` |
 | 7 | [Conectar y estandarizar](07-conectar-y-estandarizar/README.md) | L300 | 20 min | `lab-07` |
-| 8 | [Agentes especializados y despliegue](08-agentes-y-despliegue/README.md) | L300 | 30 min | `lab-08` |
+| 8 | [Agentes especializados y despliegue](08-agentes-y-despliegue/README.md) | L300 | 35 min | `lab-08` |
 | 9 | [Orquestar, entregar y cerrar](09-orquestar-entregar-y-cerrar/README.md) | L300 | 25 min | `lab-09` |
 
 La rama `final` tiene el proyecto completo, como queda al terminar el Lab 9.
