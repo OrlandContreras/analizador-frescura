@@ -106,6 +106,8 @@ Agrega a la respuesta del análisis el campo mensaje_cliente, para el cliente fi
 3. Lo muestra en `web/index.html`.
 4. Corre `pytest`, `ruff check .` y la evaluación, y entrega la tabla de archivos que cambió.
 
+> **La memoria también está en la CLI.** Kiro IDE y Kiro CLI comparten las memorias del mismo computador. Al terminar, escribe `/memories` en la sesión: verás la regla de los umbrales que le enseñaste en el Lab 5. Si `/memories` pide configurar el acceso, elige **read & write** (aplica desde la siguiente sesión). Si el comando no existe, tu Kiro CLI es anterior a la 2.29.0: este paso es opcional, sigue.
+
 ### Paso 4. Comprueba sus límites
 
 En la misma sesión, pega uno por uno:

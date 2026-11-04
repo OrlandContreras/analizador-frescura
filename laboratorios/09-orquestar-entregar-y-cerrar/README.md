@@ -291,7 +291,7 @@ Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)
 
 ## Lo que te llevas
 
-- Un repositorio con specs, steering, hooks, MCP, skills, dos agentes y dos workflows: la base de cómo trabajará el equipo con agentes.
+- Un repositorio con specs, steering, hooks, MCP, skills, dos agentes y dos workflows, y un Kiro que recuerda lo aprendido en el proyecto: la base de cómo trabajará el equipo con agentes.
 - Un servicio desplegado y probado con fruta real.
 - La medición de acierto, la estimación de costo, el informe de riesgos y la hoja de ruta: el punto de partida del piloto.
 
