@@ -1,0 +1,45 @@
+{
+  "_nota": "Catálogo de práctica para el workshop de Kiro con Grupo Éxito. Los umbrales y velocidades de maduración son de ejemplo: el área de frutas y verduras debe validarlos antes de un piloto.",
+  "productos": [
+    {
+      "id": "banano",
+      "nombre": "Banano",
+      "umbrales": {"pinton": 25, "maduro": 50, "sobremaduro": 80},
+      "velocidad_maduracion_dia": 12,
+      "transformacion": "panadería, batidos o postres",
+      "escala_visual": "0 = cáscara totalmente verde; 25 = verde con zonas amarillas; 50 = amarillo con puntas verdes o totalmente amarillo; 80 = amarillo con muchas manchas cafés; 100 = cáscara mayormente café o negra"
+    },
+    {
+      "id": "aguacate_hass",
+      "nombre": "Aguacate hass",
+      "umbrales": {"pinton": 30, "maduro": 55, "sobremaduro": 85},
+      "velocidad_maduracion_dia": 15,
+      "transformacion": "guacamole o salsas",
+      "escala_visual": "0 = cáscara verde brillante; 30 = verde oscuro con zonas moradas; 55 = morado oscuro o casi negro; 85 = negro opaco con zonas hundidas; 100 = cáscara arrugada, hundida o con moho"
+    },
+    {
+      "id": "tomate_chonto",
+      "nombre": "Tomate chonto",
+      "umbrales": {"pinton": 20, "maduro": 50, "sobremaduro": 80},
+      "velocidad_maduracion_dia": 10,
+      "transformacion": "salsas o sofrito",
+      "escala_visual": "0 = totalmente verde; 20 = verde con zonas rosadas; 50 = rojo uniforme y firme; 80 = rojo muy intenso con zonas blandas o arrugadas; 100 = piel rota, muy blando o con moho"
+    },
+    {
+      "id": "mango",
+      "nombre": "Mango",
+      "umbrales": {"pinton": 25, "maduro": 55, "sobremaduro": 85},
+      "velocidad_maduracion_dia": 10,
+      "transformacion": "jugos o pulpa",
+      "escala_visual": "0 = verde opaco; 25 = verde con zonas amarillas o rojizas; 55 = amarillo o rojo intenso; 85 = con manchas negras extensas; 100 = piel arrugada, con zonas hundidas o moho"
+    },
+    {
+      "id": "papaya",
+      "nombre": "Papaya",
+      "umbrales": {"pinton": 20, "maduro": 50, "sobremaduro": 80},
+      "velocidad_maduracion_dia": 12,
+      "transformacion": "jugos o fruta picada",
+      "escala_visual": "0 = totalmente verde; 20 = verde con franjas amarillas; 50 = mayormente amarilla o naranja; 80 = naranja con manchas y zonas blandas; 100 = con moho o zonas hundidas extensas"
+    }
+  ]
+}

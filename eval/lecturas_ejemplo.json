@@ -1,0 +1,427 @@
+{
+ "_nota": "Lecturas de ejemplo, escritas a mano para el workshop: simulan lo que devolvería el modelo de visión para cada foto, con algunos errores a propósito. No son respuestas reales de Bedrock.",
+ "lecturas": {
+  "banano_verde_1.jpg": {
+   "producto": "banano",
+   "indice_madurez": 12,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.79
+  },
+  "banano_verde_2.jpg": {
+   "producto": "banano",
+   "indice_madurez": 19,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.79
+  },
+  "banano_verde_3.jpg": {
+   "producto": "banano",
+   "indice_madurez": 18,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.86
+  },
+  "banano_pinton_1.jpg": {
+   "producto": "banano",
+   "indice_madurez": 29,
+   "manchas_pct": 1,
+   "defectos": [],
+   "confianza": 0.86
+  },
+  "banano_pinton_2.jpg": {
+   "producto": "banano",
+   "indice_madurez": 45,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.9
+  },
+  "banano_pinton_3.jpg": {
+   "producto": "banano",
+   "indice_madurez": 64,
+   "manchas_pct": 4,
+   "defectos": [],
+   "confianza": 0.79
+  },
+  "banano_maduro_1.jpg": {
+   "producto": "banano",
+   "indice_madurez": 59,
+   "manchas_pct": 11,
+   "defectos": [],
+   "confianza": 0.81
+  },
+  "banano_maduro_2.jpg": {
+   "producto": "banano",
+   "indice_madurez": 65,
+   "manchas_pct": 11,
+   "defectos": [],
+   "confianza": 0.6
+  },
+  "banano_maduro_3.jpg": {
+   "producto": "banano",
+   "indice_madurez": 69,
+   "manchas_pct": 5,
+   "defectos": [],
+   "confianza": 0.89
+  },
+  "banano_sobremaduro_1.jpg": {
+   "producto": "banano",
+   "indice_madurez": 88,
+   "manchas_pct": 50,
+   "defectos": [],
+   "confianza": 0.92
+  },
+  "banano_sobremaduro_2.jpg": {
+   "producto": "banano",
+   "indice_madurez": 80,
+   "manchas_pct": 46,
+   "defectos": [],
+   "confianza": 0.91
+  },
+  "banano_sobremaduro_3.jpg": {
+   "producto": "banano",
+   "indice_madurez": 95,
+   "manchas_pct": 52,
+   "defectos": [],
+   "confianza": 0.96
+  },
+  "aguacate_hass_verde_1.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 13,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.81
+  },
+  "aguacate_hass_verde_2.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 26,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.84
+  },
+  "aguacate_hass_verde_3.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 17,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.83
+  },
+  "aguacate_hass_pinton_1.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 34,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.81
+  },
+  "aguacate_hass_pinton_2.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 42,
+   "manchas_pct": 1,
+   "defectos": [],
+   "confianza": 0.79
+  },
+  "aguacate_hass_pinton_3.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 34,
+   "manchas_pct": 4,
+   "defectos": [],
+   "confianza": 0.55
+  },
+  "aguacate_hass_maduro_1.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 67,
+   "manchas_pct": 14,
+   "defectos": [],
+   "confianza": 0.89
+  },
+  "aguacate_hass_maduro_2.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 92,
+   "manchas_pct": 4,
+   "defectos": [],
+   "confianza": 0.8
+  },
+  "aguacate_hass_maduro_3.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 65,
+   "manchas_pct": 14,
+   "defectos": [],
+   "confianza": 0.79
+  },
+  "aguacate_hass_sobremaduro_1.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 85,
+   "manchas_pct": 56,
+   "defectos": [],
+   "confianza": 0.89
+  },
+  "aguacate_hass_sobremaduro_2.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 97,
+   "manchas_pct": 60,
+   "defectos": [],
+   "confianza": 0.85
+  },
+  "aguacate_hass_sobremaduro_3.jpg": {
+   "producto": "aguacate_hass",
+   "indice_madurez": 97,
+   "manchas_pct": 44,
+   "defectos": [],
+   "confianza": 0.85
+  },
+  "tomate_chonto_verde_1.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 5,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.93
+  },
+  "tomate_chonto_verde_2.jpg": {
+   "producto": "desconocido",
+   "indice_madurez": 6,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.2
+  },
+  "tomate_chonto_verde_3.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 17,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.86
+  },
+  "tomate_chonto_pinton_1.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 30,
+   "manchas_pct": 1,
+   "defectos": [],
+   "confianza": 0.88
+  },
+  "tomate_chonto_pinton_2.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 44,
+   "manchas_pct": 3,
+   "defectos": [],
+   "confianza": 0.95
+  },
+  "tomate_chonto_pinton_3.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 29,
+   "manchas_pct": 1,
+   "defectos": [],
+   "confianza": 0.81
+  },
+  "tomate_chonto_maduro_1.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 90,
+   "manchas_pct": 3,
+   "defectos": [],
+   "confianza": 0.94
+  },
+  "tomate_chonto_maduro_2.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 57,
+   "manchas_pct": 7,
+   "defectos": [],
+   "confianza": 0.81
+  },
+  "tomate_chonto_maduro_3.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 69,
+   "manchas_pct": 12,
+   "defectos": [],
+   "confianza": 0.84
+  },
+  "tomate_chonto_sobremaduro_1.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 86,
+   "manchas_pct": 54,
+   "defectos": [],
+   "confianza": 0.9
+  },
+  "tomate_chonto_sobremaduro_2.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 83,
+   "manchas_pct": 70,
+   "defectos": [],
+   "confianza": 0.91
+  },
+  "tomate_chonto_sobremaduro_3.jpg": {
+   "producto": "tomate_chonto",
+   "indice_madurez": 94,
+   "manchas_pct": 40,
+   "defectos": [],
+   "confianza": 0.8
+  },
+  "mango_verde_1.jpg": {
+   "producto": "mango",
+   "indice_madurez": 22,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.79
+  },
+  "mango_verde_2.jpg": {
+   "producto": "mango",
+   "indice_madurez": 39,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.84
+  },
+  "mango_verde_3.jpg": {
+   "producto": "mango",
+   "indice_madurez": 3,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.81
+  },
+  "mango_pinton_1.jpg": {
+   "producto": "mango",
+   "indice_madurez": 30,
+   "manchas_pct": 2,
+   "defectos": [],
+   "confianza": 0.79
+  },
+  "mango_pinton_2.jpg": {
+   "producto": "mango",
+   "indice_madurez": 33,
+   "manchas_pct": 4,
+   "defectos": [],
+   "confianza": 0.9
+  },
+  "mango_pinton_3.jpg": {
+   "producto": "mango",
+   "indice_madurez": 38,
+   "manchas_pct": 4,
+   "defectos": [],
+   "confianza": 0.8
+  },
+  "mango_maduro_1.jpg": {
+   "producto": "mango",
+   "indice_madurez": 72,
+   "manchas_pct": 10,
+   "defectos": [],
+   "confianza": 0.84
+  },
+  "mango_maduro_2.jpg": {
+   "producto": "mango",
+   "indice_madurez": 61,
+   "manchas_pct": 14,
+   "defectos": [],
+   "confianza": 0.92
+  },
+  "mango_maduro_3.jpg": {
+   "producto": "mango",
+   "indice_madurez": 72,
+   "manchas_pct": 5,
+   "defectos": [],
+   "confianza": 0.78
+  },
+  "mango_sobremaduro_1.jpg": {
+   "producto": "mango",
+   "indice_madurez": 95,
+   "manchas_pct": 59,
+   "defectos": [],
+   "confianza": 0.88
+  },
+  "mango_sobremaduro_2.jpg": {
+   "producto": "mango",
+   "indice_madurez": 87,
+   "manchas_pct": 56,
+   "defectos": [
+    "moho"
+   ],
+   "confianza": 0.94
+  },
+  "mango_sobremaduro_3.jpg": {
+   "producto": "mango",
+   "indice_madurez": 85,
+   "manchas_pct": 38,
+   "defectos": [],
+   "confianza": 0.95
+  },
+  "papaya_verde_1.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 13,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.93
+  },
+  "papaya_verde_2.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 12,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.93
+  },
+  "papaya_verde_3.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 8,
+   "manchas_pct": 0,
+   "defectos": [],
+   "confianza": 0.93
+  },
+  "papaya_pinton_1.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 28,
+   "manchas_pct": 4,
+   "defectos": [],
+   "confianza": 0.92
+  },
+  "papaya_pinton_2.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 64,
+   "manchas_pct": 2,
+   "defectos": [],
+   "confianza": 0.82
+  },
+  "papaya_pinton_3.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 41,
+   "manchas_pct": 2,
+   "defectos": [],
+   "confianza": 0.96
+  },
+  "papaya_maduro_1.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 63,
+   "manchas_pct": 4,
+   "defectos": [],
+   "confianza": 0.8
+  },
+  "papaya_maduro_2.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 67,
+   "manchas_pct": 8,
+   "defectos": [],
+   "confianza": 0.87
+  },
+  "papaya_maduro_3.jpg": {
+   "producto": "mango",
+   "indice_madurez": 71,
+   "manchas_pct": 10,
+   "defectos": [],
+   "confianza": 0.85
+  },
+  "papaya_sobremaduro_1.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 84,
+   "manchas_pct": 39,
+   "defectos": [],
+   "confianza": 0.93
+  },
+  "papaya_sobremaduro_2.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 88,
+   "manchas_pct": 42,
+   "defectos": [],
+   "confianza": 0.93
+  },
+  "papaya_sobremaduro_3.jpg": {
+   "producto": "papaya",
+   "indice_madurez": 92,
+   "manchas_pct": 61,
+   "defectos": [],
+   "confianza": 0.86
+  }
+ }
+}

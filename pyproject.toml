@@ -1,0 +1,19 @@
+[project]
+name = "analizador-frescura"
+version = "0.1.0"
+description = "Analizador de frescura de frutas y verduras — workshop de Kiro con Grupo Éxito"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["app", "tests", "."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["frescura", "stacks", "infra", "conftest"]

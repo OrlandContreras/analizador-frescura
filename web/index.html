@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analizador de frescura</title>
+<style>
+  :root {
+    --fondo: #f6f7f3; --tarjeta: #ffffff; --texto: #1d2420; --suave: #5b6660; --borde: #dfe3dc;
+    --acento: #2f7d4f; --acento-texto: #ffffff; --aviso: #8a5a00;
+    --verde: #3c8d4f; --pinton: #b8a12b; --maduro: #d9822b; --sobremaduro: #a3412f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fondo: #121614; --tarjeta: #1b211e; --texto: #e8ece9; --suave: #a3ada7; --borde: #2c3530; --aviso: #e0b04a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--fondo); color: var(--texto); }
+  main { max-width: 520px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.4rem; margin: 8px 0 4px; }
+  .sub { color: var(--suave); margin: 0 0 16px; font-size: .95rem; }
+  .tarjeta { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+  label { display: block; font-weight: 600; margin: 10px 0 6px; }
+  input[type=text], input[type=number] { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--borde); background: var(--fondo); color: var(--texto); font-size: 1rem; }
+  .boton { display: block; width: 100%; padding: 14px; border: 0; border-radius: 12px; background: var(--acento); color: var(--acento-texto); font-size: 1.05rem; font-weight: 600; cursor: pointer; text-align: center; }
+  .boton[disabled] { opacity: .6; cursor: wait; }
+  input[type=file] { position: absolute; left: -9999px; }
+  #vista { width: 100%; border-radius: 12px; margin-top: 12px; display: none; }
+  .etapa { display: inline-block; padding: 4px 12px; border-radius: 999px; color: #fff; font-weight: 700; text-transform: capitalize; }
+  .etapa.verde { background: var(--verde); } .etapa.pinton { background: var(--pinton); }
+  .etapa.maduro { background: var(--maduro); } .etapa.sobremaduro { background: var(--sobremaduro); }
+  dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; margin: 12px 0 0; }
+  dt { color: var(--suave); } dd { margin: 0; font-weight: 600; text-align: right; }
+  .aviso { color: var(--aviso); font-size: .9rem; }
+  .pie { color: var(--suave); font-size: .8rem; text-align: center; margin-top: 18px; }
+  #error { color: var(--sobremaduro); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Analizador de frescura</h1>
+  <p class="sub">Toma una foto de un banano, aguacate hass, tomate chonto, mango o papaya.</p>
+
+  <section class="tarjeta">
+    <label for="tienda">Tienda (opcional)</label>
+    <input id="tienda" type="text" maxlength="40" placeholder="Por ejemplo T-001">
+    <label for="gramos">Porción en gramos</label>
+    <input id="gramos" type="number" min="1" max="2000" value="100">
+    <div style="height:14px"></div>
+    <label class="boton" for="foto" id="tomar">Tomar o elegir foto</label>
+    <input id="foto" type="file" accept="image/*" capture="environment">
+    <img id="vista" alt="Foto que se va a analizar">
+  </section>
+
+  <section class="tarjeta" id="resultado" hidden aria-live="polite"></section>
+  <p id="error" role="alert"></p>
+
+  <p class="pie">Prototipo del workshop de Kiro. Datos de tienda ficticios. <span id="participante"></span></p>
+</main>
+<script>
+const LADO_MAXIMO = 1024;
+let config = null;
+
+async function cargarConfig() {
+  const r = await fetch("config.json", { cache: "no-store" });
+  config = await r.json();
+  document.getElementById("participante").textContent = "Instancia: " + config.participante;
+}
+
+function reducirImagen(archivo) {
+  return new Promise((resolver, rechazar) => {
+    const img = new Image();
+    img.onload = () => {
+      const escala = Math.min(1, LADO_MAXIMO / Math.max(img.width, img.height));
+      const lienzo = document.createElement("canvas");
+      lienzo.width = Math.round(img.width * escala);
+      lienzo.height = Math.round(img.height * escala);
+      lienzo.getContext("2d").drawImage(img, 0, 0, lienzo.width, lienzo.height);
+      resolver(lienzo.toDataURL("image/jpeg", 0.85));
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = () => rechazar(new Error("No se pudo leer la imagen"));
+    img.src = URL.createObjectURL(archivo);
+  });
+}
+
+const NOMBRES_ETAPA = { verde: "Verde", pinton: "Pintón", maduro: "Maduro", sobremaduro: "Sobremaduro" };
+
+function mostrar(datos) {
+  const caja = document.getElementById("resultado");
+  caja.replaceChildren();
+  const titulo = document.createElement("h2");
+  titulo.style.margin = "0 0 8px";
+  if (datos.producto === "desconocido") {
+    titulo.textContent = "No se reconoció el producto";
+    const p = document.createElement("p");
+    p.className = "aviso";
+    p.textContent = "Toma la foto más cerca, con buena luz y un solo producto.";
+    caja.append(titulo, p);
+  } else {
+    titulo.textContent = datos.nombre + " ";
+    const chip = document.createElement("span");
+    chip.className = "etapa " + datos.etapa;
+    chip.textContent = NOMBRES_ETAPA[datos.etapa] || datos.etapa;
+    titulo.append(chip);
+    const filas = [
+      ["Días hasta su punto", datos.dias_hasta_optimo === 0 ? "Ya está en su punto" : datos.dias_hasta_optimo + " días"],
+      ["Confianza", Math.round(datos.lectura.confianza * 100) + "%"],
+    ];
+    if (datos.accion) filas.push(["Acción en tienda", datos.accion.tipo || datos.accion]);
+    if (datos.nutricion) {
+      const n = datos.nutricion;
+      filas.push(["Porción", n.gramos + " g"], ["Energía", n.energia_kcal + " kcal"], ["Fibra", n.fibra_g + " g"],
+                 ["Potasio", n.potasio_mg + " mg"], ["Vitamina C", n.vitamina_c_mg + " mg"]);
+    }
+    const dl = document.createElement("dl");
+    for (const [k, v] of filas) {
+      const dt = document.createElement("dt"); dt.textContent = k;
+      const dd = document.createElement("dd"); dd.textContent = v;
+      dl.append(dt, dd);
+    }
+    caja.append(titulo, dl);
+    if (datos.nutricion) {
+      const p = document.createElement("p");
+      p.className = "aviso";
+      p.textContent = datos.nutricion.aviso + " Fuente: " + datos.nutricion.fuente + ".";
+      caja.append(p);
+    }
+  }
+  caja.hidden = false;
+}
+
+document.getElementById("foto").addEventListener("change", async (e) => {
+  const archivo = e.target.files[0];
+  if (!archivo) return;
+  const error = document.getElementById("error");
+  const boton = document.getElementById("tomar");
+  error.textContent = "";
+  boton.textContent = "Analizando…";
+  boton.setAttribute("aria-busy", "true");
+  try {
+    if (!config) await cargarConfig();
+    const dataUrl = await reducirImagen(archivo);
+    const vista = document.getElementById("vista");
+    vista.src = dataUrl; vista.style.display = "block";
+    const cuerpo = { imagen_base64: dataUrl, gramos: Number(document.getElementById("gramos").value) || 100 };
+    const tienda = document.getElementById("tienda").value.trim();
+    if (tienda) cuerpo.tienda = tienda;
+    const r = await fetch(config.api + "/analisis", {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(cuerpo),
+    });
+    const datos = await r.json();
+    if (!r.ok) throw new Error(datos.error ? datos.error.message : "Error " + r.status);
+    mostrar(datos);
+  } catch (err) {
+    error.textContent = err.message;
+  } finally {
+    boton.textContent = "Tomar o elegir foto";
+    boton.removeAttribute("aria-busy");
+    e.target.value = "";
+  }
+});
+
+cargarConfig().catch(() => {
+  document.getElementById("error").textContent = "No se encontró la configuración de la API (config.json).";
+});
+</script>
+</body>
+</html>

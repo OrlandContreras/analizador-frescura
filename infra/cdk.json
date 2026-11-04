@@ -1,0 +1,12 @@
+{
+  "app": "python3 app.py",
+  "watch": {
+    "include": ["**"],
+    "exclude": ["README.md", "cdk*.json", "**/__pycache__", "cdk.out"]
+  },
+  "context": {
+    "modeloVision": "us.amazon.nova-2-lite-v1:0",
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:target-partitions": ["aws"]
+  }
+}

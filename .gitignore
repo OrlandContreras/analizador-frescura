@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+infra/cdk.out/
+eval/reporte.md
+eval/fotos/*.jpg
+eval/fotos/*.jpeg
+eval/fotos/*.png
+.DS_Store

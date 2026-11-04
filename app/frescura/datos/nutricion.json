@@ -1,0 +1,11 @@
+{
+  "_nota": "Valores por 100 g de parte comestible, cruda. Fuente: USDA FoodData Central (SR Legacy). Son valores de referencia para el workshop: antes del piloto deben validarse contra la Tabla de Composición de Alimentos Colombianos del ICBF, que refleja las variedades locales.",
+  "fuente": "USDA FoodData Central (SR Legacy)",
+  "por_100g": {
+    "banano": {"energia_kcal": 89, "fibra_g": 2.6, "potasio_mg": 358, "vitamina_c_mg": 8.7},
+    "aguacate_hass": {"energia_kcal": 167, "fibra_g": 6.8, "potasio_mg": 507, "vitamina_c_mg": 8.8},
+    "tomate_chonto": {"energia_kcal": 18, "fibra_g": 1.2, "potasio_mg": 237, "vitamina_c_mg": 13.7},
+    "mango": {"energia_kcal": 60, "fibra_g": 1.6, "potasio_mg": 168, "vitamina_c_mg": 36.4},
+    "papaya": {"energia_kcal": 43, "fibra_g": 1.7, "potasio_mg": 182, "vitamina_c_mg": 60.9}
+  }
+}
