@@ -1,4 +1,4 @@
-# Laboratorios del workshop de Kiro — Grupo Éxito
+# Laboratorios del workshop de Kiro
 
 En este taller construyes y despliegas en AWS la primera versión del **Analizador de frescura de frutas y verduras**, trabajando con Kiro, el entorno de desarrollo con agentes de IA de AWS. Todos los participantes hacen todos los laboratorios, en orden.
 
