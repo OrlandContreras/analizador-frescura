@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Bloquear despliegue por el agente",
+      "description": "Lab 6: el agente no puede ejecutar cdk deploy ni cdk destroy. El despliegue lo hace una persona en la terminal.",
+      "trigger": "PreToolUse",
+      "matcher": "*",
+      "action": { "type": "command", "command": "node scripts/hooks/bloquear-despliegue.mjs" },
+      "timeout": 10
+    }
+  ]
+}

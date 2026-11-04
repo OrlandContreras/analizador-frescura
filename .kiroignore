@@ -1,0 +1,5 @@
+# Archivos que el agente no debe leer ni indexar
+.env
+.venv/
+infra/cdk.out/
+eval/fotos/

@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Pruebas al guardar",
+      "description": "Lab 6: cada vez que se guarda un archivo de Python, corre ruff y las pruebas, y avisa si algo falla.",
+      "trigger": "PostFileSave",
+      "matcher": "\\.py$",
+      "action": { "type": "command", "command": "node scripts/hooks/pruebas-al-guardar.mjs" },
+      "timeout": 120
+    }
+  ]
+}
