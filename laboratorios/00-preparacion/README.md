@@ -18,6 +18,7 @@ Llegar al taller con Kiro abierto, el proyecto funcionando y acceso a tu cuenta 
 | **Kiro CLI** | Kiro en la terminal. Lo usas en los Labs 8 y 9 |
 | **Python 3.12 o superior** | El lenguaje del analizador |
 | **Node.js 20 o superior** | Lo necesita AWS CDK y los hooks del Lab 6 |
+| **pnpm** | Instala las herramientas de JavaScript (AWS CDK) con controles de seguridad: no ejecuta scripts de instalación que nadie aprobó y evita versiones publicadas hace menos de 24 horas |
 | **Git** | Guarda versiones del proyecto y te permite cambiar de laboratorio |
 | **AWS CLI** | Conecta tu computador con tu cuenta de AWS |
 | **AWS CDK** | Despliega la solución en AWS con código |
@@ -44,13 +45,41 @@ En Kiro, menú **Terminal → New Terminal**. Abajo se abre un panel donde escri
 
 > **Si pegas un comando y no pasa nada**, presiona **Enter** una vez más.
 
-### Paso 3. Instala AWS CDK y Kiro CLI
+### Paso 3. Instala pnpm, AWS CDK y Kiro CLI
+
+En este taller, las herramientas de JavaScript se instalan con **pnpm**, no con npm.
+
+**3.1. Instala pnpm.**
+
+macOS o Linux:
 
 ```bash
-npm install -g aws-cdk
+curl -fsSL https://get.pnpm.io/install.sh | sh -
 ```
 
-Kiro CLI, en macOS o Linux:
+Windows (PowerShell). La documentación de pnpm recomienda instalarlo con npm en Windows, porque Windows Defender puede bloquear el instalador directo. Es el único uso de npm en el taller:
+
+```powershell
+npm install -g pnpm@latest
+```
+
+**3.2. Prepara la carpeta de herramientas globales de pnpm.**
+
+```bash
+pnpm setup
+```
+
+Luego **cierra Kiro por completo y vuelve a abrirlo**, y abre otra vez la terminal (**Terminal → New Terminal**). Esto carga la configuración nueva.
+
+**3.3. Instala AWS CDK con pnpm.**
+
+```bash
+pnpm add -g aws-cdk
+```
+
+**Resultado esperado:** termina con `+ aws-cdk 2.x.x` y `Done`. Si aparece un error, búscalo en la tabla **Si algo no sale** al final de esta guía.
+
+**3.4. Instala Kiro CLI.** En macOS o Linux:
 
 ```bash
 curl -fsSL https://cli.kiro.dev/install | bash
@@ -65,6 +94,7 @@ Pega estos comandos uno por uno:
 ```bash
 python3 --version
 node --version
+pnpm --version
 git --version
 aws --version
 cdk --version
@@ -170,3 +200,15 @@ Sigue las instrucciones que aparecen. Se abre el navegador para que inicies sesi
 | `pip install` falla por permisos | No uses `sudo`. Revisa que `(.venv)` aparece al inicio de la línea |
 | `git switch lab-01` dice que la rama no existe | Descomprimiste otra versión del proyecto. Descarga de nuevo el zip del enlace oficial |
 | `aws sts get-caller-identity` da un error de credenciales | Repite la configuración que te indicó el equipo de AWS |
+
+### Problemas con pnpm
+
+| Síntoma | Qué hacer |
+| --- | --- |
+| `pnpm: command not found` o "pnpm no se reconoce" | Cierra Kiro por completo y vuelve a abrirlo. Si sigue igual, repite el paso 3.1 |
+| `ERR_PNPM_GLOBAL_BIN_DIR_NOT_IN_PATH` ("The configured global bin directory … is not in PATH") | No corriste `pnpm setup`, o la terminal no cargó su configuración. Corre `pnpm setup`, cierra Kiro por completo, vuelve a abrirlo y repite `pnpm add -g aws-cdk` |
+| `cdk: command not found` después de instalar con pnpm | El mismo caso anterior: corre `pnpm setup` y reinicia Kiro. Comprueba con `pnpm bin -g` que la carpeta que muestra esté en el PATH |
+| `ERR_PNPM_IGNORED_BUILDS` | pnpm bloqueó el script de instalación de un paquete que nadie aprobó; es una protección. Revisa el nombre del paquete en el mensaje y, solo si es una dependencia esperada de AWS CDK, apruébalo con `pnpm add -g aws-cdk --allow-build=<paquete>`. Si no lo reconoces, avisa al facilitador |
+| Un error o aviso que menciona `minimumReleaseAge` | pnpm evita por seguridad las versiones publicadas hace menos de 24 horas. Normalmente instala sola la versión anterior; si en tu equipo está configurado en modo estricto, instala una versión que ya cumpla el plazo: `pnpm add -g aws-cdk@<versión-anterior>` (la ves con `pnpm view aws-cdk versions`), o espera un día |
+| La instalación de pnpm en Windows la bloquea Windows Defender | Usa la instalación con npm del paso 3.1 (`npm install -g pnpm@latest`) |
+| Ya tenías AWS CDK instalado con npm y `cdk --version` muestra otra versión | Desinstala esa copia con `npm uninstall -g aws-cdk` y repite `pnpm add -g aws-cdk` |
