@@ -123,5 +123,6 @@ class FrescuraStack(Stack):
 
         CfnOutput(self, "UrlApi", value=api.api_endpoint)
         CfnOutput(self, "UrlWeb", value=f"https://{distribucion.distribution_domain_name}")
+        CfnOutput(self, "UrlCliente", value=f"https://{distribucion.distribution_domain_name}/cliente.html")
         CfnOutput(self, "TablaAnalisis", value=tabla.table_name)
         CfnOutput(self, "GrupoRegistros", value=registros.log_group_name)

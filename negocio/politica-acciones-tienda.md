@@ -40,7 +40,16 @@ Cada recomendación incluye un texto corto que explica la acción, por ejemplo: 
 
 Toda acción queda registrada con la tienda, el producto, la etapa y la acción recomendada. Las acciones **Donar** y **Revisar** requieren la confirmación del jefe de sección.
 
-## 6. Indicadores
+## 6. Lo que ve el cliente
+
+El cliente consulta desde la app cuándo estará en su punto lo que compró. Esa vista es pública y tiene reglas propias:
+
+1. **Muestra solo información del producto:** nombre, etapa de madurez en lenguaje sencillo, cuándo estará en su punto y nutrición por porción.
+2. **Nunca muestra información interna:** la acción en tienda, los descuentos, el destino de transformación o donación, la confianza del análisis ni los defectos detectados.
+3. **Si el análisis no es concluyente** (producto desconocido o confianza menor a 0,70), no adivina: le pide al cliente que tome otra foto.
+4. **Los análisis del cliente no se registran con una tienda:** se registran en el canal "cliente", separados de los del personal.
+
+## 7. Indicadores
 
 | Indicador | Meta |
 | --- | --- |
