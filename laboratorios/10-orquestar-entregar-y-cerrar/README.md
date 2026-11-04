@@ -1,6 +1,6 @@
-# Lab 9 · Orquestar, entregar y cerrar
+# Lab 10 · Orquestar, entregar y cerrar
 
-**Módulo 9 · L300 · 25 minutos · Rama de inicio: `lab-09`**
+**Módulo 10 · L300 · 25 minutos · Rama de inicio: `lab-10`**
 
 ## Qué vas a hacer
 
@@ -30,16 +30,16 @@ Ejecutar un workflow ya creado, crear y ejecutar uno propio que encadena dos age
 - **Sigues con tu trabajo:** trae el workflow que viene creado, la plantilla de la hoja de ruta y los agentes del Lab 8 (si ya los tienes, no pasa nada):
 
 ```bash
-git restore --source lab-09 .kiro/workflows/investigar-piloto.workflow.json negocio/hoja-de-ruta-piloto.md .kiro/agents
+git restore --source lab-10 .kiro/workflows/investigar-piloto.workflow.json negocio/hoja-de-ruta-piloto.md .kiro/agents
 ```
 
-> Si clonaste el proyecto de GitHub y no encuentra `lab-09`, usa `origin/lab-09`.
+> Si clonaste el proyecto de GitHub y no encuentra `lab-10`, usa `origin/lab-10`.
 
 - **Te atrasaste:**
 
 ```bash
 git stash --include-untracked
-git switch lab-09
+git switch lab-10
 pip install -r requirements-dev.txt
 ```
 
@@ -172,7 +172,7 @@ Tu workflow tiene **dos pasos encadenados**:
       "type": "step",
       "id": "hoja-de-ruta",
       "agent": "wf-coder",
-      "prompt": "Completa la sección \"Dónde estamos\" de negocio/hoja-de-ruta-piloto.md. Usa la URL de la instancia {{url_instancia}}, el acierto de eval/reporte.md y el costo de docs/costo-piloto.md si existen, los riesgos de .kiro/reports/piloto.md y este resultado de la revisión de seguridad: {{previous.output}} No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha. No modifiques ningún otro archivo.",
+      "prompt": "Completa la sección \"Dónde estamos\" de negocio/hoja-de-ruta-piloto.md. Usa la URL de la instancia {{url_instancia}}, el acierto de eval/reporte.md, el costo de docs/costo-piloto.md y el uso de docs/uso-piloto.md si existen, los riesgos de .kiro/reports/piloto.md y este resultado de la revisión de seguridad: {{previous.output}} No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha. No modifiques ningún otro archivo.",
       "artifacts": {
         "hoja_de_ruta": "negocio/hoja-de-ruta-piloto.md"
       }
@@ -220,7 +220,7 @@ Valida el workflow .kiro/workflows/preparar-piloto.workflow.json con validate_wo
 
 **6.8. Revisa el resultado.** Abre `negocio/hoja-de-ruta-piloto.md`.
 
-**Resultado esperado:** la sección **Dónde estamos** tiene la URL de tu instancia, el acierto, el costo (si lo calculaste en el Lab 7) y el veredicto de la revisión de seguridad. Lo que faltaba quedó en blanco. Completa tú el **próximo paso concreto**.
+**Resultado esperado:** la sección **Dónde estamos** tiene la URL de tu instancia, el acierto, el costo (si lo calculaste en el Lab 7), el uso (del Lab 9) y el veredicto de la revisión de seguridad. Lo que faltaba quedó en blanco. Completa tú el **próximo paso concreto**.
 
 ### Paso 7 (opcional). Ejecuta el revisor en modo headless
 
@@ -252,7 +252,7 @@ kiro-cli chat --v3 --no-interactive --agent revisor-seguridad --trust-tools=read
 
 ```bash
 git add -A
-git commit -m "Lab 9: workflows, CI y hoja de ruta del piloto"
+git commit -m "Lab 10: workflows, CI y hoja de ruta del piloto"
 ```
 
 ### Paso 9. Borra tu instancia de AWS
@@ -291,8 +291,8 @@ Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)
 
 ## Lo que te llevas
 
-- Un repositorio con specs, steering, hooks, MCP, skills, dos agentes y dos workflows, y un Kiro que recuerda lo aprendido en el proyecto: la base de cómo trabajará el equipo con agentes.
+- Un repositorio con specs, steering, hooks, MCP, skills, un Power, dos agentes y dos workflows, y un Kiro que recuerda lo aprendido en el proyecto: la base de cómo trabajará el equipo con agentes.
 - Un servicio desplegado y probado con fruta real.
-- La medición de acierto, la estimación de costo, el informe de riesgos y la hoja de ruta: el punto de partida del piloto.
+- La medición de acierto, la estimación de costo, el resumen de uso, el informe de riesgos y la hoja de ruta: el punto de partida del piloto.
 
 **Para discutir:** ¿qué tareas del área justifican un workflow en vez de un pedido en el chat?
