@@ -16,7 +16,7 @@ Esta guía es para ejecutar todos los laboratorios **en el entorno que entrega A
 6. [Lab 2 · De la necesidad al plan](#lab-2--de-la-necesidad-al-plan) — L100 · 25 min
 7. [Lab 3 · Construir con el plan](#lab-3--construir-con-el-plan) — L100 · 35 min
 8. [Lab 4 · Calidad medible](#lab-4--calidad-medible) — L200 · 15 min
-9. [Lab 5 · El "manual de la casa"](#lab-5--el-manual-de-la-casa) — L200 · 15 min
+9. [Lab 5 · El "manual de la casa" y la memoria](#lab-5--el-manual-de-la-casa-y-la-memoria) — L200 · 20 min
 10. [Lab 6 · Reglas automáticas](#lab-6--reglas-automáticas) — L200 · 15 min
 11. [Lab 7 · Conectar y estandarizar](#lab-7--conectar-y-estandarizar) — L300 · 20 min
 12. [Lab 8 · Agentes especializados y despliegue](#lab-8--agentes-especializados-y-despliegue) — L300 · 35 min
@@ -64,7 +64,10 @@ En los dos casos trabajas igual: **Kiro IDE corre en Linux, dentro de AWS**. Eso
 
 ### 2.1. Entorno de cada participante
 
-- [ ] Máquina virtual Linux con **Kiro IDE** (la aplicación de escritorio, no solo Kiro CLI), accesible por navegador o escritorio remoto.
+- [ ] Máquina virtual Linux con **Kiro IDE 1.4.0 o posterior** (la aplicación de escritorio, no solo Kiro CLI), accesible por navegador o escritorio remoto. La 1.4.0 trae la **memoria** del Lab 5.
+- [ ] **Kiro CLI 2.29.0 o posterior** (memoria compartida con el IDE, Lab 8).
+- [ ] La carpeta `~/analizador-frescura` marcada como de confianza en Kiro (**Workspaces: Manage Workspace Trust**). Sin eso, Kiro no puede guardar memorias.
+- [ ] Memoria en **Off** al entregar la máquina (es el valor inicial) y sin memorias previas: el participante la activa en el Lab 5.
 - [ ] Herramientas instaladas y en el PATH: Kiro CLI, Python 3.12+, Node.js 20+, pnpm, AWS CDK (`pnpm add -g aws-cdk`), AWS CLI v2, Git y uv.
 - [ ] Proyecto `analizador-frescura` con todas sus ramas, ya clonado en `~/analizador-frescura`, o la URL del repositorio para clonarlo.
 - [ ] Salida a internet hacia PyPI, el registro de npm, kiro.dev, los servicios de AWS y los paquetes MCP de `awslabs` (uv los descarga en el Lab 7).
@@ -101,7 +104,7 @@ cd infra
 cdk deploy -c participante=prueba
 ```
 
-Resultado esperado: `51 passed`, tu identidad de AWS y, al final del despliegue, las salidas `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Abre `UrlWeb` en tu celular y analiza una fruta. Después borra todo con `cdk destroy -c participante=prueba`.
+Resultado esperado: `61 passed`, tu identidad de AWS y, al final del despliegue, las salidas `UrlApi`, `UrlWeb`, `TablaAnalisis` y `GrupoRegistros`. Abre `UrlWeb` en tu celular y analiza una fruta. Después borra todo con `cdk destroy -c participante=prueba`.
 
 ---
 
@@ -528,85 +531,178 @@ git commit -m "Lab 4: corrige el umbral y agrega pruebas de propiedades"
 
 ---
 
-## Lab 5 · El "manual de la casa"
+## Lab 5 · El "manual de la casa" y la memoria
 
-**Módulo 5 · L200 · 15 minutos · Rama: `lab-05`**
+**Módulo 5 · L200 · 20 minutos · Rama: `lab-05`**
 
 ### Qué vas a hacer
 
-El **steering** es el manual de la casa para el agente: archivos en `.kiro/steering/` que lee para trabajar como alguien del equipo. Harás un experimento de antes y después.
+Cuando alguien nuevo entra a un equipo, recibe un manual: cómo hablamos con el cliente, qué tecnología usamos, qué no se hace nunca. Kiro tiene lo mismo: el **steering**, archivos en `.kiro/steering/` que el agente lee para trabajar como lo haría alguien de la casa.
 
-| Modo | Cuándo lo lee el agente | Ejemplo |
+Harás un experimento de antes y después: le pedirás un mensaje para el cliente sin steering, agregarás el steering y repetirás el pedido.
+
+Luego activarás la **memoria** de Kiro. El steering lo escribe el equipo **antes** de trabajar; la memoria la va armando Kiro **mientras** trabajas: correcciones que le haces, cosas que descubres al depurar, preferencias tuyas. Kiro las guarda y las recuerda en conversaciones siguientes, sin que se las repitas.
+
+Cada archivo de steering dice **cuándo** se carga:
+
+| Modo | Cuándo lo lee el agente | Ejemplo en este laboratorio |
 | --- | --- | --- |
 | `always` | Siempre | Producto, tecnología y estructura |
-| `fileMatch` | Al trabajar con ciertos archivos | Estándares de AWS, al tocar `infra/` |
+| `fileMatch` | Solo cuando trabaja con ciertos archivos | Estándares de AWS, al tocar `infra/` |
 | `auto` | Cuando el pedido coincide con su descripción | Mensajes para el cliente |
 | `manual` | Solo cuando lo mencionas con `#` | Guía de diagnóstico |
 
 ### Objetivo
 
-Que el agente respete, sin pedírselo, el tono con el cliente, la regla de no prometer efectos de salud y los estándares de AWS.
+Que el agente respete, sin que se lo pidas, el tono con el cliente, la regla de no prometer efectos de salud y los estándares de AWS del proyecto, y que recuerde en una conversación nueva algo que le enseñaste en otra. Al final sabrás cuándo una regla va en steering y cuándo basta con la memoria.
 
 ### Paso a paso
 
-**Paso 1. Antes: un mensaje sin steering.** Conversación nueva (**+**) y pega:
+#### Paso 1. Antes: pide un mensaje sin steering
+
+1. Abre una conversación nueva en el chat (botón **+**).
+2. Pega:
 
 ```text
 Redacta el mensaje que ve un cliente en la app cuando su aguacate hass está pintón, e incluye por qué es bueno comerlo.
 ```
 
-Copia la respuesta en un archivo de notas para compararla al final.
+3. Copia la respuesta en un bloc de notas: la compararás al final.
 
-**Paso 2. Genera el steering base.**
+#### Paso 2. Genera el steering base
 
-1. En el panel de Kiro, pasa el mouse sobre **AGENT STEERING & SKILLS** y haz clic en el **+** que aparece.
-2. Elige **Project steering files**.
-3. Espera a que termine.
+1. En el panel de Kiro, pasa el mouse sobre el título **AGENT STEERING & SKILLS**. A la derecha aparece un **+**: haz clic.
+2. En el menú de arriba, elige **Project steering files** (*Automatically create project steering files…*).
+3. Espera a que Kiro termine.
 
-Resultado esperado: `product.md`, `tech.md` y `structure.md` en `.kiro/steering/`.
+**Resultado esperado:** en `.kiro/steering/` aparecen `product.md`, `tech.md` y `structure.md`, escritos por Kiro a partir del proyecto. Ábrelos y léelos.
 
-**Paso 3. Agrega las reglas de la casa.**
+#### Paso 3. Agrega las reglas de la casa
+
+Trae dos archivos de steering ya escritos por el equipo, desde la rama del laboratorio siguiente:
 
 ```bash
 git restore --source lab-06 .kiro/steering/mensajes-cliente.md .kiro/steering/aws-infra.md .kiro/steering/troubleshooting.md app/frescura/AGENTS.md
 ```
 
-Abre cada archivo y mira su encabezado entre las líneas `---`: `mensajes-cliente.md` es `auto` (tuteo y nada de "cura", "previene" ni "adelgaza"); `aws-infra.md` es `fileMatch` con `infra/**/*.py`; `troubleshooting.md` es `manual`; `app/frescura/AGENTS.md` aplica a esa carpeta.
 
-**Paso 4. Después: repite el pedido.** Conversación nueva (**+**), pega el mismo texto del paso 1 y despliega **Included Steering** en la respuesta.
+Abre cada archivo y fíjate en su encabezado (entre las líneas `---`):
 
-Resultado esperado: tuteo, cuándo estará listo, "Valores aproximados de referencia" y ninguna promesa de salud. En **Included Steering** aparece `mensajes-cliente.md`.
+- `mensajes-cliente.md` → `inclusion: auto`: tuteo y nada de "cura", "previene" ni "adelgaza".
+- `aws-infra.md` → `inclusion: fileMatch` con `infra/**/*.py`: mínimos privilegios, etiquetas y que el agente nunca despliega.
+- `troubleshooting.md` → `inclusion: manual`.
+- `app/frescura/AGENTS.md` no tiene encabezado: Kiro lo lee cuando trabaja en esa carpeta.
 
-**Paso 5. Modo fileMatch.** Abre `infra/stacks/frescura_stack.py` y pregunta:
+#### Paso 4. Después: repite el pedido
+
+1. Abre una conversación nueva (**+**). El steering se carga al empezar cada conversación.
+2. Pega exactamente el mismo pedido del paso 1.
+3. Despliega **Included Steering** en la respuesta para ver qué archivos usó.
+
+**Resultado esperado:** el mensaje nuevo usa tuteo, dice cuándo estará listo, incluye "Valores aproximados de referencia" y **no** promete efectos de salud. En **Included Steering** aparece `mensajes-cliente.md`.
+
+#### Paso 5. Comprueba el modo fileMatch
+
+1. Abre `infra/stacks/frescura_stack.py`.
+2. En el chat:
 
 ```text
 Si agrego un bucket de S3 nuevo en este archivo, ¿qué estándares debo cumplir?
 ```
 
-Resultado esperado: bucket privado, cifrado, SSL obligatorio, sin nombre fijo y una prueba en `tests/test_infra.py`.
+**Resultado esperado:** Kiro cita las reglas de `aws-infra.md`: bucket privado, cifrado, SSL obligatorio, sin nombre fijo y con una prueba en `tests/test_infra.py`.
 
-**Paso 6. Modo manual.**
+#### Paso 6. Usa el steering manual
 
 ```text
 #troubleshooting pytest dice que no encuentra el módulo frescura
 ```
 
-Resultado esperado: correr desde la raíz del proyecto con el entorno activo.
+**Resultado esperado:** Kiro responde con el punto 2 de la guía: correr desde la raíz del proyecto con el entorno activo.
 
-**Paso 7. Guarda tu trabajo.**
+#### Paso 7. Activa la memoria
+
+> La memoria necesita **Kiro IDE 1.4.0 o posterior**. Si en la barra de actividades de la izquierda no ves el ícono **Memories**, avisa al facilitador: la máquina tiene una versión anterior.
+
+1. En la barra de actividades de la izquierda, haz clic en el ícono **Memories**. Se abre la vista de memorias, vacía.
+2. Haz clic en el engranaje **Memory settings**. Se abre el ajuste **Kiro Agent: Memory**.
+3. Elige **Use and learn**: Kiro usa las memorias y además crea o ajusta memorias nuevas por su cuenta.
+4. Kiro muestra un aviso con el botón **Start new session**: haz clic. Si no aparece, abre una conversación nueva con **+**. La memoria aplica solo a conversaciones nuevas.
+
+| Nivel | Qué hace Kiro |
+| --- | --- |
+| **Use and learn** | Usa las memorias y crea o ajusta memorias por su cuenta |
+| **Use but don't learn** | Usa las memorias y solo las cambia cuando se lo pides |
+| **Use only** | Usa las memorias existentes, pero nunca las cambia |
+| **Off** | No usa ni cambia memorias (es el valor inicial) |
+
+> **Qué no debes pedirle que recuerde:** contraseñas, llaves, datos de clientes ni nada del archivo `.env`. Las memorias se guardan como texto en tu computador.
+
+#### Paso 8. Enséñale algo que descubriste trabajando
+
+En el Lab 4 viste que un umbral mal puesto bajó el acierto de etapa por debajo del 85%. Un umbral mal calibrado puede pasar todas las pruebas y aun así equivocarse con fruta real: solo la evaluación lo muestra. Enséñaselo a Kiro. En la conversación nueva, pega:
+
+```text
+Algo que aprendimos en este proyecto: cuando se cambie un umbral en app/frescura/datos/catalogo.json, además de pytest hay que correr python eval/evaluar.py y confirmar que el acierto de etapa sigue en 85% o más, porque un umbral mal calibrado puede pasar las pruebas y aun así bajar el acierto. Recuérdalo para este repositorio.
+```
+
+**Resultado esperado:** en la respuesta aparece una entrada **Memory created (1)**. Despliégala para ver qué guardó.
+
+Ahora, en la vista **Memories**:
+
+1. Haz clic en **Refresh Memories** (arriba de la vista) si la memoria nueva no aparece.
+2. Fíjate en la columna de **ubicación**: dice `analizador-frescura`, es decir, solo aplica a este repositorio. Las memorias **Global** aplican en todos tus proyectos.
+3. Haz clic en la memoria. Se abre una pestaña con su **Summary** y su **Content**.
+
+#### Paso 9. Compruébalo en una conversación nueva
+
+1. Abre una conversación nueva (**+**). Kiro no ve lo que se habló en la anterior.
+2. Pega:
+
+```text
+Voy a cambiar el umbral de sobremaduro del mango en el catálogo. ¿Qué debo verificar después del cambio? No modifiques nada todavía.
+```
+
+**Resultado esperado:** en la respuesta aparece **Memory accessed (1)** y Kiro te dice que corras `pytest` **y** `python eval/evaluar.py`, y que revises que el acierto de etapa siga en 85% o más. No se lo repetiste: lo recordó.
+
+3. (Opcional) Haz clic en el indicador de uso de contexto, abajo del cuadro del chat. En **Context Usage** aparece una fila **Memory**, después de **Steering files**: lo que Kiro recuerda también ocupa contexto.
+
+#### Paso 10. ¿Memoria o steering?
+
+| | Steering | Memoria |
+| --- | --- | --- |
+| Quién lo escribe | Tú o el equipo, a propósito | Kiro, a partir de lo que pasa en el trabajo |
+| Dónde vive | En `.kiro/steering/`, dentro del repositorio | En tu computador, fuera del repositorio |
+| Quién lo usa | Todo el que clone el proyecto (viaja con Git) | Solo tú, en Kiro IDE y en Kiro CLI de este computador |
+| Cuándo conviene | Reglas que **siempre** deben cumplirse | Contexto que aparece trabajando y que nadie escribiría |
+
+La regla del paso 8 la debería cumplir **todo el equipo**, no solo tú. Por eso, cuando una memoria se vuelve regla, pásala al steering:
+
+```text
+Agrega la regla que recordaste sobre los umbrales del catálogo a .kiro/steering/tech.md, en una sección llamada "Cambios de umbrales". Cambia solo ese archivo.
+```
+
+**Resultado esperado:** `tech.md` tiene la nueva sección. Desde ahora la regla viaja con el repositorio y la recibe cualquiera que lo clone.
+
+> Para borrar una memoria: en la vista **Memories**, clic derecho sobre ella → **Delete**, y confirma. En el entorno de AWS no hace falta: la máquina se elimina al terminar el taller.
+
+#### Paso 11. Guarda tu trabajo
 
 ```bash
 git add -A
-git commit -m "Lab 5: steering del proyecto"
+git commit -m "Lab 5: steering del proyecto y memoria"
 ```
 
 ### Criterio de éxito
 
-- [ ] Seis archivos en `.kiro/steering/`.
-- [ ] El segundo mensaje usa tuteo y no promete salud, sin pedirlo.
+- [ ] `.kiro/steering/` tiene `product.md`, `tech.md`, `structure.md`, `mensajes-cliente.md`, `aws-infra.md` y `troubleshooting.md`.
+- [ ] El segundo mensaje al cliente usa tuteo y no promete efectos de salud, sin que lo pidieras.
 - [ ] Kiro aplicó `aws-infra.md` al hablar de `infra/`.
+- [ ] La memoria está en **Use and learn**, y en la vista **Memories** aparece la regla de los umbrales, ubicada en `analizador-frescura`.
+- [ ] En una conversación nueva apareció **Memory accessed** y Kiro recordó correr la evaluación.
+- [ ] La regla quedó también en `.kiro/steering/tech.md`.
 
-**Si te atrasaste:** cambia a la rama `lab-06`.
+**Si te atrasaste:** cambia a la rama `lab-06`. La memoria no viaja en las ramas: hazla en tu máquina con los pasos 7 a 9.
 
 ---
 
@@ -967,6 +1063,8 @@ Agrega a la respuesta del análisis el campo mensaje_cliente, para el cliente fi
 2. Implementa el mensaje (por ejemplo en `app/frescura/mensajes.py`) y lo agrega a la respuesta en `app/frescura/analizador.py`.
 3. Lo muestra en `web/index.html`.
 4. Corre `pytest`, `ruff check .` y la evaluación, y entrega la tabla de archivos que cambió.
+
+> **La memoria también está en la CLI.** Kiro IDE y Kiro CLI comparten las memorias del mismo computador. Al terminar, escribe `/memories` en la sesión: verás la regla de los umbrales que le enseñaste en el Lab 5. Si `/memories` pide configurar el acceso, elige **read & write** (aplica desde la siguiente sesión). Si el comando no existe, tu Kiro CLI es anterior a la 2.29.0: este paso es opcional, sigue.
 
 #### Paso 4. Comprueba sus límites
 
@@ -1353,5 +1451,7 @@ Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)
 | `aws-pricing` da error de permisos | El rol necesita `pricing:*`. Avisa al equipo de AWS |
 | No aparece la opción **Workflows** o `/workflow-run` no lista los workflows | Abre una conversación nueva. Si sigue igual, la versión de Kiro no tiene workflows: avisa al facilitador y sigue con la integración continua del Lab 9 |
 | El workflow `preparar-piloto` falla con "agent not found" | Falta el agente `revisor-seguridad`: `git restore --source lab-09 .kiro/agents` |
+| No aparece el ícono **Memories** | La máquina tiene Kiro anterior a la 1.4.0. Avisa al equipo de AWS |
+| **Couldn't save memory** o **Memory not saved** | La carpeta no es de confianza: **Ctrl+Shift+P** → **Workspaces: Manage Workspace Trust** → **Trust** |
 | Kiro responde en inglés | Escribe: "Responde en español de aquí en adelante" |
 | Te atrasaste en cualquier laboratorio | Cambia a la rama del laboratorio siguiente (ver [Si te atrasas](#si-te-atrasas-cambiar-de-rama)) |
