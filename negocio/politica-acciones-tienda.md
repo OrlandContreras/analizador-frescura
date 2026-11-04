@@ -1,6 +1,6 @@
 # Política de acciones en tienda para frutas y verduras
 
-> **Documento ficticio para el workshop de Kiro.** No refleja políticas reales de Grupo Éxito.
+> **Documento ficticio para el workshop de Kiro.** No refleja políticas reales de ninguna empresa.
 
 **Código:** POL-FRV-001 · **Versión:** 1.0 · **Área responsable:** Operaciones de frescos
 
