@@ -292,7 +292,7 @@ Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)
 ## Lo que te llevas
 
 - Un repositorio con specs, steering, hooks, MCP, skills, un Power, dos agentes y dos workflows, y un Kiro que recuerda lo aprendido en el proyecto: la base de cómo trabajará el equipo con agentes.
-- Un servicio desplegado y probado con fruta real.
+- Un servicio desplegado y probado con fotos.
 - La medición de acierto, la estimación de costo, el resumen de uso, el informe de riesgos y la hoja de ruta: el punto de partida del piloto.
 
 **Para discutir:** ¿qué tareas del área justifican un workflow en vez de un pedido en el chat?
