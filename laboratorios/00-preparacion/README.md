@@ -43,7 +43,7 @@ Instala cada una desde su página oficial y acepta las opciones por defecto.
 
 | Herramienta | Dónde descargarla | Nota para Windows |
 | --- | --- | --- |
-| Kiro IDE | [kiro.dev/downloads](https://kiro.dev/downloads/) | Ábrelo e inicia sesión con la cuenta que te indicó el equipo organizador |
+| Kiro IDE (1.4.0 o posterior) | [kiro.dev/downloads](https://kiro.dev/downloads/) | Ábrelo e inicia sesión con la cuenta que te indicó el equipo organizador. Si ya lo tenías, actualízalo con **Help → Check for Updates**: la memoria del Lab 5 necesita la 1.4.0 |
 | Python 3.12 o superior | [python.org/downloads](https://www.python.org/downloads/) | En la primera pantalla del instalador, marca **Add python.exe to PATH** |
 | Node.js 20 o superior (LTS) | [nodejs.org](https://nodejs.org/) | Acepta las opciones por defecto |
 | Git | [git-scm.com/downloads](https://git-scm.com/downloads) | Acepta las opciones por defecto |
@@ -147,7 +147,7 @@ uv --version
 kiro-cli --version
 ```
 
-**Resultado esperado:** cada comando muestra un número de versión. Python debe ser 3.12 o mayor y Node 20 o mayor. Si alguno dice "command not found" o "no se reconoce como nombre de un cmdlet", reinstálalo y vuelve a abrir Kiro.
+**Resultado esperado:** cada comando muestra un número de versión. Python debe ser 3.12 o mayor, Node 20 o mayor y Kiro CLI 2.29.0 o mayor. En Kiro IDE, **Help → About** debe mostrar 1.4.0 o mayor. Si alguno dice "command not found" o "no se reconoce como nombre de un cmdlet", reinstálalo y vuelve a abrir Kiro.
 
 ### Paso 5. Identifícate en Git
 

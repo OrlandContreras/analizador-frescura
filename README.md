@@ -133,7 +133,7 @@ pip install -r requirements-dev.txt
 | `lab-03` | + spec de la acción en tienda (Lab 2) |
 | `lab-04` | + acción en tienda implementada (Lab 3) y la prueba del error activa |
 | `lab-05` | + error corregido y pruebas de propiedades (Lab 4) |
-| `lab-06` | + steering (Lab 5) |
+| `lab-06` | + steering, con la regla de cambios de umbrales que nace de la memoria (Lab 5) |
 | `lab-07` | + hooks (Lab 6) |
 | `lab-08` | + MCP de AWS y skills (Lab 7) |
 | `lab-09` | + agentes implementador y revisor de seguridad, mensaje para el cliente (Lab 8), workflow `investigar-piloto` y plantilla de la hoja de ruta |
