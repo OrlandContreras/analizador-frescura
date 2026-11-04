@@ -7,7 +7,7 @@ inclusion: always
 Un servicio que, con la foto de una fruta o verdura, indica su etapa de madurez, los días hasta su punto óptimo, la acción recomendada en tienda y su información nutricional por porción.
 
 ## Para quién
-- **Piloto:** auxiliares y jefes de la sección de frutas y verduras de las tiendas Éxito y Carulla. Objetivo: reducir la pérdida de producto (ver `negocio/necesidad.md`).
+- **Piloto:** auxiliares y jefes de la sección de frutas y verduras de las tiendas de la cadena. Objetivo: reducir la pérdida de producto (ver `negocio/necesidad.md`).
 - **Fase siguiente:** clientes en la app, que consultan cuándo estará en su punto lo que compraron.
 
 ## Reglas del negocio que el agente debe respetar
