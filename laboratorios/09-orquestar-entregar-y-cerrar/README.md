@@ -16,6 +16,10 @@ Salir del taller con un informe de riesgos, la hoja de ruta del piloto completa 
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 - **Sigues con tu trabajo:** quédate en tu rama.
 - **Te atrasaste:**
 
@@ -46,7 +50,7 @@ Usa un workflow para investigar, sin modificar ningún archivo, qué riesgos té
 Trae el archivo de GitHub Actions:
 
 ```bash
-git restore --source final -- .github/workflows/ci.yml
+git restore --source final .github/workflows/ci.yml
 ```
 
 > Si clonaste el proyecto de GitHub y no encuentra `final`, usa `origin/final`.
@@ -107,7 +111,7 @@ Cuando el workflow termine, abre `.kiro/reports/piloto.md`.
 ### Paso 5. Completa la hoja de ruta del piloto
 
 ```bash
-git restore --source final -- negocio/hoja-de-ruta-piloto.md
+git restore --source final negocio/hoja-de-ruta-piloto.md
 ```
 
 En el chat:

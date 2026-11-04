@@ -21,6 +21,10 @@ Que la calidad, la seguridad y el control del despliegue no dependan de pedírse
 
 ## Antes de empezar
 
+> **Terminal:** abre la terminal de Kiro (**Terminal → New Terminal**) y activa el entorno de Python. Debe aparecer `(.venv)` al inicio de la línea.
+> - Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+> - macOS o Linux: `source .venv/bin/activate`
+
 - **Sigues con tu trabajo:** quédate en tu rama.
 - **Te atrasaste:**
 
@@ -35,7 +39,7 @@ pip install -r requirements-dev.txt
 ### Paso 1. Trae los hooks
 
 ```bash
-git restore --source lab-07 -- .kiro/hooks scripts/hooks .kiroignore
+git restore --source lab-07 .kiro/hooks scripts/hooks .kiroignore
 ```
 
 > Si clonaste el proyecto de GitHub y no encuentra `lab-07`, usa `origin/lab-07`.
