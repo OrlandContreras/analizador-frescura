@@ -10,11 +10,13 @@ app/frescura/        Código de la función Lambda
   vision.py          Lectura con Bedrock (VisionBedrock) o fija (VisionEjemplo)
   reglas.py          Etapa de madurez y días hasta el punto óptimo
   acciones.py        Acción en tienda según POL-FRV-001
+  vista_cliente.py   Respuesta para el cliente, sin información interna
   nutricion.py       Nutrición por porción
   historial.py       Historial en DynamoDB (sin imágenes)
   datos/             catalogo.json y nutricion.json
 infra/               AWS CDK: app.py y stacks/frescura_stack.py
-web/                 Página web móvil (un solo index.html)
+web/                 Páginas web móviles: index.html (personal), cliente.html (cliente),
+                     estilos.css y comun.js compartidos, muestras/ (fotos de muestra)
 tests/               Pruebas de pytest, una por módulo
 eval/                Evaluación del acierto con fotos etiquetadas
 negocio/             Necesidad, política y glosario
