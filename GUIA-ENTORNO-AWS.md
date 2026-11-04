@@ -20,8 +20,9 @@ Esta guía es para ejecutar todos los laboratorios **en el entorno que entrega A
 10. [Lab 6 · Reglas automáticas](#lab-6--reglas-automáticas) — L200 · 15 min
 11. [Lab 7 · Conectar y estandarizar](#lab-7--conectar-y-estandarizar) — L300 · 20 min
 12. [Lab 8 · Agentes especializados y despliegue](#lab-8--agentes-especializados-y-despliegue) — L300 · 35 min
-13. [Lab 9 · Orquestar, entregar y cerrar](#lab-9--orquestar-entregar-y-cerrar) — L300 · 25 min
-14. [Problemas frecuentes en el entorno de AWS](#problemas-frecuentes-en-el-entorno-de-aws)
+13. [Lab 9 · Operar con un Power](#lab-9--operar-con-un-power) — L300 · 15 min
+14. [Lab 10 · Orquestar, entregar y cerrar](#lab-10--orquestar-entregar-y-cerrar) — L300 · 25 min
+15. [Problemas frecuentes en el entorno de AWS](#problemas-frecuentes-en-el-entorno-de-aws)
 
 ---
 
@@ -46,8 +47,8 @@ En los dos casos trabajas igual: **Kiro IDE corre en Linux, dentro de AWS**. Eso
 
 | Herramienta | Para qué |
 | --- | --- |
-| Kiro IDE | El entorno de trabajo con el agente de IA |
-| Kiro CLI | Los agentes implementador y revisor (Lab 8) y el modo headless (Lab 9) |
+| Kiro IDE | El entorno de trabajo con el agente de IA, incluidos la memoria (Lab 5) y los Powers (Lab 9) |
+| Kiro CLI | Los agentes implementador y revisor (Lab 8) y el modo headless (Lab 10) |
 | Python 3.12 o superior | El analizador y sus pruebas |
 | Node.js 20 o superior y pnpm | AWS CDK y los hooks del Lab 6 |
 | AWS CDK | Desplegar la solución |
@@ -85,8 +86,9 @@ En los dos casos trabajas igual: **Kiro IDE corre en Linux, dentro de AWS**. Eso
 ### 2.3. Sesión de Kiro
 
 - [ ] Método de inicio de sesión en Kiro definido (Builder ID o la identidad de la organización) y créditos suficientes por participante. Los Labs 2, 3 y 9 son los que más consumen.
-- [ ] Versión de Kiro IDE con **Workflows** (paleta de comandos → **Workspace Configuration** → **Workflows**). Probar en la máquina de muestra que `/workflow-run` lista `investigar-piloto` en la rama `lab-09`.
-- [ ] Si se hará el modo headless del Lab 9: una **KIRO_API_KEY** para cada participante o solo para el facilitador.
+- [ ] Versión de Kiro IDE con **Workflows** (paleta de comandos → **Workspace Configuration** → **Workflows**). Probar en la máquina de muestra que `/workflow-run` lista `investigar-piloto` en la rama `lab-10`.
+- [ ] Panel de **Powers** disponible en Kiro IDE. Probar en la máquina de muestra **Add Custom Power → Import power from a folder** con `~/analizador-frescura/powers/operacion-frescura` (rama `lab-09`) y que el diagnóstico del Lab 9 corra contra la instancia de prueba.
+- [ ] Si se hará el modo headless del Lab 10: una **KIRO_API_KEY** para cada participante o solo para el facilitador.
 
 ### 2.4. Prueba del facilitador (una cuenta de muestra, antes del taller)
 
@@ -166,7 +168,7 @@ cd ~/analizador-frescura
 cd ~
 git clone <URL-del-repositorio> analizador-frescura
 cd analizador-frescura
-for b in lab-01 lab-02 lab-03 lab-04 lab-05 lab-06 lab-07 lab-08 lab-09 final; do git branch --track $b origin/$b 2>/dev/null; done
+for b in lab-01 lab-02 lab-03 lab-04 lab-05 lab-06 lab-07 lab-08 lab-09 lab-10 final; do git branch --track $b origin/$b 2>/dev/null; done
 ```
 
 La última línea crea en tu máquina todas las ramas de los laboratorios. Algunos pasos traen archivos de la rama siguiente y las necesitan.
@@ -1179,14 +1181,154 @@ cd ..
 
 ---
 
-## Lab 9 · Orquestar, entregar y cerrar
+## Lab 9 · Operar con un Power
 
-**Módulo 9 · L300 · 25 minutos · Rama: `lab-09`**
+**Módulo 9 · L300 · 15 minutos · Rama: `lab-09`**
 
-Antes de empezar, si te atrasaste, cambia a la rama `lab-09`. Si sigues con tu trabajo, trae el workflow ya creado, la plantilla de la hoja de ruta y los agentes:
+Antes de empezar, si te atrasaste, cambia a la rama `lab-09`. Si sigues con tu trabajo, trae el Power:
 
 ```bash
-git restore --source lab-09 .kiro/workflows/investigar-piloto.workflow.json negocio/hoja-de-ruta-piloto.md .kiro/agents
+git restore --source lab-09 powers
+```
+
+Ten a mano tus iniciales, las que usaste en `cdk deploy -c participante=<tus-iniciales>`.
+
+### Qué vas a hacer
+
+Un **Power** es un paquete que se instala en Kiro y le da conocimiento experto sobre un tema. Junta en una sola carpeta lo que ya conoces por separado:
+
+| Parte | Qué aporta | Lo viste en |
+| --- | --- | --- |
+| **Skills** | Instrucciones paso a paso para una tarea, con scripts y material de referencia | Lab 7 |
+| **Servidores MCP** (opcional) | Herramientas para conectarse a servicios externos | Lab 7 |
+| **Palabras clave** | Cuándo se activa el Power | Nuevo |
+
+La diferencia con lo anterior: un Power **no se carga siempre**. Kiro lee tu pedido y activa solo los Powers relacionados, por sus palabras clave. Así el agente no se llena de herramientas que no necesita. Además, un Power se **instala una vez y sirve en cualquier proyecto**, y se comparte por GitHub.
+
+En este laboratorio usas un Power **que ya viene creado**: `operacion-frescura`, para operar el analizador que desplegaste en el Lab 8. Trae dos skills:
+
+| Skill | Qué hace |
+| --- | --- |
+| `resumen-uso` | Lee el historial de DynamoDB (solo lectura) y resume el uso por tienda, producto y etapa |
+| `diagnosticar-instancia` | Revisa que la API responda, que la validación de imágenes funcione y si hubo fallos en los registros |
+
+### Objetivo
+
+Entender cómo está hecho un Power, instalarlo desde una carpeta y usarlo para revisar el uso y la salud de tu instancia en AWS, sin escribir ningún comando de AWS.
+
+### Paso a paso
+
+#### Paso 1. Conoce el Power
+
+En el **Explorer**, despliega la carpeta `powers/operacion-frescura`:
+
+```text
+powers/operacion-frescura/
+├── plugin.json                         ← la ficha del Power
+└── skills/
+    ├── resumen-uso/
+    │   ├── SKILL.md                    ← las instrucciones para el agente
+    │   ├── scripts/resumen_uso.py      ← el programa que lee el historial
+    │   └── references/historial-ejemplo.json
+    └── diagnosticar-instancia/
+        ├── SKILL.md
+        ├── scripts/diagnosticar.py
+        └── references/errores-comunes.md
+```
+
+Abre `plugin.json`:
+
+| Campo | Qué significa |
+| --- | --- |
+| `name` | Identificador del Power, en minúsculas y con guiones |
+| `version` | Versión del Power. Al publicar cambios, se sube |
+| `description` | Qué hace, en una frase. Kiro la muestra en el panel |
+| `author` | Quién lo mantiene |
+| `keywords` | **Las palabras que lo activan.** Si tu pedido menciona "historial", "uso por tienda" o "diagnostica", Kiro activa este Power |
+
+Abre `skills/diagnosticar-instancia/SKILL.md`. Tiene la misma estructura que las skills del Lab 7: un encabezado con `name` y `description`, los pasos que debe seguir el agente y sus reglas. Fíjate en la regla: **"No despliegues, no borres ni cambies recursos"**.
+
+> Este Power no trae servidores MCP: sus skills usan scripts de Python, que funcionan igual en cualquier sistema. Si un Power los necesita, van en un archivo `mcp.json` junto a `plugin.json`, y Kiro los enciende y apaga junto con el Power.
+
+#### Paso 2. Instala el Power
+
+1. En la barra de la izquierda, haz clic en el ícono de **Powers** (el fantasma de Kiro con un rayo).
+2. Haz clic en **Add Custom Power**.
+3. Elige **Import power from a folder**.
+4. Selecciona la carpeta `powers/operacion-frescura` del proyecto y haz clic en **Install**.
+
+**Resultado esperado:** `operacion-frescura` aparece en la lista de Powers instalados. Haz clic sobre él para ver su descripción y sus palabras clave.
+
+> Si Kiro ofrece **Try the power**, puedes usarlo: te guía por un primer uso.
+
+#### Paso 3. Pide un diagnóstico de tu instancia
+
+Abre una conversación nueva (**+**) y pega, con tus iniciales en lugar de `<tus-iniciales>`:
+
+```text
+Diagnostica la salud de mi instancia del analizador. Mi participante es <tus-iniciales>.
+```
+
+**Resultado esperado:**
+
+1. Kiro activa el Power `operacion-frescura` y su skill `diagnosticar-instancia`. Lo ves en la respuesta del chat.
+2. Te pide permiso para ejecutar `diagnosticar.py`: acéptalo. El script no envía fotos al modelo ni cambia nada.
+3. Entrega una tabla con cuatro comprobaciones (stack, `/salud`, validación de imagen y registros recientes) y un veredicto: **Instancia sana** o **Requiere atención**.
+
+Si algo falla, Kiro explica la causa probable con `references/errores-comunes.md` y el siguiente paso.
+
+#### Paso 4. Pide el resumen de uso
+
+En la misma conversación:
+
+```text
+¿Cómo va el uso del analizador por tienda? Guarda el resumen en docs/uso-piloto.md.
+```
+
+**Resultado esperado:** Kiro usa la skill `resumen-uso`, ejecuta `resumen_uso.py` y crea `docs/uso-piloto.md` con el total de análisis, una tabla por tienda y el porcentaje que va a **revisión humana** (confianza menor a 0,70, según la política POL-FRV-001).
+
+> **¿No desplegaste o tu historial está vacío?** Escribe: "Usa los datos de ejemplo del Power". Kiro corre el mismo script con `historial-ejemplo.json`, y el resumen avisa que **no son datos reales**. Con esos datos, el 38% va a revisión humana, y Kiro debe recomendarlo como el primer punto a mejorar del piloto.
+
+#### Paso 5. Comprueba que se activa solo cuando hace falta
+
+Abre una conversación nueva (**+**) y pega:
+
+```text
+Explícame en dos líneas qué hace app/frescura/reglas.py.
+```
+
+**Resultado esperado:** Kiro responde **sin** activar `operacion-frescura`: tu pedido no tiene nada que ver con operar la instancia. Así funcionan las palabras clave.
+
+#### Paso 6 (opcional). Explora el catálogo de Powers
+
+En el panel de **Powers**, en **Available Powers**, busca `aws` con el ícono de la lupa. Haz clic en alguno, por ejemplo uno de AWS SAM o de AWS, y lee su descripción: así se ven los Powers que publican AWS y otras empresas. **No lo instales** durante el taller.
+
+#### Paso 7. Guarda tu trabajo
+
+```bash
+git add -A
+git commit -m "Lab 9: Power de operación y resumen de uso"
+```
+
+### Criterio de éxito
+
+- [ ] `operacion-frescura` aparece en la lista de Powers instalados.
+- [ ] El diagnóstico entregó la tabla de cuatro comprobaciones y un veredicto.
+- [ ] Existe `docs/uso-piloto.md` con el uso por tienda.
+- [ ] En un pedido que no tiene que ver con la operación, el Power no se activó.
+
+**Si te atrasaste:** cambia a la rama `lab-10`, que trae el Power y un `docs/uso-piloto.md` con datos de ejemplo.
+
+---
+
+## Lab 10 · Orquestar, entregar y cerrar
+
+**Módulo 10 · L300 · 25 minutos · Rama: `lab-10`**
+
+Antes de empezar, si te atrasaste, cambia a la rama `lab-10`. Si sigues con tu trabajo, trae el workflow ya creado, la plantilla de la hoja de ruta y los agentes:
+
+```bash
+git restore --source lab-10 .kiro/workflows/investigar-piloto.workflow.json negocio/hoja-de-ruta-piloto.md .kiro/agents
 python eval/evaluar.py
 ```
 
@@ -1331,7 +1473,7 @@ Tu workflow tiene **dos pasos encadenados**:
       "type": "step",
       "id": "hoja-de-ruta",
       "agent": "wf-coder",
-      "prompt": "Completa la sección \"Dónde estamos\" de negocio/hoja-de-ruta-piloto.md. Usa la URL de la instancia {{url_instancia}}, el acierto de eval/reporte.md y el costo de docs/costo-piloto.md si existen, los riesgos de .kiro/reports/piloto.md y este resultado de la revisión de seguridad: {{previous.output}} No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha. No modifiques ningún otro archivo.",
+      "prompt": "Completa la sección \"Dónde estamos\" de negocio/hoja-de-ruta-piloto.md. Usa la URL de la instancia {{url_instancia}}, el acierto de eval/reporte.md, el costo de docs/costo-piloto.md y el uso de docs/uso-piloto.md si existen, los riesgos de .kiro/reports/piloto.md y este resultado de la revisión de seguridad: {{previous.output}} No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha. No modifiques ningún otro archivo.",
       "artifacts": {
         "hoja_de_ruta": "negocio/hoja-de-ruta-piloto.md"
       }
@@ -1379,7 +1521,7 @@ Valida el workflow .kiro/workflows/preparar-piloto.workflow.json con validate_wo
 
 **6.8. Revisa el resultado.** Abre `negocio/hoja-de-ruta-piloto.md`.
 
-**Resultado esperado:** la sección **Dónde estamos** tiene la URL de tu instancia, el acierto, el costo (si lo calculaste en el Lab 7) y el veredicto de la revisión de seguridad. Lo que faltaba quedó en blanco. Completa tú el **próximo paso concreto**.
+**Resultado esperado:** la sección **Dónde estamos** tiene la URL de tu instancia, el acierto, el costo (si lo calculaste en el Lab 7), el uso (del Lab 9) y el veredicto de la revisión de seguridad. Lo que faltaba quedó en blanco. Completa tú el **próximo paso concreto**.
 
 #### Paso 7 (opcional). Ejecuta el revisor en modo headless
 
@@ -1402,7 +1544,7 @@ kiro-cli chat --v3 --no-interactive --agent revisor-seguridad --trust-tools=read
 
 ```bash
 git add -A
-git commit -m "Lab 9: workflows, CI y hoja de ruta del piloto"
+git commit -m "Lab 10: workflows, CI y hoja de ruta del piloto"
 ```
 
 #### Paso 9. Borra tu instancia de AWS
@@ -1449,9 +1591,11 @@ Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)
 | La web dice "Too Many Requests" | Superaste el límite de uso del taller (5 por segundo). Espera unos segundos |
 | Un servidor MCP no conecta | Revisa `uv --version` y los registros en **View → Output → Kiro - MCP Logs** |
 | `aws-pricing` da error de permisos | El rol necesita `pricing:*`. Avisa al equipo de AWS |
-| No aparece la opción **Workflows** o `/workflow-run` no lista los workflows | Abre una conversación nueva. Si sigue igual, la versión de Kiro no tiene workflows: avisa al facilitador y sigue con la integración continua del Lab 9 |
+| No aparece la opción **Workflows** o `/workflow-run` no lista los workflows | Abre una conversación nueva. Si sigue igual, la versión de Kiro no tiene workflows: avisa al facilitador y sigue con la integración continua del Lab 10 |
 | El workflow `preparar-piloto` falla con "agent not found" | Falta el agente `revisor-seguridad`: `git restore --source lab-09 .kiro/agents` |
 | No aparece el ícono **Memories** | La máquina tiene Kiro anterior a la 1.4.0. Avisa al equipo de AWS |
 | **Couldn't save memory** o **Memory not saved** | La carpeta no es de confianza: **Ctrl+Shift+P** → **Workspaces: Manage Workspace Trust** → **Trust** |
+| No aparece el panel de **Powers** o **Add Custom Power** | La versión de Kiro de la máquina es anterior. Avisa al equipo de AWS; mientras tanto, pide en el chat: "Sigue las instrucciones de powers/operacion-frescura/skills/diagnosticar-instancia/SKILL.md" |
+| El Power no lee tu instancia (`Unable to locate credentials`) | La máquina no tiene el rol de AWS asignado. Avisa al equipo de AWS |
 | Kiro responde en inglés | Escribe: "Responde en español de aquí en adelante" |
 | Te atrasaste en cualquier laboratorio | Cambia a la rama del laboratorio siguiente (ver [Si te atrasas](#si-te-atrasas-cambiar-de-rama)) |
