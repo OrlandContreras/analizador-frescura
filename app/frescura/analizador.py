@@ -1,7 +1,8 @@
-"""Servicio del analizador: combina la lectura de visión, las reglas y la nutrición."""
+"""Servicio del analizador: combina la lectura de visión, las reglas, la acción en tienda y la nutrición."""
 
 from __future__ import annotations
 
+from .acciones import recomendar_accion
 from .catalogo import obtener_producto
 from .nutricion import GRAMOS_POR_DEFECTO, nutricion_por_porcion
 from .reglas import dias_hasta_optimo, etapa_madurez
@@ -18,16 +19,19 @@ def analizar_foto(vision: Vision, imagen: bytes, formato: str, gramos: float = G
             "nombre": None,
             "etapa": None,
             "dias_hasta_optimo": None,
+            "accion": recomendar_accion(lectura, None, None),
             "nutricion": None,
             "lectura": lectura.a_dict(),
         }
+    etapa = etapa_madurez(lectura.indice_madurez, producto["umbrales"])
     return {
         "producto": producto["id"],
         "nombre": producto["nombre"],
-        "etapa": etapa_madurez(lectura.indice_madurez, producto["umbrales"]),
+        "etapa": etapa,
         "dias_hasta_optimo": dias_hasta_optimo(
             lectura.indice_madurez, producto["umbrales"], producto["velocidad_maduracion_dia"]
         ),
+        "accion": recomendar_accion(lectura, etapa, producto),
         "nutricion": nutricion_por_porcion(producto["id"], gramos),
         "lectura": lectura.a_dict(),
     }

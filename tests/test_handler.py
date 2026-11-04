@@ -31,6 +31,7 @@ def test_analiza_una_foto_y_guarda_el_historial(dependencias):
     assert datos["producto"] == "banano"
     assert datos["etapa"] == "maduro"
     assert datos["nutricion"]["gramos"] == 120
+    assert datos["accion"]["tipo"] == "priorizar"
     assert datos["id"] == "local-1"
     assert dependencias["historial"].registros[0]["tienda"] == "T-001"
 
@@ -54,6 +55,7 @@ def test_producto_desconocido_no_tiene_etapa(dependencias):
     datos = cuerpo(lambda_handler(evento("POST", "/analisis", {"imagen_base64": imagen_b64()})))
     assert datos["producto"] == "desconocido"
     assert datos["etapa"] is None
+    assert datos["accion"]["tipo"] == "revisar"
 
 
 def test_errores_de_validacion(dependencias):

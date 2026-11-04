@@ -14,8 +14,7 @@ def test_etapa_segun_indice(indice, etapa):
     assert etapa_madurez(indice, BANANO["umbrales"]) == etapa
 
 
-# Pendiente: se activa en el Lab 4 (Bugfix Spec) y en la rama lab4-inicio.
-@pytest.mark.skip(reason="Se activa en el Lab 4")
+# Lab 4: esta prueba describe el comportamiento esperado y falla hasta corregir el error.
 def test_umbral_exacto_de_sobremaduro_ya_es_sobremaduro():
     assert etapa_madurez(80, BANANO["umbrales"]) == "sobremaduro"
 
