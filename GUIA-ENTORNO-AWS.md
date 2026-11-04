@@ -82,6 +82,7 @@ En los dos casos trabajas igual: **Kiro IDE corre en Linux, dentro de AWS**. Eso
 ### 2.3. Sesión de Kiro
 
 - [ ] Método de inicio de sesión en Kiro definido (Builder ID o la identidad de la organización) y créditos suficientes por participante. Los Labs 2, 3 y 9 son los que más consumen.
+- [ ] Versión de Kiro IDE con **Workflows** (paleta de comandos → **Workspace Configuration** → **Workflows**). Probar en la máquina de muestra que `/workflow-run` lista `investigar-piloto` en la rama `lab-09`.
 - [ ] Si se hará el modo headless del Lab 9: una **KIRO_API_KEY** para cada participante o solo para el facilitador.
 
 ### 2.4. Prueba del facilitador (una cuenta de muestra, antes del taller)
@@ -1084,35 +1085,100 @@ cd ..
 
 **Módulo 9 · L300 · 25 minutos · Rama: `lab-09`**
 
+Antes de empezar, si te atrasaste, cambia a la rama `lab-09`. Si sigues con tu trabajo, trae el workflow ya creado, la plantilla de la hoja de ruta y los agentes:
+
+```bash
+git restore --source lab-09 .kiro/workflows/investigar-piloto.workflow.json negocio/hoja-de-ruta-piloto.md .kiro/agents
+python eval/evaluar.py
+```
+
 ### Qué vas a hacer
 
-1. **Delegar una investigación** con un **workflow**: Kiro coordina varios pasos en segundo plano y entrega un informe de riesgos para llevar el analizador a 50 tiendas.
-2. **Llevar los controles al flujo de entrega:** revisar la integración continua y ejecutar Kiro CLI en modo **headless**, como lo haría ese pipeline.
-3. **Dejar la hoja de ruta** del piloto y **borrar tu instancia**.
+Un **workflow** es una receta de trabajo de varios pasos que Kiro ejecuta **en segundo plano** mientras sigues trabajando. Cada paso lo hace un agente distinto, y un paso puede usar el resultado del anterior. Las recetas se guardan como archivos en `.kiro/workflows/` y se pueden reutilizar.
+
+En este laboratorio trabajas con dos workflows:
+
+| Workflow | Quién lo hace | Qué hace |
+| --- | --- | --- |
+| `investigar-piloto` | **Ya viene creado** | 1 paso: investiga, sin modificar el proyecto, los riesgos de llevar el analizador a más tiendas y escribe un informe |
+| `preparar-piloto` | **Lo creas tú** | 2 pasos encadenados: el agente `revisor-seguridad` del Lab 8 revisa la solución y otro agente usa esa revisión para completar la hoja de ruta del piloto |
+
+Mientras los workflows corren, revisas la integración continua del proyecto y, al final, borras tu instancia de AWS.
+
+> Los workflows usan más créditos que una conversación normal. Conviene usarlos para trabajo de varios pasos, no para pedidos cortos.
 
 ### Objetivo
 
-Salir con el informe de riesgos, la hoja de ruta del piloto completa y tu cuenta limpia.
+Ejecutar un workflow ya creado, crear y ejecutar uno propio que encadena dos agentes, y salir con el informe de riesgos, la hoja de ruta del piloto y tu cuenta de AWS limpia.
 
 ### Paso a paso
 
-**Paso 1. Lanza el workflow.** Conversación nueva (**+**):
+#### Paso 1. Activa los workflows
 
-```text
-Usa un workflow para investigar, sin modificar ningún archivo, qué riesgos técnicos, operativos y de costo tiene llevar el analizador de frescura a 50 tiendas. Usa el código, la infraestructura, eval/reporte.md, docs/costo-piloto.md y los documentos de negocio/. Cita archivos, propone una mitigación para cada riesgo y guarda el informe en .kiro/reports/piloto.md.
+1. Abre la paleta de comandos: **Ctrl+Shift+P**.
+2. Escribe `Workspace Configuration` y elige esa opción.
+3. Elige **Workflows** y actívalo.
+4. Abre una conversación nueva en el chat (**+**): el cambio aplica a las conversaciones nuevas.
+
+**Resultado esperado:** arriba del chat aparece el botón **Workflows**.
+
+#### Paso 2. Conoce el workflow que ya viene creado
+
+Abre `.kiro/workflows/investigar-piloto.workflow.json`:
+
+```json
+{
+  "name": "investigar-piloto",
+  "description": "Investiga, sin modificar el proyecto, los riesgos de llevar el analizador de frescura a más tiendas y escribe un informe con mitigaciones",
+  "inputs": {
+    "tiendas": "string"
+  },
+  "steps": [
+    {
+      "type": "step",
+      "id": "investigar",
+      "agent": "wf-planner",
+      "prompt": "Investigación de solo lectura: ... a {{tiendas}} tiendas. ... Escribe el informe en .kiro/reports/piloto.md ...",
+      "artifacts": {
+        "informe": ".kiro/reports/piloto.md"
+      }
+    }
+  ]
+}
 ```
 
-Resultado esperado: el botón **Workflows**, arriba del chat, muestra un workflow en curso. Sigue con el paso 2 mientras corre.
+| Campo | Qué significa |
+| --- | --- |
+| `name` | Nombre con el que eliges el workflow al ejecutarlo |
+| `inputs` | Datos que Kiro te pide al ejecutarlo. Aquí, `tiendas` |
+| `steps` | Los pasos, en orden |
+| `type: "step"` | Un paso que ejecuta un agente en su propia sesión |
+| `id` | Nombre único del paso |
+| `agent` | Qué agente hace el paso. `wf-planner` es un agente de Kiro para investigar y planear |
+| `prompt` | La instrucción del paso. `{{tiendas}}` se reemplaza por lo que escribas al ejecutarlo |
+| `artifacts` | Archivos que produce el paso |
 
-> Si te falta `eval/reporte.md`, corre `python eval/evaluar.py`. Si te falta `docs/costo-piloto.md`, el informe será menos concreto en costos.
+#### Paso 3. Ejecuta el workflow ya creado
 
-**Paso 2. Revisa la integración continua.**
+1. En la conversación nueva, escribe `/workflow-run` y presiona **Enter**.
+2. Elige **investigar-piloto**.
+3. Cuando pida `tiendas`, escribe `50`.
+4. Si Kiro muestra el plan para aprobarlo, apruébalo.
+
+**Resultado esperado:** el botón **Workflows** muestra un workflow en curso. Haz clic, despliega la ejecución y selecciona el paso **investigar** para ver lo que está haciendo. Tarda unos minutos: **sigue con el paso 4 mientras corre.**
+
+#### Paso 4. Mientras tanto: revisa la integración continua
+
+Trae el archivo de GitHub Actions:
 
 ```bash
 git restore --source final .github/workflows/ci.yml
 ```
 
-Abre `.github/workflows/ci.yml`. En cada *pull request* corre: `ruff check .`, `pytest`, `python eval/evaluar.py --minimo 85`, `cdk synth` y el agente `revisor-seguridad` en headless. Corre tú los cuatro primeros:
+
+Abre `.github/workflows/ci.yml`. En cada *pull request* corre, en orden: `ruff check .`, `pytest`, `python eval/evaluar.py --minimo 85` (si el acierto baja de 85%, el cambio no pasa), `cdk synth` y el agente `revisor-seguridad` en modo headless.
+
+Corre tú los cuatro primeros, igual que el pipeline:
 
 ```bash
 ruff check .
@@ -1123,55 +1189,148 @@ cdk synth -c participante=ci -q
 cd ..
 ```
 
-Resultado esperado: los cuatro terminan sin error.
+**Resultado esperado:** los cuatro terminan sin error.
 
-**Paso 3. Revisor en modo headless.** Si el facilitador te entregó una **KIRO_API_KEY**:
+#### Paso 5. Revisa el informe de riesgos
+
+Cuando el workflow `investigar-piloto` termine, abre `.kiro/reports/piloto.md`.
+
+**Resultado esperado:** riesgos separados en técnicos, operativos y de costo, cada uno con su archivo de referencia y una mitigación. Por ejemplo: la API no tiene autenticación, las fotos de evaluación son de ejemplo y no de tiendas reales, y el límite de llamadas a Bedrock con 50 tiendas.
+
+#### Paso 6. Crea tu propio workflow: "preparar-piloto"
+
+Tu workflow tiene **dos pasos encadenados**:
+
+1. `revisar`: el agente **`revisor-seguridad`**, el que usaste en el Lab 8, revisa la solución. No modifica nada.
+2. `hoja-de-ruta`: el agente **`wf-coder`** recibe la revisión del paso 1 con `{{previous.output}}` y completa `negocio/hoja-de-ruta-piloto.md`.
+
+**6.1. Crea el archivo vacío.**
+
+1. En la barra de la izquierda, abre el **Explorer**.
+2. Despliega la carpeta `.kiro` y luego `workflows`.
+3. Haz clic derecho sobre la carpeta `workflows` y elige **New File…**
+4. Escribe el nombre `preparar-piloto.workflow.json` y presiona **Enter**.
+
+**Resultado esperado:** se abre un archivo vacío dentro de `.kiro/workflows/`, junto a `investigar-piloto.workflow.json`.
+
+**6.2. Escribe el workflow.** Copia y pega este contenido:
+
+```json
+{
+  "name": "preparar-piloto",
+  "description": "Revisa la seguridad del analizador y completa la hoja de ruta del piloto con esa revisión y el informe de riesgos",
+  "inputs": {
+    "url_instancia": "string"
+  },
+  "steps": [
+    {
+      "type": "step",
+      "id": "revisar",
+      "agent": "revisor-seguridad",
+      "prompt": "Revisa la infraestructura y el código del analizador de frescura antes del piloto. No modifiques archivos. Entrega tu tabla de hallazgos con severidad y tu veredicto."
+    },
+    {
+      "type": "step",
+      "id": "hoja-de-ruta",
+      "agent": "wf-coder",
+      "prompt": "Completa la sección \"Dónde estamos\" de negocio/hoja-de-ruta-piloto.md. Usa la URL de la instancia {{url_instancia}}, el acierto de eval/reporte.md y el costo de docs/costo-piloto.md si existen, los riesgos de .kiro/reports/piloto.md y este resultado de la revisión de seguridad: {{previous.output}} No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha. No modifiques ningún otro archivo.",
+      "artifacts": {
+        "hoja_de_ruta": "negocio/hoja-de-ruta-piloto.md"
+      }
+    }
+  ]
+}
+```
+
+**6.3. Lee lo que acabas de escribir.** Compáralo con el workflow del paso 2:
+
+| Parte | Valor en tu workflow | Por qué |
+| --- | --- | --- |
+| `inputs` | `url_instancia` | Kiro te la pide al ejecutarlo y la pone donde dice `{{url_instancia}}` |
+| Paso `revisar` → `agent` | `revisor-seguridad` | Tu propio agente del Lab 8: solo lee, no edita ni despliega |
+| Paso `hoja-de-ruta` → `agent` | `wf-coder` | Un agente de Kiro que sí puede escribir archivos |
+| `{{previous.output}}` | En el segundo paso | Se reemplaza por la respuesta final del paso anterior: así el segundo agente recibe la revisión |
+| `artifacts` | `negocio/hoja-de-ruta-piloto.md` | El archivo que produce el segundo paso |
+
+**6.4. Guarda el archivo** con **Ctrl+S**.
+
+**6.5. Comprueba que el JSON es válido.** En la terminal:
+
+```bash
+python -m json.tool .kiro/workflows/preparar-piloto.workflow.json
+```
+
+**Resultado esperado:** se imprime el contenido ordenado, sin errores. Si aparece `Expecting ',' delimiter` o un error parecido, compara la línea que indica con el contenido del paso 6.2.
+
+**6.6. Pide a Kiro que valide la receta.** En el chat:
+
+```text
+Valida el workflow .kiro/workflows/preparar-piloto.workflow.json con validate_workflow y dime si tiene errores. No lo ejecutes todavía.
+```
+
+**Resultado esperado:** Kiro informa que la receta es válida. Si informa un error, corrígelo según lo que indique.
+
+**6.7. Ejecútalo.**
+
+1. En el chat, escribe `/workflow-run` y presiona **Enter**.
+2. Elige **preparar-piloto**.
+3. Cuando pida `url_instancia`, escribe el valor de `UrlWeb` que copiaste en el Lab 8. Si no desplegaste, escribe `sin desplegar`.
+4. Si Kiro muestra el plan para aprobarlo, apruébalo.
+
+**Resultado esperado:** en **Workflows** ves la ejecución con sus dos pasos. Primero corre **revisar** y, cuando termina, **hoja-de-ruta**. Selecciona cada paso para ver qué hizo: en **hoja-de-ruta** verás que el agente recibió la revisión de seguridad.
+
+**6.8. Revisa el resultado.** Abre `negocio/hoja-de-ruta-piloto.md`.
+
+**Resultado esperado:** la sección **Dónde estamos** tiene la URL de tu instancia, el acierto, el costo (si lo calculaste en el Lab 7) y el veredicto de la revisión de seguridad. Lo que faltaba quedó en blanco. Completa tú el **próximo paso concreto**.
+
+#### Paso 7 (opcional). Ejecuta el revisor en modo headless
+
+En modo headless, Kiro CLI no hace preguntas: recibe el pedido, trabaja con las herramientas que le autorizas y termina con un código de salida. Así se usa dentro del pipeline.
+
+Si el facilitador te entregó una **KIRO_API_KEY**, configúrala y ejecuta:
 
 ```bash
 export KIRO_API_KEY=<tu-api-key>
+```
+
+
+```bash
 kiro-cli chat --v3 --no-interactive --agent revisor-seguridad --trust-tools=read_file,grep_search "Revisa los cambios del último commit y entrega tu tabla de hallazgos y el veredicto"
 ```
 
-Resultado esperado: la tabla y el veredicto aparecen sin que respondas nada. Sin API key, mira la demostración del facilitador.
+**Resultado esperado:** la tabla y el veredicto aparecen sin que respondas nada. Si no tienes API key, mira la demostración del facilitador.
 
-**Paso 4. Revisa el informe.** Abre `.kiro/reports/piloto.md`: riesgos técnicos, operativos y de costo, con archivo de referencia y mitigación. Por ejemplo: la API no tiene autenticación, las fotos de evaluación son de ejemplo y el límite de llamadas a Bedrock con 50 tiendas.
-
-**Paso 5. Completa la hoja de ruta.**
-
-```bash
-git restore --source final negocio/hoja-de-ruta-piloto.md
-```
-
-```text
-Completa la sección "Dónde estamos" de negocio/hoja-de-ruta-piloto.md con los datos de eval/reporte.md, docs/costo-piloto.md y .kiro/reports/piloto.md. No inventes datos: si falta alguno, déjalo en blanco. Deja vacías las columnas de responsable y fecha.
-```
-
-Completa tú la URL de tu instancia y el próximo paso.
-
-**Paso 6. Guarda tu trabajo.**
+#### Paso 8. Guarda tu trabajo
 
 ```bash
 git add -A
-git commit -m "Lab 9: informe de riesgos, CI y hoja de ruta del piloto"
+git commit -m "Lab 9: workflows, CI y hoja de ruta del piloto"
 ```
 
-**Paso 7. Borra tu instancia.**
+#### Paso 9. Borra tu instancia de AWS
+
+Al final del taller, para no dejar recursos con costo. Reemplaza `<tus-iniciales>` sin los signos `<` y `>`:
 
 ```bash
 cd infra
 cdk destroy -c participante=<tus-iniciales>
 ```
 
-Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)?`, escribe `y`. Resultado esperado: `Frescura-<tus-iniciales>: destroyed`.
+Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)?`, escribe `y`.
+
+**Resultado esperado:** `Frescura-<tus-iniciales>: destroyed`. Tu web y tu API dejan de responder.
 
 > Si vas a conservar tu trabajo, antes de que cierren el entorno sube tu rama a un repositorio propio o descarga la carpeta del proyecto. El equipo de AWS elimina las cuentas y máquinas del taller al terminar.
 
 ### Criterio de éxito
 
-- [ ] `.kiro/reports/piloto.md` con riesgos y mitigaciones.
-- [ ] Los cuatro controles del pipeline pasan.
-- [ ] Hoja de ruta con tus números y un próximo paso.
-- [ ] Instancia borrada.
+- [ ] Ejecutaste `investigar-piloto` y existe `.kiro/reports/piloto.md`.
+- [ ] **Creaste** `.kiro/workflows/preparar-piloto.workflow.json`, es válido y se ejecutó con sus dos pasos.
+- [ ] `negocio/hoja-de-ruta-piloto.md` tiene tus datos y el veredicto de la revisión.
+- [ ] Los cuatro controles del pipeline pasan en tu computador.
+- [ ] Tu instancia quedó borrada.
+
+**Si te quedaste sin tiempo en el paso 6:** cambia a la rama `final`, que trae los dos workflows, y ejecuta `preparar-piloto` desde ahí.
 
 ---
 
@@ -1192,5 +1351,7 @@ Cuando pregunte `Are you sure you want to delete: Frescura-<tus-iniciales> (y/n)
 | La web dice "Too Many Requests" | Superaste el límite de uso del taller (5 por segundo). Espera unos segundos |
 | Un servidor MCP no conecta | Revisa `uv --version` y los registros en **View → Output → Kiro - MCP Logs** |
 | `aws-pricing` da error de permisos | El rol necesita `pricing:*`. Avisa al equipo de AWS |
+| No aparece la opción **Workflows** o `/workflow-run` no lista los workflows | Abre una conversación nueva. Si sigue igual, la versión de Kiro no tiene workflows: avisa al facilitador y sigue con la integración continua del Lab 9 |
+| El workflow `preparar-piloto` falla con "agent not found" | Falta el agente `revisor-seguridad`: `git restore --source lab-09 .kiro/agents` |
 | Kiro responde en inglés | Escribe: "Responde en español de aquí en adelante" |
 | Te atrasaste en cualquier laboratorio | Cambia a la rama del laboratorio siguiente (ver [Si te atrasas](#si-te-atrasas-cambiar-de-rama)) |
